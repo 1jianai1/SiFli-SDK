@@ -1,0 +1,20 @@
+/*
+ * SPDX-FileCopyrightText: 2019-2026 SiFli Technologies(Nanjing) Co., Ltd
+ *
+ * SPDX-License-Identifier: Apache-2.0
+ */
+
+#ifndef VERSION_H
+#define VERSION_H
+
+#ifndef VERSION_STR_POSTFIX
+#define VERSION_STR_POSTFIX ""
+#endif /* VERSION_STR_POSTFIX */
+
+#ifndef GIT_VERSION_STR_POSTFIX
+#define GIT_VERSION_STR_POSTFIX ""
+#endif /* GIT_VERSION_STR_POSTFIX */
+
+#define VERSION_STR "2.9" VERSION_STR_POSTFIX GIT_VERSION_STR_POSTFIX
+
+#endif /* VERSION_H */
