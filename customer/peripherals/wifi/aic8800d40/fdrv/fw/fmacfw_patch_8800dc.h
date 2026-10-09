@@ -1,5 +1,5 @@
 /*
- * SPDX-FileCopyrightText: 2019-2026 SiFli Technologies(Nanjing) Co., Ltd
+ * SPDX-FileCopyrightText: 2026 AICSemi Ltd
  *
  * SPDX-License-Identifier: Apache-2.0
  */
@@ -9,7 +9,8 @@
 
 #include <stdint.h>
 
-static const unsigned int fmacfw_patch_8800dc[] = {
+static const unsigned int fmacfw_patch_8800dc[] =
+{
     0x4b06b430,
     0x4a074c06,
     0x31e0f8d3,

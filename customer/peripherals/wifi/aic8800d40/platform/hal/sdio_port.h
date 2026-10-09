@@ -1,14 +1,9 @@
 /*
- * SPDX-FileCopyrightText: 2019-2026 SiFli Technologies(Nanjing) Co., Ltd
+ * SPDX-FileCopyrightText: 2026 AICSemi Ltd
  *
  * SPDX-License-Identifier: Apache-2.0
  */
 
-/*
- * Copyright (C) 2018-2024 AICSemi Ltd.
- *
- * All Rights Reserved
- */
 
 #ifndef _SDIO_PORT_H_
 #define _SDIO_PORT_H_
@@ -23,13 +18,13 @@
 #include "sdio_func.h"
 
 #if 0
-//rtthread sdio
-#include <drivers/sdio.h>
-#include <drivers/mmcsd_core.h>
-#include <drivers/mmcsd_card.h>
+    //rtthread sdio
+    #include <drivers/sdio.h>
+    #include <drivers/mmcsd_core.h>
+    #include <drivers/mmcsd_card.h>
 
-//sdio function define
-typedef struct rt_sdio_function    sdio_func;
+    //sdio function define
+    typedef struct rt_sdio_function    sdio_func;
 #endif
 //-------------------------------------------------------------------
 // Driver Macros Define
@@ -42,7 +37,7 @@ typedef struct rt_sdio_function    sdio_func;
 
 /* sdio mode define */
 #define CONFIG_RXTASK_INSDIO    1
-#define	SDIO_TX_SLIST_MAX       136
+#define SDIO_TX_SLIST_MAX       136
 
 // sdio clk phase
 #define CONFIG_SDIO_PAHSE       0
@@ -57,9 +52,9 @@ extern uint8_t sdio_unexcept_test;
 extern struct aic_sdio_dev sdio_dev;
 extern struct sdio_func *sdio_function[SDIOM_MAX_FUNCS];
 
-#ifdef	CONFIG_SDIO_ADMA
-extern unsigned char sdio_tx_buf_fill[512];
-extern unsigned char sdio_tx_buf_dummy[SDIO_TX_SLIST_MAX][8];
+#ifdef  CONFIG_SDIO_ADMA
+    extern unsigned char sdio_tx_buf_fill[512];
+    extern unsigned char sdio_tx_buf_dummy[SDIO_TX_SLIST_MAX][8];
 #endif /* CONFIG_SDIO_ADMA */
 
 //-------------------------------------------------------------------
@@ -86,7 +81,7 @@ bool sdio_writeb_cmd52(uint32_t addr, uint8_t data);
 bool sdio_readb_cmd52_func2(uint32_t addr, uint8_t *data);
 
 #ifdef CONFIG_OOB
-void aicwf_sdio_oob_enable(void);
+    void aicwf_sdio_oob_enable(void);
 #endif /* CONFIG_OOB */
 int sdio_interrupt_init(struct aic_sdio_dev *sdiodev);
 int sdio_interrupt_deinit(struct aic_sdio_dev *sdiodev);

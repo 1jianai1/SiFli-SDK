@@ -1,5 +1,5 @@
 /*
- * SPDX-FileCopyrightText: 2019-2026 SiFli Technologies(Nanjing) Co., Ltd
+ * SPDX-FileCopyrightText: 2026 AICSemi Ltd
  *
  * SPDX-License-Identifier: Apache-2.0
  */
@@ -106,7 +106,8 @@ enum fhost_tx_msg_id
 };
 
 /// TXQ status flag
-enum fhost_txq_flags {
+enum fhost_txq_flags
+{
     /// The queue is scheduled for transmission
     TXQ_IN_HWQ_LIST  = CO_BIT(0),
     /// No more credits for the queue
@@ -199,14 +200,14 @@ struct fhost_tx_queue_tag
     uint8_t status;
     /// Number of credits currently available in this queue
     int8_t credits;
-    #if NX_BEACONING
+#if NX_BEACONING
     /// TXQ PS type (@ref fhost_tx_ps_type)
     int8_t ps_type;
     /// Number of packet queued in 'ready' list
     uint16_t nb_ready;
     /// Number of packet to push to complete PS service period
     uint16_t limit;
-    #endif //NX_BEACONING
+#endif //NX_BEACONING
 };
 
 /// TX queue scheduler structure
@@ -235,10 +236,10 @@ struct fhost_tx_sta_traffic
  *   TXQ id is @verbatim (NX_REMOTE_STA_MAX * TID_MAX) + <vif_idx> @endverbatim
  */
 #if NX_P2P
-#define FHOST_TXQ_CNT ((STA_MAX * TID_MAX) + NX_VIRT_DEV_MAX + 1)
-#define FHOST_OFF_CHAN_TXQ_IDX ((STA_MAX * TID_MAX) + NX_VIRT_DEV_MAX)
+    #define FHOST_TXQ_CNT ((STA_MAX * TID_MAX) + NX_VIRT_DEV_MAX + 1)
+    #define FHOST_OFF_CHAN_TXQ_IDX ((STA_MAX * TID_MAX) + NX_VIRT_DEV_MAX)
 #else
-#define FHOST_TXQ_CNT ((STA_MAX * TID_MAX) + NX_VIRT_DEV_MAX)
+    #define FHOST_TXQ_CNT ((STA_MAX * TID_MAX) + NX_VIRT_DEV_MAX)
 #endif
 
 /// FHOST RX environment structure
@@ -411,8 +412,8 @@ void fhost_tx_vif_txq_enable(struct fhost_vif_tag *fhost_vif);
 void fhost_txq_vif_stop(uint8_t sta_id, uint16_t reason);
 void fhost_txq_vif_start(uint8_t sta_id, uint16_t reason);
 #if NX_P2P
-struct fhost_tx_queue_tag* fhost_txq_offchan_init(void);
-void fhost_txq_offchan_deinit(struct fhost_tx_queue_tag* txq);
+    struct fhost_tx_queue_tag *fhost_txq_offchan_init(void);
+    void fhost_txq_offchan_deinit(struct fhost_tx_queue_tag *txq);
 #endif
 
 int fhost_tx_cntrl_by_timer(uint32_t timeout_ms, uint8_t num);

@@ -1,5 +1,5 @@
 /*
- * SPDX-FileCopyrightText: 2019-2026 SiFli Technologies(Nanjing) Co., Ltd
+ * SPDX-FileCopyrightText: 2026 AICSemi Ltd
  *
  * SPDX-License-Identifier: Apache-2.0
  */
@@ -39,14 +39,14 @@ u8 aic8800dc_calib_flag = 0;
 struct rwnx_plat rwnx_plat_obj;
 struct rwnx_plat *g_rwnx_plat = NULL;
 
-void rwnx_get_chip_info(uint8* info)
+void rwnx_get_chip_info(uint8 *info)
 {
-	if(info != NULL)
-	{
-		info[0] = chip_id;
-		info[1] = chip_sub_id;
-		info[2] = chip_fw_match;
-	}
+    if (info != NULL)
+    {
+        info[0] = chip_id;
+        info[1] = chip_sub_id;
+        info[2] = chip_fw_match;
+    }
 }
 
 uint8_t *rwnx_get_fw_ver(void)
@@ -62,20 +62,24 @@ int aicwf_misc_ram_init_8800dc(struct rwnx_hw *rwnx_hw)
     uint32_t misc_ram_addr;
     uint32_t misc_ram_size = 12;
     int i;
-	if (rwnx_hw->mode == WIFI_MODE_RFTEST) {
-		cfg_base = RAM_LMAC_FW_ADDR + 0x0164;
-	}
+    if (rwnx_hw->mode == WIFI_MODE_RFTEST)
+    {
+        cfg_base = RAM_LMAC_FW_ADDR + 0x0164;
+    }
     // init misc ram
     ret = rwnx_send_dbg_mem_read_req(rwnx_hw, cfg_base + 0x14, &cfm);
-    if (ret) {
+    if (ret)
+    {
         AIC_LOG_PRINTF("rf misc ram[0x%x] rd fail: %d\n", cfg_base + 0x14, ret);
         return ret;
     }
     misc_ram_addr = cfm.memdata;
     AIC_LOG_PRINTF("misc_ram_addr=%x\n", misc_ram_addr);
-    for (i = 0; i < (misc_ram_size / 4); i++) {
+    for (i = 0; i < (misc_ram_size / 4); i++)
+    {
         ret = rwnx_send_dbg_mem_write_req(rwnx_hw, misc_ram_addr + i * 4, 0);
-        if (ret) {
+        if (ret)
+        {
             AIC_LOG_PRINTF("rf misc ram[0x%x] wr fail: %d\n",  misc_ram_addr + i * 4, ret);
             return ret;
         }
@@ -84,7 +88,7 @@ int aicwf_misc_ram_init_8800dc(struct rwnx_hw *rwnx_hw)
 }
 
 /* buffer is allocated by kzalloc */
-static int rwnx_request_firmware_common(struct rwnx_hw *rwnx_hw, u32** buffer)
+static int rwnx_request_firmware_common(struct rwnx_hw *rwnx_hw, u32 **buffer)
 {
     int size = 0;
     if (rwnx_hw->fw_patch == 0)
@@ -97,7 +101,7 @@ static int rwnx_request_firmware_common(struct rwnx_hw *rwnx_hw, u32** buffer)
     return size;
 }
 
-static void rwnx_release_firmware_common(u32** buffer)
+static void rwnx_release_firmware_common(u32 **buffer)
 {
     rwnx_restore_firmware(buffer);
 }
@@ -117,47 +121,55 @@ int aicwf_patch_table_load(struct rwnx_hw *rwnx_hw)
     //AIC_LOG_PRINTF("### Upload %s \n", filename);
 
     size = rwnx_request_firmware_common(rwnx_hw, &dst);
-    if (!dst) {
+    if (!dst)
+    {
         AIC_LOG_PRINTF("No such file or directory\n");
         return -1;
     }
-    if (size <= 0) {
-            AIC_LOG_PRINTF("wrong size of firmware file\n");
-            dst = NULL;
-            err = -1;
+    if (size <= 0)
+    {
+        AIC_LOG_PRINTF("wrong size of firmware file\n");
+        dst = NULL;
+        err = -1;
     }
 
-    AIC_LOG_PRINTF("tbl size = %d \n",size);
+    AIC_LOG_PRINTF("tbl size = %d \n", size);
 
     fmacfw_patch_tbl_8800dc_u02_describe_base = dst[0];
-    AIC_LOG_PRINTF("FMACFW_PATCH_TBL_8800DC_U02_DESCRIBE_BASE = %x \n",fmacfw_patch_tbl_8800dc_u02_describe_base);
+    AIC_LOG_PRINTF("FMACFW_PATCH_TBL_8800DC_U02_DESCRIBE_BASE = %x \n", fmacfw_patch_tbl_8800dc_u02_describe_base);
 
-    if (!err && (i < size)) {
-        err=rwnx_send_dbg_mem_block_write_req(rwnx_hw, fmacfw_patch_tbl_8800dc_u02_describe_base, fmacfw_patch_tbl_8800dc_u02_describe_size + 4, dst);
-        if(err){
+    if (!err && (i < size))
+    {
+        err = rwnx_send_dbg_mem_block_write_req(rwnx_hw, fmacfw_patch_tbl_8800dc_u02_describe_base, fmacfw_patch_tbl_8800dc_u02_describe_size + 4, dst);
+        if (err)
+        {
             AIC_LOG_PRINTF("write describe information fail \n");
         }
 
         describle = (u8 *)rtos_malloc(fmacfw_patch_tbl_8800dc_u02_describe_size);
-        memcpy(describle,&dst[1],fmacfw_patch_tbl_8800dc_u02_describe_size);
+        memcpy(describle, &dst[1], fmacfw_patch_tbl_8800dc_u02_describe_size);
         memcpy(fw_ver_str, &dst[1], fmacfw_patch_tbl_8800dc_u02_describe_size > 63 ?
-                                    63 : fmacfw_patch_tbl_8800dc_u02_describe_size);
-        AIC_LOG_PRINTF("%s",describle);
+               63 : fmacfw_patch_tbl_8800dc_u02_describe_size);
+        AIC_LOG_PRINTF("%s", describle);
         rtos_free(describle);
-        describle=NULL;
+        describle = NULL;
     }
 
-    if (!err && (i < size)) {
-        for (i =(128/4); i < (size/4); i +=2) {
-            AIC_LOG_PRINTF("patch_tbl:  %x  %x\n", dst[i], dst[i+1]);
-            err = rwnx_send_dbg_mem_write_req(rwnx_hw, dst[i], dst[i+1]);
+    if (!err && (i < size))
+    {
+        for (i = (128 / 4); i < (size / 4); i += 2)
+        {
+            AIC_LOG_PRINTF("patch_tbl:  %x  %x\n", dst[i], dst[i + 1]);
+            err = rwnx_send_dbg_mem_write_req(rwnx_hw, dst[i], dst[i + 1]);
         }
-        if (err) {
+        if (err)
+        {
             AIC_LOG_PRINTF("bin upload fail: %x, err:%d\r\n", dst[i], err);
         }
     }
 
-    if (dst) {
+    if (dst)
+    {
         rwnx_release_firmware_common(&dst);
     }
 
@@ -186,33 +198,40 @@ int rwnx_plat_bin_fw_upload_2(struct rwnx_hw *rwnx_hw, u32 fw_addr)
 
     // Read bin file
     size = rwnx_request_firmware_common(rwnx_hw, &dst);
-    if (size <= 0) {
-            DBG_MACIF_ERR("wrong size of firmware file\n");
-            dst = NULL;
-            err = -1;
+    if (size <= 0)
+    {
+        DBG_MACIF_ERR("wrong size of firmware file\n");
+        dst = NULL;
+        err = -1;
     }
 
     // Write to fw
     AIC_LOG_PRINTF("\n### dst=%p, size=%d\n", dst, size);
-    if (size > BLOCK_SIZE) {
-        for (; i < (size - BLOCK_SIZE); i += BLOCK_SIZE) {
+    if (size > BLOCK_SIZE)
+    {
+        for (; i < (size - BLOCK_SIZE); i += BLOCK_SIZE)
+        {
             DBG_MACIF_VRB("wr blk 0: %p -> %x\r\n", dst + i / 4, fw_addr + i);
             err = rwnx_send_dbg_mem_block_write_req(rwnx_hw, fw_addr + i, BLOCK_SIZE, dst + i / 4);
-            if (err) {
+            if (err)
+            {
                 DBG_MACIF_ERR("bin upload fail: %x, err:%d\r\n", fw_addr + i, err);
                 break;
             }
         }
     }
-    if (!err && (i < size)) {
+    if (!err && (i < size))
+    {
         DBG_MACIF_VRB("wr blk 1: %p -> %x\r\n", dst + i / 4, fw_addr + i);
         err = rwnx_send_dbg_mem_block_write_req(rwnx_hw, fw_addr + i, size - i, dst + i / 4);
-        if (err) {
+        if (err)
+        {
             DBG_MACIF_ERR("bin upload fail: %x, err:%d\r\n", fw_addr + i, err);
         }
     }
 
-    if (dst) {
+    if (dst)
+    {
         rwnx_release_firmware_common(&dst);
     }
 
@@ -232,11 +251,14 @@ int rwnx_plat_fmac_load(struct rwnx_hw *rwnx_hw)
     u32 fw_addr;
 
     RWNX_DBG(RWNX_FN_ENTRY_STR);
-	rwnx_hw->fw_patch = 0;
+    rwnx_hw->fw_patch = 0;
     if ((rwnx_hw->chipid == PRODUCT_ID_AIC8800D80) &&
-        chip_mcu_id && (rwnx_hw->mode != WIFI_MODE_RFTEST)) {
+            chip_mcu_id && (rwnx_hw->mode != WIFI_MODE_RFTEST))
+    {
         fw_addr = RAM_FMAC_WD4M_FW_ADDR;
-    } else {
+    }
+    else
+    {
         fw_addr = RAM_FMAC_FW_ADDR;
     }
     ret = rwnx_plat_bin_fw_upload_2(rwnx_hw, fw_addr);
@@ -252,96 +274,116 @@ int aicwf_plat_patch_load_8800dc(struct rwnx_hw *rwnx_hw)
     int ret = 0;
     //RWNX_DBG(RWNX_FN_ENTRY_STR);
 
-    if (rwnx_hw->mode != WIFI_MODE_RFTEST) {
-        #if !defined(CONFIG_FPGA_VERIFICATION)
-        if (chip_sub_id == 0) {
+    if (rwnx_hw->mode != WIFI_MODE_RFTEST)
+    {
+#if !defined(CONFIG_FPGA_VERIFICATION)
+        if (chip_sub_id == 0)
+        {
             AIC_LOG_PRINTF("dcdw_u01 is loaing ###############\n");
-			rwnx_hw->fw_patch = 0;
+            rwnx_hw->fw_patch = 0;
             ret = rwnx_plat_bin_fw_upload_2(rwnx_hw, ROM_FMAC_PATCH_ADDR_U01);
-        } else if (chip_sub_id >= 1) {
+        }
+        else if (chip_sub_id >= 1)
+        {
             AIC_LOG_PRINTF("dcdw_u02/dcdw_h_u02 is loaing ###############\n");
-			rwnx_hw->fw_patch = 0;
+            rwnx_hw->fw_patch = 0;
             ret = rwnx_plat_bin_fw_upload_2(rwnx_hw, ROM_FMAC_PATCH_ADDR);
-			if (ret) {
-				AIC_LOG_PRINTF("dcdw_u02/dcdw_h_u02 patch load fail: %d\n", ret);
-				return ret;
-			}
-            #ifdef CONFIG_DPD
-            #ifdef CONFIG_FORCE_DPD_CALIB
-			if (1) {
-				AIC_LOG_PRINTF("dpd calib & write\n");
-				ret = aicwf_dpd_calib_8800dc(rwnx_hw, &dpd_res);
-				if (ret) {
-					AIC_LOG_PRINTF("dpd calib fail: %d\n", ret);
-					return ret;
-				}
-			}
-            #else /* CONFIG_FORCE_DPD_CALIB */
-			if (is_file_exist(FW_DPDRESULT_NAME_8800DC) == 1) {
-				AIC_LOG_PRINTF("dpd bin load\n");
-				ret = aicwf_dpd_result_load_8800dc(rwnx_hw, &dpd_res);;
-				if (ret) {
-					AIC_LOG_PRINTF("load dpd bin fail: %d\n", ret);
-					return ret;
-				}
-				ret = aicwf_dpd_result_apply_8800dc(rwnx_hw, &dpd_res);
-				if (ret) {
-					AIC_LOG_PRINTF("apply dpd bin fail: %d\n", ret);
-					return ret;
-				}
+            if (ret)
+            {
+                AIC_LOG_PRINTF("dcdw_u02/dcdw_h_u02 patch load fail: %d\n", ret);
+                return ret;
+            }
+#ifdef CONFIG_DPD
+#ifdef CONFIG_FORCE_DPD_CALIB
+            if (1)
+            {
+                AIC_LOG_PRINTF("dpd calib & write\n");
+                ret = aicwf_dpd_calib_8800dc(rwnx_hw, &dpd_res);
+                if (ret)
+                {
+                    AIC_LOG_PRINTF("dpd calib fail: %d\n", ret);
+                    return ret;
+                }
+            }
+#else /* CONFIG_FORCE_DPD_CALIB */
+            if (is_file_exist(FW_DPDRESULT_NAME_8800DC) == 1)
+            {
+                AIC_LOG_PRINTF("dpd bin load\n");
+                ret = aicwf_dpd_result_load_8800dc(rwnx_hw, &dpd_res);;
+                if (ret)
+                {
+                    AIC_LOG_PRINTF("load dpd bin fail: %d\n", ret);
+                    return ret;
+                }
+                ret = aicwf_dpd_result_apply_8800dc(rwnx_hw, &dpd_res);
+                if (ret)
+                {
+                    AIC_LOG_PRINTF("apply dpd bin fail: %d\n", ret);
+                    return ret;
+                }
 
-			}
-            #endif /* CONFIG_FORCE_DPD_CALIB */
-			else
-            #endif /* CONFIG_DPD */
-			{
-				ret = aicwf_misc_ram_init_8800dc(rwnx_hw);
-				if (ret) {
-					AIC_LOG_PRINTF("misc ram init fail: %d\n", ret);
-					return ret;
-				}
-			}
-        } else {
+            }
+#endif /* CONFIG_FORCE_DPD_CALIB */
+            else
+#endif /* CONFIG_DPD */
+            {
+                ret = aicwf_misc_ram_init_8800dc(rwnx_hw);
+                if (ret)
+                {
+                    AIC_LOG_PRINTF("misc ram init fail: %d\n", ret);
+                    return ret;
+                }
+            }
+        }
+        else
+        {
             AIC_LOG_PRINTF("unsupported id: %d\n", chip_sub_id);
         }
-        #endif /* CONFIG_FPGA_VERIFICATION */
-    } else if (rwnx_hw->mode == WIFI_MODE_RFTEST) {
-        #ifdef CONFIG_LOAD_FW_FROM_FLASH
-    	if((!(get_wifi_fw_type() & 0x02)) || (get_wifi_fw_type() & 0x08))
-        #endif
-    	{
-	    	rwnx_hw->mode = WIFI_MODE_UNKNOWN;
-			AIC_LOG_PRINTF("dcdw_u02/dcdw_h_u02 is loaing ###############\n");
-			rwnx_hw->fw_patch = 0;
-	        ret = rwnx_plat_bin_fw_upload_2(rwnx_hw, ROM_FMAC_PATCH_ADDR);
-			if (ret) {
-				AIC_LOG_PRINTF("dcdw_u02/dcdw_h_u02 patch load fail: %d\n", ret);
-				return ret;
-			}
+#endif /* CONFIG_FPGA_VERIFICATION */
+    }
+    else if (rwnx_hw->mode == WIFI_MODE_RFTEST)
+    {
+#ifdef CONFIG_LOAD_FW_FROM_FLASH
+        if ((!(get_wifi_fw_type() & 0x02)) || (get_wifi_fw_type() & 0x08))
+#endif
+        {
+            rwnx_hw->mode = WIFI_MODE_UNKNOWN;
+            AIC_LOG_PRINTF("dcdw_u02/dcdw_h_u02 is loaing ###############\n");
+            rwnx_hw->fw_patch = 0;
+            ret = rwnx_plat_bin_fw_upload_2(rwnx_hw, ROM_FMAC_PATCH_ADDR);
+            if (ret)
+            {
+                AIC_LOG_PRINTF("dcdw_u02/dcdw_h_u02 patch load fail: %d\n", ret);
+                return ret;
+            }
 
-	        #ifdef CONFIG_DPD
-	        #ifdef CONFIG_FORCE_DPD_CALIB
-			if (1) {
-				AIC_LOG_PRINTF("dpd calib & write\n");
-				ret = aicwf_dpd_calib_8800dc(rwnx_hw, &dpd_res);
-				if (ret) {
-					AIC_LOG_PRINTF("dpd calib fail: %d\n", ret);
-					return ret;
-				}
-			}
-	        #endif /* CONFIG_FORCE_DPD_CALIB */
-	        #endif /* CONFIG_DPD */
-    	}
-		rwnx_hw->mode = WIFI_MODE_RFTEST;
-		AIC_LOG_PRINTF("%s load rftest bin\n", __func__);
-        if (chip_sub_id == 0) {
+#ifdef CONFIG_DPD
+#ifdef CONFIG_FORCE_DPD_CALIB
+            if (1)
+            {
+                AIC_LOG_PRINTF("dpd calib & write\n");
+                ret = aicwf_dpd_calib_8800dc(rwnx_hw, &dpd_res);
+                if (ret)
+                {
+                    AIC_LOG_PRINTF("dpd calib fail: %d\n", ret);
+                    return ret;
+                }
+            }
+#endif /* CONFIG_FORCE_DPD_CALIB */
+#endif /* CONFIG_DPD */
+        }
+        rwnx_hw->mode = WIFI_MODE_RFTEST;
+        AIC_LOG_PRINTF("%s load rftest bin\n", __func__);
+        if (chip_sub_id == 0)
+        {
             aic8800dc_rf_flag = 1;
-			rwnx_hw->fw_patch = 0;
+            rwnx_hw->fw_patch = 0;
             ret = rwnx_plat_bin_fw_upload_2(rwnx_hw, ROM_FMAC_PATCH_ADDR);
         }
-        if (!ret) {
+        if (!ret)
+        {
             aic8800dc_rf_flag = 0;
-			rwnx_hw->fw_patch = 0;
+            rwnx_hw->fw_patch = 0;
             ret = rwnx_plat_bin_fw_upload_2(rwnx_hw, RAM_LMAC_FW_ADDR);
         }
     }
@@ -353,12 +395,14 @@ static int rwnx_plat_patch_load(struct rwnx_hw *rwnx_hw)
 {
     int ret = 0;
     RWNX_DBG(RWNX_FN_ENTRY_STR);
-    if(rwnx_hw->chipid == PRODUCT_ID_AIC8800DC || rwnx_hw->chipid == PRODUCT_ID_AIC8800DW){
-        #if 0
-        if (chip_sub_id == 1) {
+    if (rwnx_hw->chipid == PRODUCT_ID_AIC8800DC || rwnx_hw->chipid == PRODUCT_ID_AIC8800DW)
+    {
+#if 0
+        if (chip_sub_id == 1)
+        {
             aicwf_misc_ram_init_8800dc(rwnx_hw);
         }
-        #endif
+#endif
 
         AIC_LOG_PRINTF("rwnx_plat_patch_loading\n");
         ret = aicwf_plat_patch_load_8800dc(rwnx_hw);
@@ -393,9 +437,9 @@ static int rwnx_platform_reset(struct rwnx_plat *rwnx_plat)
 int rwnx_platform_on(struct rwnx_hw *rwnx_hw)
 {
     //#ifndef CONFIG_ROM_PATCH_EN
-    #ifdef CONFIG_DOWNLOAD_FW
+#ifdef CONFIG_DOWNLOAD_FW
     int ret;
-    #endif
+#endif
     //#endif
     //struct rwnx_plat *rwnx_plat = rwnx_hw->plat;
     struct rwnx_plat *rwnx_plat = &rwnx_plat_obj;
@@ -405,20 +449,23 @@ int rwnx_platform_on(struct rwnx_hw *rwnx_hw)
     if (rwnx_plat->enabled)
         return 0;
 
-    #ifdef CONFIG_DOWNLOAD_FW
-    if (rwnx_hw->chipid != PRODUCT_ID_AIC8800DC && rwnx_hw->chipid != PRODUCT_ID_AIC8800DW) {
+#ifdef CONFIG_DOWNLOAD_FW
+    if (rwnx_hw->chipid != PRODUCT_ID_AIC8800DC && rwnx_hw->chipid != PRODUCT_ID_AIC8800DW)
+    {
         ret = rwnx_plat_fmac_load(rwnx_hw);
 
-    } else {
+    }
+    else
+    {
         ret = rwnx_plat_patch_load(rwnx_hw);
     }
-	if (ret)
-		return ret;
-    #endif
+    if (ret)
+        return ret;
+#endif
 
-    #ifdef CONFIG_LOAD_USERCONFIG
+#ifdef CONFIG_LOAD_USERCONFIG
     //rwnx_plat_userconfig_load(rwnx_hw);
-    #endif
+#endif
 
     rwnx_plat->enabled = true;
 
@@ -499,20 +546,22 @@ int aicwf_plat_calib_load_8800dc(struct rwnx_hw *rwnx_hw)
 {
     int ret = 0;
 
-	RWNX_DBG(RWNX_FN_ENTRY_STR);
+    RWNX_DBG(RWNX_FN_ENTRY_STR);
 
-	aic8800dc_calib_flag = 1;
-	rwnx_hw->fw_patch = 2;
-    if (chip_sub_id >= 1) {
+    aic8800dc_calib_flag = 1;
+    rwnx_hw->fw_patch = 2;
+    if (chip_sub_id >= 1)
+    {
 
-		rwnx_hw->fw_patch = 2;
+        rwnx_hw->fw_patch = 2;
         ret = rwnx_plat_bin_fw_upload_2(rwnx_hw, ROM_FMAC_CALIB_ADDR);
-        if (ret) {
+        if (ret)
+        {
             AIC_LOG_PRINTF("load rftest bin fail: %d\n", ret);
             return ret;
         }
     }
-	aic8800dc_calib_flag = 0;
+    aic8800dc_calib_flag = 0;
     return ret;
 }
 
@@ -521,10 +570,11 @@ int aicwf_dpd_calib_8800dc(struct rwnx_hw *rwnx_hw, rf_misc_ram_lite_t *dpd_res)
     int ret = 0;
     uint32_t fw_addr, boot_type;
 
-	AIC_LOG_PRINTF("%s\n", __func__);
+    AIC_LOG_PRINTF("%s\n", __func__);
 
     ret = aicwf_plat_calib_load_8800dc(rwnx_hw);
-    if (ret) {
+    if (ret)
+    {
         AIC_LOG_PRINTF("load calib bin fail: %d\n", ret);
         return ret;
     }
@@ -533,18 +583,21 @@ int aicwf_dpd_calib_8800dc(struct rwnx_hw *rwnx_hw, rf_misc_ram_lite_t *dpd_res)
     boot_type = HOST_START_APP_FNCALL;
     AIC_LOG_PRINTF("Start app: %08x, %d\n", fw_addr, boot_type);
     ret = rwnx_send_dbg_start_app_req(rwnx_hw, fw_addr, boot_type);
-    if (ret) {
+    if (ret)
+    {
         AIC_LOG_PRINTF("start app fail: %d\n", ret);
         return ret;
     }
-    { // read dpd res
+    {
+        // read dpd res
         const uint32_t cfg_base = 0x10164;
         struct dbg_mem_read_cfm cfm;
         uint32_t misc_ram_addr;
         uint32_t ram_base_addr, ram_word_cnt;
         int i;
         ret = rwnx_send_dbg_mem_read_req(rwnx_hw, cfg_base + 0x14, &cfm);
-        if (ret) {
+        if (ret)
+        {
             AIC_LOG_PRINTF("rf misc ram[0x%x] rd fail: %d\n", cfg_base + 0x14, ret);
             return ret;
         }
@@ -552,9 +605,11 @@ int aicwf_dpd_calib_8800dc(struct rwnx_hw *rwnx_hw, rf_misc_ram_lite_t *dpd_res)
         // bit_mask
         ram_base_addr = misc_ram_addr + offsetof(rf_misc_ram_t, bit_mask);
         ram_word_cnt = (MEMBER_SIZE(rf_misc_ram_t, bit_mask) + MEMBER_SIZE(rf_misc_ram_t, reserved)) / 4;
-        for (i = 0; i < ram_word_cnt; i++) {
+        for (i = 0; i < ram_word_cnt; i++)
+        {
             ret = rwnx_send_dbg_mem_read_req(rwnx_hw, ram_base_addr + i * 4, &cfm);
-            if (ret) {
+            if (ret)
+            {
                 AIC_LOG_PRINTF("bit_mask[0x%x] rd fail: %d\n",  ram_base_addr + i * 4, ret);
                 return ret;
             }
@@ -563,9 +618,11 @@ int aicwf_dpd_calib_8800dc(struct rwnx_hw *rwnx_hw, rf_misc_ram_lite_t *dpd_res)
         // dpd_high
         ram_base_addr = misc_ram_addr + offsetof(rf_misc_ram_t, dpd_high);
         ram_word_cnt = MEMBER_SIZE(rf_misc_ram_t, dpd_high) / 4;
-        for (i = 0; i < ram_word_cnt; i++) {
+        for (i = 0; i < ram_word_cnt; i++)
+        {
             ret = rwnx_send_dbg_mem_read_req(rwnx_hw, ram_base_addr + i * 4, &cfm);
-            if (ret) {
+            if (ret)
+            {
                 AIC_LOG_PRINTF("bit_mask[0x%x] rd fail: %d\n",  ram_base_addr + i * 4, ret);
                 return ret;
             }
@@ -574,9 +631,11 @@ int aicwf_dpd_calib_8800dc(struct rwnx_hw *rwnx_hw, rf_misc_ram_lite_t *dpd_res)
         // loft_res
         ram_base_addr = misc_ram_addr + offsetof(rf_misc_ram_t, loft_res);
         ram_word_cnt = MEMBER_SIZE(rf_misc_ram_t, loft_res) / 4;
-        for (i = 0; i < ram_word_cnt; i++) {
+        for (i = 0; i < ram_word_cnt; i++)
+        {
             ret = rwnx_send_dbg_mem_read_req(rwnx_hw, ram_base_addr + i * 4, &cfm);
-            if (ret) {
+            if (ret)
+            {
                 AIC_LOG_PRINTF("bit_mask[0x%x] rd fail: %d\n",  ram_base_addr + i * 4, ret);
                 return ret;
             }
@@ -593,14 +652,17 @@ int aicwf_dpd_result_apply_8800dc(struct rwnx_hw *rwnx_hw, rf_misc_ram_lite_t *d
     uint32_t misc_ram_addr;
     uint32_t ram_base_addr, ram_byte_cnt;
     AIC_LOG_PRINTF("bit_mask[1]=%x\n", dpd_res->bit_mask[1]);
-    if (dpd_res->bit_mask[1] == 0) {
+    if (dpd_res->bit_mask[1] == 0)
+    {
         AIC_LOG_PRINTF("void dpd_res, bypass it.\n");
         return 0;
     }
-    if (rwnx_hw->mode == WIFI_MODE_RFTEST) {
+    if (rwnx_hw->mode == WIFI_MODE_RFTEST)
+    {
         cfg_base = RAM_LMAC_FW_ADDR + 0x0164;
     }
-    if ((ret = rwnx_send_dbg_mem_read_req(rwnx_hw, cfg_base + 0x14, &cfm))) {
+    if ((ret = rwnx_send_dbg_mem_read_req(rwnx_hw, cfg_base + 0x14, &cfm)))
+    {
         AIC_LOG_PRINTF("rf misc ram[0x%x] rd fail: %d\n", cfg_base + 0x14, ret);
         return ret;
     }
@@ -612,7 +674,8 @@ int aicwf_dpd_result_apply_8800dc(struct rwnx_hw *rwnx_hw, rf_misc_ram_lite_t *d
     ram_base_addr = misc_ram_addr + offsetof(rf_misc_ram_t, bit_mask);
     ram_byte_cnt = MEMBER_SIZE(rf_misc_ram_t, bit_mask) + MEMBER_SIZE(rf_misc_ram_t, reserved);
     ret = rwnx_send_dbg_mem_block_write_req(rwnx_hw, ram_base_addr, ram_byte_cnt, (u32 *)&dpd_res->bit_mask[0]);
-    if (ret) {
+    if (ret)
+    {
         AIC_LOG_PRINTF("bit_mask wr fail: %x, ret:%d\r\n", ram_base_addr, ret);
         return ret;
     }
@@ -621,7 +684,8 @@ int aicwf_dpd_result_apply_8800dc(struct rwnx_hw *rwnx_hw, rf_misc_ram_lite_t *d
     ram_base_addr = misc_ram_addr + offsetof(rf_misc_ram_t, dpd_high);
     ram_byte_cnt = MEMBER_SIZE(rf_misc_ram_t, dpd_high);
     ret = rwnx_send_dbg_mem_block_write_req(rwnx_hw, ram_base_addr, ram_byte_cnt, (u32 *)&dpd_res->dpd_high[0]);
-    if (ret) {
+    if (ret)
+    {
         AIC_LOG_PRINTF("dpd_high wr fail: %x, ret:%d\r\n", ram_base_addr, ret);
         return ret;
     }
@@ -630,7 +694,8 @@ int aicwf_dpd_result_apply_8800dc(struct rwnx_hw *rwnx_hw, rf_misc_ram_lite_t *d
     ram_base_addr = misc_ram_addr + offsetof(rf_misc_ram_t, loft_res);
     ram_byte_cnt = MEMBER_SIZE(rf_misc_ram_t, loft_res);
     ret = rwnx_send_dbg_mem_block_write_req(rwnx_hw, ram_base_addr, ram_byte_cnt, (u32 *)&dpd_res->loft_res[0]);
-    if (ret) {
+    if (ret)
+    {
         AIC_LOG_PRINTF("loft_res wr fail: %x, ret:%d\r\n", ram_base_addr, ret);
         return ret;
     }
@@ -859,17 +924,22 @@ static int rwnx_atoi(char *value)
     int result = 0;
     int flag = 1;
 
-    if (value[0] == '-') {
+    if (value[0] == '-')
+    {
         flag = -1;
         value++;
     }
     len = strlen(value);
 
-    for (i = 0;i < len ;i++) {
+    for (i = 0; i < len ; i++)
+    {
         result = result * 10;
-        if (value[i] >= 48 && value[i] <= 57) {
+        if (value[i] >= 48 && value[i] <= 57)
+        {
             result += value[i] - 48;
-        } else {
+        }
+        else
+        {
             result = 0;
             break;
         }
@@ -937,49 +1007,92 @@ void rwnx_plat_nvram_set_value(char *command, char *value)
 {
     //TODO send command
     AIC_LOG_PRINTF("%s:command=%s value=%s\n", __func__, command, value);
-    if (!strcmp(command, "enable")) {
+    if (!strcmp(command, "enable"))
+    {
         nvram_info.txpwr_idx.enable = rwnx_atoi(value);
-    } else if (!strcmp(command, "dsss")) {
+    }
+    else if (!strcmp(command, "dsss"))
+    {
         nvram_info.txpwr_idx.dsss = rwnx_atoi(value);
-    } else if (!strcmp(command, "ofdmlowrate_2g4")) {
+    }
+    else if (!strcmp(command, "ofdmlowrate_2g4"))
+    {
         nvram_info.txpwr_idx.ofdmlowrate_2g4 = rwnx_atoi(value);
-    } else if (!strcmp(command, "ofdm64qam_2g4")) {
+    }
+    else if (!strcmp(command, "ofdm64qam_2g4"))
+    {
         nvram_info.txpwr_idx.ofdm64qam_2g4 = rwnx_atoi(value);
-    } else if (!strcmp(command, "ofdm256qam_2g4")) {
+    }
+    else if (!strcmp(command, "ofdm256qam_2g4"))
+    {
         nvram_info.txpwr_idx.ofdm256qam_2g4 = rwnx_atoi(value);
-    } else if (!strcmp(command, "ofdm1024qam_2g4")) {
+    }
+    else if (!strcmp(command, "ofdm1024qam_2g4"))
+    {
         nvram_info.txpwr_idx.ofdm1024qam_2g4 = rwnx_atoi(value);
-    } else if (!strcmp(command, "ofdmlowrate_5g")) {
+    }
+    else if (!strcmp(command, "ofdmlowrate_5g"))
+    {
         nvram_info.txpwr_idx.ofdmlowrate_5g = rwnx_atoi(value);
-    } else if (!strcmp(command, "ofdm64qam_5g")) {
+    }
+    else if (!strcmp(command, "ofdm64qam_5g"))
+    {
         nvram_info.txpwr_idx.ofdm64qam_5g = rwnx_atoi(value);
-    } else if (!strcmp(command, "ofdm256qam_5g")) {
+    }
+    else if (!strcmp(command, "ofdm256qam_5g"))
+    {
         nvram_info.txpwr_idx.ofdm256qam_5g = rwnx_atoi(value);
-    } else if (!strcmp(command, "ofdm1024qam_5g")) {
+    }
+    else if (!strcmp(command, "ofdm1024qam_5g"))
+    {
         nvram_info.txpwr_idx.ofdm1024qam_5g = rwnx_atoi(value);
-    } else if (!strcmp(command, "ofst_enable")) {
+    }
+    else if (!strcmp(command, "ofst_enable"))
+    {
         nvram_info.txpwr_ofst.enable = rwnx_atoi(value);
-    } else if (!strcmp(command, "ofst_chan_1_4")) {
+    }
+    else if (!strcmp(command, "ofst_chan_1_4"))
+    {
         nvram_info.txpwr_ofst.chan_1_4 = rwnx_atoi(value);
-    } else if (!strcmp(command, "ofst_chan_5_9")) {
+    }
+    else if (!strcmp(command, "ofst_chan_5_9"))
+    {
         nvram_info.txpwr_ofst.chan_5_9 = rwnx_atoi(value);
-    } else if (!strcmp(command, "ofst_chan_10_13")) {
+    }
+    else if (!strcmp(command, "ofst_chan_10_13"))
+    {
         nvram_info.txpwr_ofst.chan_10_13 = rwnx_atoi(value);
-    } else if (!strcmp(command, "ofst_chan_36_64")) {
+    }
+    else if (!strcmp(command, "ofst_chan_36_64"))
+    {
         nvram_info.txpwr_ofst.chan_36_64 = rwnx_atoi(value);
-    } else if (!strcmp(command, "ofst_chan_100_120")) {
+    }
+    else if (!strcmp(command, "ofst_chan_100_120"))
+    {
         nvram_info.txpwr_ofst.chan_100_120 = rwnx_atoi(value);
-    } else if (!strcmp(command, "ofst_chan_122_140")) {
+    }
+    else if (!strcmp(command, "ofst_chan_122_140"))
+    {
         nvram_info.txpwr_ofst.chan_122_140 = rwnx_atoi(value);
-    } else if (!strcmp(command, "ofst_chan_142_165")) {
+    }
+    else if (!strcmp(command, "ofst_chan_142_165"))
+    {
         nvram_info.txpwr_ofst.chan_142_165 = rwnx_atoi(value);
-    } else if (!strcmp(command, "xtal_enable")) {
+    }
+    else if (!strcmp(command, "xtal_enable"))
+    {
         nvram_info.xtal_cap.enable = rwnx_atoi(value);
-    } else if (!strcmp(command, "xtal_cap")) {
+    }
+    else if (!strcmp(command, "xtal_cap"))
+    {
         nvram_info.xtal_cap.xtal_cap = rwnx_atoi(value);
-    } else if (!strcmp(command, "xtal_cap_fine")) {
+    }
+    else if (!strcmp(command, "xtal_cap_fine"))
+    {
         nvram_info.xtal_cap.xtal_cap_fine = rwnx_atoi(value);
-    } else {
+    }
+    else
+    {
         AIC_LOG_PRINTF("invalid cmd: %s\n", command);
     }
 }
@@ -995,13 +1108,19 @@ void rwnx_plat_userconfig_parsing(char *buffer, int size)
     memset(command, 0, 30);
     memset(value, 0, 100);
 
-    for (i = 0; i < size; i++) {
+    for (i = 0; i < size; i++)
+    {
         //Send command or print nvram log when char is \r or \n
-        if (buffer[i] == 0x0a || buffer[i] == 0x0d) {
-            if (command[0] != 0 && value[0] != 0) {
-                if (parse_state == PRINT) {
+        if (buffer[i] == 0x0a || buffer[i] == 0x0d)
+        {
+            if (command[0] != 0 && value[0] != 0)
+            {
+                if (parse_state == PRINT)
+                {
                     AIC_LOG_PRINTF("%s:%s\r\n", __func__, value);
-                } else if (parse_state == GET_VALUE) {
+                }
+                else if (parse_state == GET_VALUE)
+                {
                     rwnx_plat_nvram_set_value(command, value);
                 }
             }
@@ -1014,32 +1133,44 @@ void rwnx_plat_userconfig_parsing(char *buffer, int size)
         }
 
         //Switch parser state
-        if (parse_state == INIT) {
-            if (buffer[i] == '#') {
+        if (parse_state == INIT)
+        {
+            if (buffer[i] == '#')
+            {
                 parse_state = PRINT;
                 continue;
-            } else if (buffer[i] == 0x0a || buffer[i] == 0x0d) {
+            }
+            else if (buffer[i] == 0x0a || buffer[i] == 0x0d)
+            {
                 parse_state = INIT;
                 continue;
-            } else {
+            }
+            else
+            {
                 parse_state = CMD;
             }
         }
 
         //Fill data to command and value
-        if (parse_state == PRINT) {
+        if (parse_state == PRINT)
+        {
             command[0] = 0x01;
             value[char_counter] = buffer[i];
             char_counter++;
-        } else if (parse_state == CMD) {
-            if (command[0] != 0 && buffer[i] == '=') {
+        }
+        else if (parse_state == CMD)
+        {
+            if (command[0] != 0 && buffer[i] == '=')
+            {
                 parse_state = GET_VALUE;
                 char_counter = 0;
                 continue;
             }
             command[char_counter] = buffer[i];
             char_counter++;
-        } else if (parse_state == GET_VALUE) {
+        }
+        else if (parse_state == GET_VALUE)
+        {
             value[char_counter] = buffer[i];
             char_counter++;
         }
@@ -1089,16 +1220,16 @@ void get_userconfig_txpwr_lvl_v2(txpwr_lvl_conf_v2_t *txpwr_lvl_v2)
     AIC_LOG_PRINTF("%s:lvl_11b_11ag_36m_2g4:%d\r\n", __func__, txpwr_lvl_v2->pwrlvl_11b_11ag_2g4[9]);
     AIC_LOG_PRINTF("%s:lvl_11b_11ag_48m_2g4:%d\r\n", __func__, txpwr_lvl_v2->pwrlvl_11b_11ag_2g4[10]);
     AIC_LOG_PRINTF("%s:lvl_11b_11ag_54m_2g4:%d\r\n", __func__, txpwr_lvl_v2->pwrlvl_11b_11ag_2g4[11]);
-    AIC_LOG_PRINTF("%s:lvl_11n_11ac_mcs0_2g4:%d\r\n",__func__, txpwr_lvl_v2->pwrlvl_11n_11ac_2g4[0]);
-    AIC_LOG_PRINTF("%s:lvl_11n_11ac_mcs1_2g4:%d\r\n",__func__, txpwr_lvl_v2->pwrlvl_11n_11ac_2g4[1]);
-    AIC_LOG_PRINTF("%s:lvl_11n_11ac_mcs2_2g4:%d\r\n",__func__, txpwr_lvl_v2->pwrlvl_11n_11ac_2g4[2]);
-    AIC_LOG_PRINTF("%s:lvl_11n_11ac_mcs3_2g4:%d\r\n",__func__, txpwr_lvl_v2->pwrlvl_11n_11ac_2g4[3]);
-    AIC_LOG_PRINTF("%s:lvl_11n_11ac_mcs4_2g4:%d\r\n",__func__, txpwr_lvl_v2->pwrlvl_11n_11ac_2g4[4]);
-    AIC_LOG_PRINTF("%s:lvl_11n_11ac_mcs5_2g4:%d\r\n",__func__, txpwr_lvl_v2->pwrlvl_11n_11ac_2g4[5]);
-    AIC_LOG_PRINTF("%s:lvl_11n_11ac_mcs6_2g4:%d\r\n",__func__, txpwr_lvl_v2->pwrlvl_11n_11ac_2g4[6]);
-    AIC_LOG_PRINTF("%s:lvl_11n_11ac_mcs7_2g4:%d\r\n",__func__, txpwr_lvl_v2->pwrlvl_11n_11ac_2g4[7]);
-    AIC_LOG_PRINTF("%s:lvl_11n_11ac_mcs8_2g4:%d\r\n",__func__, txpwr_lvl_v2->pwrlvl_11n_11ac_2g4[8]);
-    AIC_LOG_PRINTF("%s:lvl_11n_11ac_mcs9_2g4:%d\r\n",__func__, txpwr_lvl_v2->pwrlvl_11n_11ac_2g4[9]);
+    AIC_LOG_PRINTF("%s:lvl_11n_11ac_mcs0_2g4:%d\r\n", __func__, txpwr_lvl_v2->pwrlvl_11n_11ac_2g4[0]);
+    AIC_LOG_PRINTF("%s:lvl_11n_11ac_mcs1_2g4:%d\r\n", __func__, txpwr_lvl_v2->pwrlvl_11n_11ac_2g4[1]);
+    AIC_LOG_PRINTF("%s:lvl_11n_11ac_mcs2_2g4:%d\r\n", __func__, txpwr_lvl_v2->pwrlvl_11n_11ac_2g4[2]);
+    AIC_LOG_PRINTF("%s:lvl_11n_11ac_mcs3_2g4:%d\r\n", __func__, txpwr_lvl_v2->pwrlvl_11n_11ac_2g4[3]);
+    AIC_LOG_PRINTF("%s:lvl_11n_11ac_mcs4_2g4:%d\r\n", __func__, txpwr_lvl_v2->pwrlvl_11n_11ac_2g4[4]);
+    AIC_LOG_PRINTF("%s:lvl_11n_11ac_mcs5_2g4:%d\r\n", __func__, txpwr_lvl_v2->pwrlvl_11n_11ac_2g4[5]);
+    AIC_LOG_PRINTF("%s:lvl_11n_11ac_mcs6_2g4:%d\r\n", __func__, txpwr_lvl_v2->pwrlvl_11n_11ac_2g4[6]);
+    AIC_LOG_PRINTF("%s:lvl_11n_11ac_mcs7_2g4:%d\r\n", __func__, txpwr_lvl_v2->pwrlvl_11n_11ac_2g4[7]);
+    AIC_LOG_PRINTF("%s:lvl_11n_11ac_mcs8_2g4:%d\r\n", __func__, txpwr_lvl_v2->pwrlvl_11n_11ac_2g4[8]);
+    AIC_LOG_PRINTF("%s:lvl_11n_11ac_mcs9_2g4:%d\r\n", __func__, txpwr_lvl_v2->pwrlvl_11n_11ac_2g4[9]);
     AIC_LOG_PRINTF("%s:lvl_11ax_mcs0_2g4:%d\r\n",    __func__, txpwr_lvl_v2->pwrlvl_11ax_2g4[0]);
     AIC_LOG_PRINTF("%s:lvl_11ax_mcs1_2g4:%d\r\n",    __func__, txpwr_lvl_v2->pwrlvl_11ax_2g4[1]);
     AIC_LOG_PRINTF("%s:lvl_11ax_mcs2_2g4:%d\r\n",    __func__, txpwr_lvl_v2->pwrlvl_11ax_2g4[2]);
@@ -1130,16 +1261,16 @@ void get_userconfig_txpwr_lvl_v3(txpwr_lvl_conf_v3_t *txpwr_lvl_v3)
     AIC_LOG_PRINTF("%s:lvl_11b_11ag_36m_2g4:%d\r\n", __func__, txpwr_lvl_v3->pwrlvl_11b_11ag_2g4[9]);
     AIC_LOG_PRINTF("%s:lvl_11b_11ag_48m_2g4:%d\r\n", __func__, txpwr_lvl_v3->pwrlvl_11b_11ag_2g4[10]);
     AIC_LOG_PRINTF("%s:lvl_11b_11ag_54m_2g4:%d\r\n", __func__, txpwr_lvl_v3->pwrlvl_11b_11ag_2g4[11]);
-    AIC_LOG_PRINTF("%s:lvl_11n_11ac_mcs0_2g4:%d\r\n",__func__, txpwr_lvl_v3->pwrlvl_11n_11ac_2g4[0]);
-    AIC_LOG_PRINTF("%s:lvl_11n_11ac_mcs1_2g4:%d\r\n",__func__, txpwr_lvl_v3->pwrlvl_11n_11ac_2g4[1]);
-    AIC_LOG_PRINTF("%s:lvl_11n_11ac_mcs2_2g4:%d\r\n",__func__, txpwr_lvl_v3->pwrlvl_11n_11ac_2g4[2]);
-    AIC_LOG_PRINTF("%s:lvl_11n_11ac_mcs3_2g4:%d\r\n",__func__, txpwr_lvl_v3->pwrlvl_11n_11ac_2g4[3]);
-    AIC_LOG_PRINTF("%s:lvl_11n_11ac_mcs4_2g4:%d\r\n",__func__, txpwr_lvl_v3->pwrlvl_11n_11ac_2g4[4]);
-    AIC_LOG_PRINTF("%s:lvl_11n_11ac_mcs5_2g4:%d\r\n",__func__, txpwr_lvl_v3->pwrlvl_11n_11ac_2g4[5]);
-    AIC_LOG_PRINTF("%s:lvl_11n_11ac_mcs6_2g4:%d\r\n",__func__, txpwr_lvl_v3->pwrlvl_11n_11ac_2g4[6]);
-    AIC_LOG_PRINTF("%s:lvl_11n_11ac_mcs7_2g4:%d\r\n",__func__, txpwr_lvl_v3->pwrlvl_11n_11ac_2g4[7]);
-    AIC_LOG_PRINTF("%s:lvl_11n_11ac_mcs8_2g4:%d\r\n",__func__, txpwr_lvl_v3->pwrlvl_11n_11ac_2g4[8]);
-    AIC_LOG_PRINTF("%s:lvl_11n_11ac_mcs9_2g4:%d\r\n",__func__, txpwr_lvl_v3->pwrlvl_11n_11ac_2g4[9]);
+    AIC_LOG_PRINTF("%s:lvl_11n_11ac_mcs0_2g4:%d\r\n", __func__, txpwr_lvl_v3->pwrlvl_11n_11ac_2g4[0]);
+    AIC_LOG_PRINTF("%s:lvl_11n_11ac_mcs1_2g4:%d\r\n", __func__, txpwr_lvl_v3->pwrlvl_11n_11ac_2g4[1]);
+    AIC_LOG_PRINTF("%s:lvl_11n_11ac_mcs2_2g4:%d\r\n", __func__, txpwr_lvl_v3->pwrlvl_11n_11ac_2g4[2]);
+    AIC_LOG_PRINTF("%s:lvl_11n_11ac_mcs3_2g4:%d\r\n", __func__, txpwr_lvl_v3->pwrlvl_11n_11ac_2g4[3]);
+    AIC_LOG_PRINTF("%s:lvl_11n_11ac_mcs4_2g4:%d\r\n", __func__, txpwr_lvl_v3->pwrlvl_11n_11ac_2g4[4]);
+    AIC_LOG_PRINTF("%s:lvl_11n_11ac_mcs5_2g4:%d\r\n", __func__, txpwr_lvl_v3->pwrlvl_11n_11ac_2g4[5]);
+    AIC_LOG_PRINTF("%s:lvl_11n_11ac_mcs6_2g4:%d\r\n", __func__, txpwr_lvl_v3->pwrlvl_11n_11ac_2g4[6]);
+    AIC_LOG_PRINTF("%s:lvl_11n_11ac_mcs7_2g4:%d\r\n", __func__, txpwr_lvl_v3->pwrlvl_11n_11ac_2g4[7]);
+    AIC_LOG_PRINTF("%s:lvl_11n_11ac_mcs8_2g4:%d\r\n", __func__, txpwr_lvl_v3->pwrlvl_11n_11ac_2g4[8]);
+    AIC_LOG_PRINTF("%s:lvl_11n_11ac_mcs9_2g4:%d\r\n", __func__, txpwr_lvl_v3->pwrlvl_11n_11ac_2g4[9]);
     AIC_LOG_PRINTF("%s:lvl_11ax_mcs0_2g4:%d\r\n",    __func__, txpwr_lvl_v3->pwrlvl_11ax_2g4[0]);
     AIC_LOG_PRINTF("%s:lvl_11ax_mcs1_2g4:%d\r\n",    __func__, txpwr_lvl_v3->pwrlvl_11ax_2g4[1]);
     AIC_LOG_PRINTF("%s:lvl_11ax_mcs2_2g4:%d\r\n",    __func__, txpwr_lvl_v3->pwrlvl_11ax_2g4[2]);
@@ -1217,18 +1348,22 @@ void get_userconfig_txpwr_ofst2x(txpwr_ofst2x_conf_t *txpwr_ofst2x)
 #if 0
     AIC_LOG_PRINTF("%s:enable      :%d\r\n", __func__, txpwr_ofst2x->enable);
     AIC_LOG_PRINTF("pwrofst2x 2.4g: [0]:11b, [1]:ofdm_highrate, [2]:ofdm_lowrate\n"
-        "  chan=" "\t1-4" "\t5-9" "\t10-13");
-    for (type = 0; type < 3; type++) {
+                   "  chan=" "\t1-4" "\t5-9" "\t10-13");
+    for (type = 0; type < 3; type++)
+    {
         AIC_LOG_PRINTF("\n  [%d] =", type);
-        for (ch_grp = 0; ch_grp < 3; ch_grp++) {
+        for (ch_grp = 0; ch_grp < 3; ch_grp++)
+        {
             AIC_LOG_PRINTF("\t%d", txpwr_ofst2x->pwrofst2x_tbl_2g4[type][ch_grp]);
         }
     }
     AIC_LOG_PRINTF("\npwrofst2x 5g: [0]:ofdm_lowrate, [1]:ofdm_highrate, [2]:ofdm_midrate\n"
-        "  chan=" "\t36-50" "\t51-64" "\t98-114" "\t115-130" "\t131-146" "\t147-166");
-    for (type = 0; type < 3; type++) {
+                   "  chan=" "\t36-50" "\t51-64" "\t98-114" "\t115-130" "\t131-146" "\t147-166");
+    for (type = 0; type < 3; type++)
+    {
         AIC_LOG_PRINTF("\n  [%d] =", type);
-        for (ch_grp = 0; ch_grp < 6; ch_grp++) {
+        for (ch_grp = 0; ch_grp < 6; ch_grp++)
+        {
             AIC_LOG_PRINTF("\t%d", txpwr_ofst2x->pwrofst2x_tbl_5g[type][ch_grp]);
         }
     }

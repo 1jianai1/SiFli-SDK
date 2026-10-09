@@ -1,14 +1,9 @@
 /*
- * SPDX-FileCopyrightText: 2019-2026 SiFli Technologies(Nanjing) Co., Ltd
+ * SPDX-FileCopyrightText: 2026 AICSemi Ltd
  *
  * SPDX-License-Identifier: Apache-2.0
  */
 
-/*
- * Copyright (C) 2018-2024 AICSemi Ltd.
- *
- * All Rights Reserved
- */
 
 #ifndef _NETIF_AL_H_
 #define _NETIF_AL_H_
@@ -20,7 +15,7 @@ typedef void (*aic_tx_cb)(uint32_t frame_id, bool acknowledged, void *arg);
 
 uint32_t aic_offsetof(void);
 
-uint8_t* aic_get_mac_address(void);
+uint8_t *aic_get_mac_address(void);
 void aic_set_mac_address(uint8_t *addr);
 void *aic_get_vif_mac_addr(void);
 net_if_t *aic_get_vif_net_if(void);

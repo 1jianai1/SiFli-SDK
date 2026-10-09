@@ -1,5 +1,5 @@
 /*
- * SPDX-FileCopyrightText: 2019-2026 SiFli Technologies(Nanjing) Co., Ltd
+ * SPDX-FileCopyrightText: 2026 AICSemi Ltd
  *
  * SPDX-License-Identifier: Apache-2.0
  */
@@ -45,7 +45,8 @@ void *aic_fw_ptr_get(enum aic_fw name)
 {
     void *ptr = NULL;
 
-    switch (name) {
+    switch (name)
+    {
 #ifdef CONFIG_BT_SUPPORT
     case FW_ADID_U03:
         ptr = fw_adid_u03;
@@ -65,14 +66,14 @@ void *aic_fw_ptr_get(enum aic_fw name)
         AIC_LOG_PRINTF("FW_PATCH_8800DC_U02\n");
         ptr = fw_patch_8800dc_u02;
         break;
-	case FW_PATCH_TABLE_8800DC_U02:
+    case FW_PATCH_TABLE_8800DC_U02:
         AIC_LOG_PRINTF("FW_PATCH_TABLE_8800DC_U02\n");
-		ptr = fw_patch_table_8800dc_u02;
-		break;
-	case FW_PATCH_8800DC_U02_EXT:
-		AIC_LOG_PRINTF("FW_PATCH_8800DC_U02_EXT\n");
-		ptr = fw_patch_8800dc_u02_ext0;
-		break;
+        ptr = fw_patch_table_8800dc_u02;
+        break;
+    case FW_PATCH_8800DC_U02_EXT:
+        AIC_LOG_PRINTF("FW_PATCH_8800DC_U02_EXT\n");
+        ptr = fw_patch_8800dc_u02_ext0;
+        break;
 
     case FW_ADID_8800DC_U02H:
         AIC_LOG_PRINTF("FW_ADID_8800DC_U02\n");
@@ -82,10 +83,10 @@ void *aic_fw_ptr_get(enum aic_fw name)
         AIC_LOG_PRINTF("FW_PATCH_8800DC_U02\n");
         ptr = fw_patch_8800dc_u02h;
         break;
-	case FW_PATCH_TABLE_8800DC_U02H:
+    case FW_PATCH_TABLE_8800DC_U02H:
         AIC_LOG_PRINTF("FW_PATCH_TABLE_8800DC_U02\n");
-		ptr = fw_patch_table_8800dc_u02h;
-		break;
+        ptr = fw_patch_table_8800dc_u02h;
+        break;
 
     case FW_ADID_8800D80_U02:
         AIC_LOG_PRINTF("FW_ADID_8800D80_U02\n");
@@ -95,14 +96,14 @@ void *aic_fw_ptr_get(enum aic_fw name)
         AIC_LOG_PRINTF("FW_ADID_8800D80_U02\n");
         ptr = fw_patch_8800d80_u02;
         break;
-	case FW_PATCH_TABLE_8800D80_U02:
+    case FW_PATCH_TABLE_8800D80_U02:
         AIC_LOG_PRINTF("FW_ADID_8800D80_U02\n");
-		ptr = fw_patch_table_8800d80_u02;
-		break;
-	case FW_PATCH_8800D80_U02_EXT:
-		AIC_LOG_PRINTF("FW_ADID_8800D80_U02\n");
-		ptr = fw_patch_8800d80_u02_ext0;
-		break;
+        ptr = fw_patch_table_8800d80_u02;
+        break;
+    case FW_PATCH_8800D80_U02_EXT:
+        AIC_LOG_PRINTF("FW_ADID_8800D80_U02\n");
+        ptr = fw_patch_8800d80_u02_ext0;
+        break;
 #endif
     default:
         AIC_LOG_PRINTF("PTR is NULL\n");
@@ -117,7 +118,8 @@ uint32_t aic_fw_size_get(enum aic_fw name)
 {
     uint32_t size = 0;
 
-    switch (name) {
+    switch (name)
+    {
 #ifdef CONFIG_BT_SUPPORT
     case FW_ADID_U03:
         size = sizeof(fw_adid_u03);
@@ -139,12 +141,12 @@ uint32_t aic_fw_size_get(enum aic_fw name)
     case FW_PATCH_8800D80_U02:
         size = sizeof(fw_patch_8800d80_u02);
         break;
-	case FW_PATCH_TABLE_8800D80_U02:
-		size = sizeof(fw_patch_table_8800d80_u02);
-		break;
-	case FW_PATCH_8800D80_U02_EXT:
-		size = sizeof(fw_patch_8800d80_u02_ext0);
-		break;
+    case FW_PATCH_TABLE_8800D80_U02:
+        size = sizeof(fw_patch_table_8800d80_u02);
+        break;
+    case FW_PATCH_8800D80_U02_EXT:
+        size = sizeof(fw_patch_8800d80_u02_ext0);
+        break;
 #endif
     default:
         size = 0;

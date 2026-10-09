@@ -1,5 +1,5 @@
 /*
- * SPDX-FileCopyrightText: 2019-2026 SiFli Technologies(Nanjing) Co., Ltd
+ * SPDX-FileCopyrightText: 2026 AICSemi Ltd
  *
  * SPDX-License-Identifier: Apache-2.0
  */
@@ -60,7 +60,7 @@
  * @param[in] len       number of bytes to swap
  ****************************************************************************************
  */
-__STATIC_INLINE void co_bswap(uint8_t* p_val_out, const uint8_t* p_val_in, uint16_t len)
+__STATIC_INLINE void co_bswap(uint8_t *p_val_out, const uint8_t *p_val_in, uint16_t len)
 {
     while (len > 0)
     {
@@ -82,7 +82,7 @@ __STATIC_INLINE void co_bswap(uint8_t* p_val_out, const uint8_t* p_val_in, uint1
 __STATIC_INLINE uint32_t co_bswap32(uint32_t val32)
 {
     // GCC 4 define __builtin_bswap32(val32);
-    return (val32<<24) | ((val32<<8)&0xFF0000) | ((val32>>8)&0xFF00) | ((val32>>24)&0xFF);
+    return (val32 << 24) | ((val32 << 8) & 0xFF0000) | ((val32 >> 8) & 0xFF00) | ((val32 >> 24) & 0xFF);
     //return __REV(val32);
 }
 
@@ -96,7 +96,7 @@ __STATIC_INLINE uint32_t co_bswap32(uint32_t val32)
  */
 __STATIC_INLINE uint32_t co_bswap24(uint32_t val24)
 {
-    return ((val24<<16)&0xFF0000) | ((val24)&0xFF00) | ((val24>>16)&0xFF);
+    return ((val24 << 16) & 0xFF0000) | ((val24) & 0xFF00) | ((val24 >> 16) & 0xFF);
 }
 
 /**
@@ -109,7 +109,7 @@ __STATIC_INLINE uint32_t co_bswap24(uint32_t val24)
  */
 __STATIC_INLINE uint16_t co_bswap16(uint16_t val16)
 {
-    return ((val16<<8)&0xFF00) | ((val16>>8)&0xFF);
+    return ((val16 << 8) & 0xFF00) | ((val16 >> 8) & 0xFF);
     //return (uint16_t)__REVSH((int16_t)val16);
 }
 /// @} CO_ENDIAN
@@ -144,11 +144,11 @@ __STATIC_INLINE uint16_t co_bswap16(uint16_t val16)
  */
 __STATIC_INLINE uint32_t co_htonl(uint32_t hostlong)
 {
-    #if !CPU_LE
-        return hostlong;
-    #else
-        return co_bswap32(hostlong);
-    #endif
+#if !CPU_LE
+    return hostlong;
+#else
+    return co_bswap32(hostlong);
+#endif
 }
 
 /**
@@ -162,11 +162,11 @@ __STATIC_INLINE uint32_t co_htonl(uint32_t hostlong)
  */
 __STATIC_INLINE uint32_t co_hton24(uint32_t host24)
 {
-    #if (!CPU_LE)
-        return host24;
-    #else
-        return co_bswap24(host24);
-    #endif // CPU_LE
+#if (!CPU_LE)
+    return host24;
+#else
+    return co_bswap24(host24);
+#endif // CPU_LE
 }
 
 /**
@@ -179,11 +179,11 @@ __STATIC_INLINE uint32_t co_hton24(uint32_t host24)
  */
 __STATIC_INLINE uint16_t co_htons(uint16_t hostshort)
 {
-    #if !CPU_LE
-        return hostshort;
-    #else
-        return co_bswap16(hostshort);
-    #endif
+#if !CPU_LE
+    return hostshort;
+#else
+    return co_bswap16(hostshort);
+#endif
 }
 
 /**
@@ -253,11 +253,11 @@ __STATIC_INLINE uint16_t co_ntohs(uint16_t netshort)
  */
 __STATIC_INLINE uint32_t co_htowl(uint32_t hostlong)
 {
-    #if CPU_LE
-        return hostlong;
-    #else
-        return co_bswap32(hostlong);
-    #endif
+#if CPU_LE
+    return hostlong;
+#else
+    return co_bswap32(hostlong);
+#endif
 }
 
 /**
@@ -270,11 +270,11 @@ __STATIC_INLINE uint32_t co_htowl(uint32_t hostlong)
  */
 __STATIC_INLINE uint16_t co_htows(uint16_t hostshort)
 {
-    #if CPU_LE
-        return hostshort;
-    #else
-        return co_bswap16(hostshort);
-    #endif
+#if CPU_LE
+    return hostshort;
+#else
+    return co_bswap16(hostshort);
+#endif
 }
 
 

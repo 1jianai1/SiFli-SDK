@@ -1,5 +1,5 @@
 /*
- * SPDX-FileCopyrightText: 2019-2026 SiFli Technologies(Nanjing) Co., Ltd
+ * SPDX-FileCopyrightText: 2026 AICSemi Ltd
  *
  * SPDX-License-Identifier: Apache-2.0
  */
@@ -9,7 +9,8 @@
 
 #include <stdint.h>
 
-static const uint32_t fw_patch_8800d80_u02[] = {
+static const uint32_t fw_patch_8800d80_u02[] =
+{
     0x00004770,
     0x681b4b02,
     0xf8832200,

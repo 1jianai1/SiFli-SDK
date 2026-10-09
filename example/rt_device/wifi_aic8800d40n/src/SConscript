@@ -1,0 +1,10 @@
+import os
+from building import *
+
+cwd = GetCurrentDir()
+src = Glob('*.c')
+CPPPATH = [cwd]
+
+group = DefineGroup('aic8800d40n_demo', src, depend = ['WIFI_USING_AIC8800D40N'], CPPPATH = CPPPATH)
+
+Return('group')

@@ -1,5 +1,5 @@
 /*
- * SPDX-FileCopyrightText: 2019-2026 SiFli Technologies(Nanjing) Co., Ltd
+ * SPDX-FileCopyrightText: 2026 AICSemi Ltd
  *
  * SPDX-License-Identifier: Apache-2.0
  */
@@ -50,7 +50,7 @@ enum mac_vif_type
 struct mac_addr
 {
     /// Array of 16-bit words that make up the MAC address.
-    u16_l array[MAC_ADDR_LEN/2];
+    u16_l array[MAC_ADDR_LEN / 2];
 };
 
 /// SSID maximum length.
@@ -331,7 +331,7 @@ struct mac_sec_key
     /// Key material length
     u8_l length;
     /// Key material
-    u32_l array[MAC_SEC_KEY_LEN/4];
+    u32_l array[MAC_SEC_KEY_LEN / 4];
 };
 
 /// Access Category enumeration
@@ -479,60 +479,64 @@ enum mac_connection_flags
 };
 
 #ifdef CONFIG_HE_FOR_OLD_KERNEL
-#define IEEE80211_HE_MAC_CAP2_ALL_ACK									0x02
-#define IEEE80211_HE_PHY_CAP0_CHANNEL_WIDTH_SET_40MHZ_IN_2G				0x02
-#define IEEE80211_HE_PHY_CAP0_CHANNEL_WIDTH_SET_40MHZ_80MHZ_IN_5G		0x04
-#define IEEE80211_HE_PHY_CAP1_LDPC_CODING_IN_PAYLOAD					0x20
-#define IEEE80211_HE_PHY_CAP1_HE_LTF_AND_GI_FOR_HE_PPDUS_0_8US			0x40
-#define IEEE80211_HE_PHY_CAP1_MIDAMBLE_RX_TX_MAX_NSTS					0x80
-#define IEEE80211_HE_PHY_CAP2_MIDAMBLE_RX_TX_MAX_NSTS					0x01
-#define IEEE80211_HE_PHY_CAP2_NDP_4x_LTF_AND_3_2US						0x02
-#define IEEE80211_HE_PHY_CAP2_DOPPLER_RX								0x20
-#define IEEE80211_HE_PHY_CAP2_STBC_RX_UNDER_80MHZ						0x08
-#define IEEE80211_HE_PHY_CAP3_DCM_MAX_CONST_RX_16_QAM					0x18
-#define IEEE80211_HE_PHY_CAP3_DCM_MAX_RX_NSS_1							0x00
-#define IEEE80211_HE_PHY_CAP3_RX_HE_MU_PPDU_FROM_NON_AP_STA				0x40
-#define IEEE80211_HE_PHY_CAP4_SU_BEAMFORMEE								0x01
-#define IEEE80211_HE_PHY_CAP4_BEAMFORMEE_MAX_STS_UNDER_80MHZ_4			0x0c
-#define IEEE80211_HE_PHY_CAP5_NG16_SU_FEEDBACK							0x40
-#define IEEE80211_HE_PHY_CAP5_NG16_MU_FEEDBACK							0x80
-#define IEEE80211_HE_PHY_CAP6_CODEBOOK_SIZE_42_SU						0x01
-#define IEEE80211_HE_PHY_CAP6_CODEBOOK_SIZE_75_MU						0x02
-#define IEEE80211_HE_PHY_CAP6_TRIG_SU_BEAMFORMER_FB						0x04
-#define IEEE80211_HE_PHY_CAP6_TRIG_MU_BEAMFORMER_FB						0x08
-#define IEEE80211_HE_PHY_CAP6_PPE_THRESHOLD_PRESENT						0x80
-#define IEEE80211_HE_PHY_CAP6_PARTIAL_BANDWIDTH_DL_MUMIMO				0x40
-#define IEEE80211_HE_PHY_CAP7_HE_SU_MU_PPDU_4XLTF_AND_08_US_GI			0x04
-#define IEEE80211_HE_PHY_CAP8_20MHZ_IN_40MHZ_HE_PPDU_IN_2G				0x02
-#define IEEE80211_HE_PHY_CAP9_RX_FULL_BW_SU_USING_MU_WITH_COMP_SIGB		0x10
-#define IEEE80211_HE_PHY_CAP9_RX_FULL_BW_SU_USING_MU_WITH_NON_COMP_SIGB	0x20
+#define IEEE80211_HE_MAC_CAP2_ALL_ACK                                   0x02
+#define IEEE80211_HE_PHY_CAP0_CHANNEL_WIDTH_SET_40MHZ_IN_2G             0x02
+#define IEEE80211_HE_PHY_CAP0_CHANNEL_WIDTH_SET_40MHZ_80MHZ_IN_5G       0x04
+#define IEEE80211_HE_PHY_CAP1_LDPC_CODING_IN_PAYLOAD                    0x20
+#define IEEE80211_HE_PHY_CAP1_HE_LTF_AND_GI_FOR_HE_PPDUS_0_8US          0x40
+#define IEEE80211_HE_PHY_CAP1_MIDAMBLE_RX_TX_MAX_NSTS                   0x80
+#define IEEE80211_HE_PHY_CAP2_MIDAMBLE_RX_TX_MAX_NSTS                   0x01
+#define IEEE80211_HE_PHY_CAP2_NDP_4x_LTF_AND_3_2US                      0x02
+#define IEEE80211_HE_PHY_CAP2_DOPPLER_RX                                0x20
+#define IEEE80211_HE_PHY_CAP2_STBC_RX_UNDER_80MHZ                       0x08
+#define IEEE80211_HE_PHY_CAP3_DCM_MAX_CONST_RX_16_QAM                   0x18
+#define IEEE80211_HE_PHY_CAP3_DCM_MAX_RX_NSS_1                          0x00
+#define IEEE80211_HE_PHY_CAP3_RX_HE_MU_PPDU_FROM_NON_AP_STA             0x40
+#define IEEE80211_HE_PHY_CAP4_SU_BEAMFORMEE                             0x01
+#define IEEE80211_HE_PHY_CAP4_BEAMFORMEE_MAX_STS_UNDER_80MHZ_4          0x0c
+#define IEEE80211_HE_PHY_CAP5_NG16_SU_FEEDBACK                          0x40
+#define IEEE80211_HE_PHY_CAP5_NG16_MU_FEEDBACK                          0x80
+#define IEEE80211_HE_PHY_CAP6_CODEBOOK_SIZE_42_SU                       0x01
+#define IEEE80211_HE_PHY_CAP6_CODEBOOK_SIZE_75_MU                       0x02
+#define IEEE80211_HE_PHY_CAP6_TRIG_SU_BEAMFORMER_FB                     0x04
+#define IEEE80211_HE_PHY_CAP6_TRIG_MU_BEAMFORMER_FB                     0x08
+#define IEEE80211_HE_PHY_CAP6_PPE_THRESHOLD_PRESENT                     0x80
+#define IEEE80211_HE_PHY_CAP6_PARTIAL_BANDWIDTH_DL_MUMIMO               0x40
+#define IEEE80211_HE_PHY_CAP7_HE_SU_MU_PPDU_4XLTF_AND_08_US_GI          0x04
+#define IEEE80211_HE_PHY_CAP8_20MHZ_IN_40MHZ_HE_PPDU_IN_2G              0x02
+#define IEEE80211_HE_PHY_CAP9_RX_FULL_BW_SU_USING_MU_WITH_COMP_SIGB     0x10
+#define IEEE80211_HE_PHY_CAP9_RX_FULL_BW_SU_USING_MU_WITH_NON_COMP_SIGB 0x20
 
-struct ieee80211_he_cap_elem {
-	u8 mac_cap_info[6];
-	u8 phy_cap_info[11];
+struct ieee80211_he_cap_elem
+{
+    u8 mac_cap_info[6];
+    u8 phy_cap_info[11];
 } __packed;
 
-struct ieee80211_he_mcs_nss_supp {
-	__le16 rx_mcs_80;
-	__le16 tx_mcs_80;
-	__le16 rx_mcs_160;
-	__le16 tx_mcs_160;
-	__le16 rx_mcs_80p80;
-	__le16 tx_mcs_80p80;
+struct ieee80211_he_mcs_nss_supp
+{
+    __le16 rx_mcs_80;
+    __le16 tx_mcs_80;
+    __le16 rx_mcs_160;
+    __le16 tx_mcs_160;
+    __le16 rx_mcs_80p80;
+    __le16 tx_mcs_80p80;
 } __packed;
 
-#define IEEE80211_HE_PPE_THRES_MAX_LEN		25
+#define IEEE80211_HE_PPE_THRES_MAX_LEN      25
 
-struct ieee80211_sta_he_cap {
-	bool has_he;
-	struct ieee80211_he_cap_elem he_cap_elem;
-	struct ieee80211_he_mcs_nss_supp he_mcs_nss_supp;
-	u8 ppe_thres[IEEE80211_HE_PPE_THRES_MAX_LEN];
+struct ieee80211_sta_he_cap
+{
+    bool has_he;
+    struct ieee80211_he_cap_elem he_cap_elem;
+    struct ieee80211_he_mcs_nss_supp he_mcs_nss_supp;
+    u8 ppe_thres[IEEE80211_HE_PPE_THRES_MAX_LEN];
 };
 
-struct ieee80211_sband_iftype_data {
-	u16 types_mask;
-	struct ieee80211_sta_he_cap he_cap;
+struct ieee80211_sband_iftype_data
+{
+    u16 types_mask;
+    struct ieee80211_sta_he_cap he_cap;
 };
 #endif
 

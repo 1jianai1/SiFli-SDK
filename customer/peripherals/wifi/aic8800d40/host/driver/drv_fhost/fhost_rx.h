@@ -1,5 +1,5 @@
 /*
- * SPDX-FileCopyrightText: 2019-2026 SiFli Technologies(Nanjing) Co., Ltd
+ * SPDX-FileCopyrightText: 2026 AICSemi Ltd
  *
  * SPDX-License-Identifier: Apache-2.0
  */
@@ -101,7 +101,7 @@ struct fhost_rx_buf_tag
     /// Structure containing the information about the received payload
     struct rx_info info;
     /// Payload buffer space
-    uint32_t payload[CO_ALIGN4_HI(FHOST_RX_BUF_SIZE)/sizeof(uint32_t)];
+    uint32_t payload[CO_ALIGN4_HI(FHOST_RX_BUF_SIZE) / sizeof(uint32_t)];
 };
 
 #if NX_UF_EN
@@ -151,7 +151,8 @@ struct fhost_rx_uf_buf_desc_tag
 #define IS_QOS_DATA(frame_cntrl) ((frame_cntrl & MAC_FCTRL_TYPESUBTYPE_MASK) == MAC_FCTRL_QOS_DATA)
 
 
-typedef struct {
+typedef struct
+{
     struct co_list list;
     rtos_mutex mutex;
 } fhost_rxq_t;
@@ -225,14 +226,14 @@ void fhost_rx_set_monitor_cb(cb_fhost_rx cb, void *arg);
 uint8_t machdr_len_get(uint16_t frame_cntl);
 void fhost_rx_buf_push(void *net_buf);
 #ifdef CONFIG_RX_NOCOPY
-void fhost_rx_buf_forward(struct fhost_rx_buf_tag *buf, void *lwip_msg, uint8_t is_reorder);
+    void fhost_rx_buf_forward(struct fhost_rx_buf_tag *buf, void *lwip_msg, uint8_t is_reorder);
 #else
-void fhost_rx_buf_forward(struct fhost_rx_buf_tag *buf);
+    void fhost_rx_buf_forward(struct fhost_rx_buf_tag *buf);
 #endif /* CONFIG_RX_NOCOPY */
 void fhost_rx_monitor_cb(void *buf, bool uf);
 
 #if NX_UF_EN
-void fhost_rx_uf_buf_push(struct fhost_rx_uf_buf_tag *);
+    void fhost_rx_uf_buf_push(struct fhost_rx_uf_buf_tag *);
 #endif /* NX_UF_EN */
 
 int fhost_rx_data_resend(net_if_t *net_if, struct fhost_rx_buf_tag *buf,
@@ -240,12 +241,12 @@ int fhost_rx_data_resend(net_if_t *net_if, struct fhost_rx_buf_tag *buf,
 
 void fhost_rx_init(struct rwnx_hw *rwnx_hw);
 void fhost_rx_deinit(void);
-struct sdio_buf_node_s * fhost_rxframe_dequeue(void);
+struct sdio_buf_node_s *fhost_rxframe_dequeue(void);
 void fhost_rxframe_enqueue(struct sdio_buf_node_s *node);
 void fhost_rx_taskmem_free(void);
 
 #ifdef CONFIG_RX_NOCOPY
-uint8_t fhost_mac2ethernet_offset(void *buf);
+    uint8_t fhost_mac2ethernet_offset(void *buf);
 #endif
 /// @}
 

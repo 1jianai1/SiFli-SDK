@@ -1,5 +1,5 @@
 /*
- * SPDX-FileCopyrightText: 2019-2026 SiFli Technologies(Nanjing) Co., Ltd
+ * SPDX-FileCopyrightText: 2026 AICSemi Ltd
  *
  * SPDX-License-Identifier: Apache-2.0
  */
@@ -66,20 +66,22 @@ typedef int (*msg_cb_fct)(struct rwnx_hw *rwnx_hw, struct rwnx_cmd *cmd,
 
 static inline void put_u16(u8 *buf, u16 data)
 {
-	buf[0] = (u8)(data&0x00ff);
-	buf[1] = (u8)((data >> 8)&0x00ff);
+    buf[0] = (u8)(data & 0x00ff);
+    buf[1] = (u8)((data >> 8) & 0x00ff);
 }
 
 #define CMD_BUF_MAX 1536
 #define CMD_BUF_ALIGN_SIZE PLATFORM_CACHE_LINE_SIZE
 
-enum rwnx_cmd_mgr_state {
+enum rwnx_cmd_mgr_state
+{
     RWNX_CMD_MGR_STATE_DEINIT,
     RWNX_CMD_MGR_STATE_INITED,
     RWNX_CMD_MGR_STATE_CRASHED,
 };
 
-typedef struct rwnx_cmd {
+typedef struct rwnx_cmd
+{
     struct list_head list;
     lmac_msg_id_t id;
     lmac_msg_id_t reqid;
@@ -91,12 +93,13 @@ typedef struct rwnx_cmd {
 
     //struct completion complete;
     uint32_t result;
-    #ifdef CONFIG_RWNX_FHOST
+#ifdef CONFIG_RWNX_FHOST
     struct rwnx_term_stream *stream;
-    #endif
+#endif
 } rwnx_cmd;
 
-struct rwnx_cmd_mgr {
+struct rwnx_cmd_mgr
+{
     enum rwnx_cmd_mgr_state state;
     //spinlock_t lock;
     rtos_mutex mutex;
@@ -106,9 +109,9 @@ struct rwnx_cmd_mgr {
 
     struct list_head cmds;
 
-    int  (*queue)(struct rwnx_cmd_mgr *, struct rwnx_cmd *);
-    int  (*llind)(struct rwnx_cmd_mgr *, struct rwnx_cmd *);
-    int  (*msgind)(struct rwnx_cmd_mgr *, struct rwnx_cmd_e2amsg *, msg_cb_fct);
+    int (*queue)(struct rwnx_cmd_mgr *, struct rwnx_cmd *);
+    int (*llind)(struct rwnx_cmd_mgr *, struct rwnx_cmd *);
+    int (*msgind)(struct rwnx_cmd_mgr *, struct rwnx_cmd_e2amsg *, msg_cb_fct);
     void (*print)(struct rwnx_cmd_mgr *);
     void (*drain)(struct rwnx_cmd_mgr *);
 };

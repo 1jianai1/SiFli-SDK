@@ -1,5 +1,5 @@
 /*
- * SPDX-FileCopyrightText: 2019-2026 SiFli Technologies(Nanjing) Co., Ltd
+ * SPDX-FileCopyrightText: 2026 AICSemi Ltd
  *
  * SPDX-License-Identifier: Apache-2.0
  */
@@ -12,7 +12,8 @@
 #include "lmac_mac.h"
 #include "rwnx_config.h"
 
-enum survey_info_flags {
+enum survey_info_flags
+{
     SURVEY_INFO_NOISE_DBM       = BIT(0),
     SURVEY_INFO_IN_USE          = BIT(1),
     SURVEY_INFO_TIME            = BIT(2),
@@ -25,7 +26,8 @@ enum survey_info_flags {
 
 
 /* Structure containing channel survey information received from MAC */
-struct rwnx_survey_info {
+struct rwnx_survey_info
+{
     // Filled
     u32 filled;
     // Amount of time in ms the radio spent on the channel
@@ -37,7 +39,8 @@ struct rwnx_survey_info {
 };
 
 /* Structure that will contains all RoC information received from cfg80211 */
-struct rwnx_roc_elem {
+struct rwnx_roc_elem
+{
     struct mac_chan_def chan;
     unsigned int duration;
     /* Used to avoid call of CFG80211 callback upon expiration of RoC */
@@ -46,13 +49,15 @@ struct rwnx_roc_elem {
     bool on_chan;
 };
 
-enum nl80211_band {
+enum nl80211_band
+{
     NL80211_BAND_2GHZ,   /* 2.4 GHz ISM band */
     NL80211_BAND_5GHZ,   /* around 5 GHz band (4.9 - 5.7 GHz) */
     NL80211_BAND_60GHZ,  /* around 60 GHz band (58.32 - 64.80 GHz) */
 };
 
-enum nl80211_chan_width {
+enum nl80211_chan_width
+{
     NL80211_CHAN_WIDTH_20_NOHT,
     NL80211_CHAN_WIDTH_20,
     NL80211_CHAN_WIDTH_40,
@@ -61,7 +66,8 @@ enum nl80211_chan_width {
     NL80211_CHAN_WIDTH_160,
 };
 
-struct cfg80211_chan_def {
+struct cfg80211_chan_def
+{
     struct ieee80211_channel *chan;
     enum nl80211_chan_width width;
     u32 center_freq1;
@@ -69,12 +75,14 @@ struct cfg80211_chan_def {
 };
 
 /* Structure containing channel context information */
-struct rwnx_chanctx {
+struct rwnx_chanctx
+{
     struct cfg80211_chan_def chan_def; /* channel description */
     u8 count;                          /* number of vif using this ctxt */
 };
 
-struct rwnx_sec_phy_chan {
+struct rwnx_sec_phy_chan
+{
     u16 prim20_freq;
     u16 center_freq1;
     u16 center_freq2;
@@ -91,7 +99,8 @@ struct rwnx_sec_phy_chan {
  * @limit_bw: Set to true to limit BW on requested channel. Only set to use
  * VHT with old radio that don't support 80MHz (deprecated)
  */
-struct rwnx_phy_info {
+struct rwnx_phy_info
+{
     u8 cnt;
     struct phy_cfg_tag cfg;
     struct rwnx_sec_phy_chan sec_chan;
@@ -121,14 +130,15 @@ struct rwnx_phy_info {
  * @debugfs: debugfs entries configuration
  */
 
-struct rwnx_hw {
+struct rwnx_hw
+{
     int mode;
     int net_id;
-    #if NX_P2P
+#if NX_P2P
     /* RoC Management */
     struct rwnx_roc_elem *roc_elem;             /* Information provided by cfg80211 in its remain on channel request */
     uint32_t roc_cookie_cnt;                         /* Counter used to identify RoC request sent by cfg80211 */
-    #endif
+#endif
     struct rwnx_cmd_mgr cmd_mgr;
     struct mm_version_cfm version_cfm;          /* Lower layers versions - obtained via MM_VERSION_REQ */
     struct rwnx_survey_info survey[SCAN_CHANNEL_MAX];
@@ -146,6 +156,6 @@ struct rwnx_term_stream
 };
 
 int rwnx_host_send_msg(struct rwnx_hw *rwnx_hw, const void *msg_params,
-                         int reqcfm, lmac_msg_id_t reqid, void *cfm);
+                       int reqcfm, lmac_msg_id_t reqid, void *cfm);
 
 #endif

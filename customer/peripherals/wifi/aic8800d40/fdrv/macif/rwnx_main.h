@@ -1,5 +1,5 @@
 /*
- * SPDX-FileCopyrightText: 2019-2026 SiFli Technologies(Nanjing) Co., Ltd
+ * SPDX-FileCopyrightText: 2026 AICSemi Ltd
  *
  * SPDX-License-Identifier: Apache-2.0
  */
@@ -36,9 +36,9 @@ extern struct rwnx_hw *g_rwnx_hw;
 #define CHIP_ID_H_MASK  0xC0
 #define IS_CHIP_ID_H()  ((chip_id & CHIP_ID_H_MASK) == CHIP_ID_H_MASK)
 
-void rwnx_frame_parser(char* tag, char* data, unsigned long len);
-void rwnx_data_dump(char* tag, void* data, unsigned long len);
-void rwnx_buffer_dump(char* tag, u8 *data, u32_l len);
+void rwnx_frame_parser(char *tag, char *data, unsigned long len);
+void rwnx_data_dump(char *tag, void *data, unsigned long len);
+void rwnx_buffer_dump(char *tag, u8 *data, u32_l len);
 
 int rwnx_fdrv_init(struct rwnx_hw *rwnx_hw);
 int rwnx_fdrv_deinit(struct rwnx_hw *rwnx_hw);

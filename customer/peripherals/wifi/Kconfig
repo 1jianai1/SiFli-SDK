@@ -85,4 +85,30 @@ menuconfig BSP_WIFI_SWT6621
             int "SWT6621 SDIO port number, 0-SDHCI1; 1-SDHCI2; 2-SDIO"
             default 0
     endif
+
+menuconfig WIFI_USING_AIC8800_RTOS
+    bool "AIC8800 RTOS driver (SDIO, customer/peripherals/wifi/aic8800_rtos_driver)"
+    default n
+    help
+      AIC8800D80 SDIO WiFi: host 预编译库 (libaic8800_driver.a + libaic_mbedtls.a)
+      + platform 适配层 (scons 编译)。路线1: 驱动自建 lwIP netif, 不依赖 rt_wlan。
+    if WIFI_USING_AIC8800_RTOS
+
+        config AIC8800_RTOS_WIRELESS_PWR_GPIO
+            int "aic8800 wlan power-on gpio (WL_REG_ON, -1 = not used)"
+            default -1
+            help
+              WiFi 芯片电源使能脚。驱动启动时按 拉低 -> 延时 -> 拉高 上电
+              (若配置为 -1 则不做任何 GPIO 操作, 由硬件自行保证上电)。
+
+        config AIC8800_USE_RT_WLAN
+            bool "接入 RT-Thread Wi-Fi 管理框架 (rt_wlan + netdev)"
+            default n
+            select RT_USING_WIFI
+            help
+              开启: netif 由 rt_wlan 框架创建并注册进 netdev，驱动实现 rt_wlan_dev_ops，
+              App 可用 rt_wlan_connect/scan/start_ap 标准 API；
+              STA+AP+P2P 并发降级为单 STA 或单 AP（P2P 走私有路径不受影响）。
+              关闭（默认）: 维持路线1，驱动自建 netif，并发能力完整。
+    endif
 endmenu

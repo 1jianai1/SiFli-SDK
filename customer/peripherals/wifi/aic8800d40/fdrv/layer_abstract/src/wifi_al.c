@@ -1,14 +1,9 @@
 /*
- * SPDX-FileCopyrightText: 2019-2026 SiFli Technologies(Nanjing) Co., Ltd
+ * SPDX-FileCopyrightText: 2026 AICSemi Ltd
  *
  * SPDX-License-Identifier: Apache-2.0
  */
 
-/*
- * Copyright (C) 2018-2024 AICSemi Ltd.
- *
- * All Rights Reserved
- */
 
 #include "lmac_msg.h"
 #include "rwnx_msg_tx.h"
@@ -25,16 +20,16 @@
 #include "fhost_tx.h"
 
 #ifdef CONFIG_SDIO_ADMA
-#define AICWF_RELEASE_VERSION       "V1.3.7-0605"
+    #define AICWF_RELEASE_VERSION       "V1.3.7-0605"
 #else
-#define AICWF_RELEASE_VERSION       "NV1.3.1-0506"
+    #define AICWF_RELEASE_VERSION       "NV1.3.1-0506"
 #endif
 
 static AIC_WIFI_MODE dev_mode = WIFI_MODE_UNKNOWN;
 
 void aic_wifi_sw_version(char *ver)
 {
-	memcpy(ver,AICWF_RELEASE_VERSION,sizeof(AICWF_RELEASE_VERSION));
+    memcpy(ver, AICWF_RELEASE_VERSION, sizeof(AICWF_RELEASE_VERSION));
 }
 
 AIC_WIFI_MODE aic_wifi_get_mode(void)
@@ -64,64 +59,64 @@ uint32_t aic_wifi_fmac_remote_sta_max_get(void)
 
 int aic_wifi_start_ap(struct aic_ap_cfg *cfg)
 {
-	//if(g_rwnx_hw->mode != WIFI_MODE_AP)
-	//	return -1;
+    //if(g_rwnx_hw->mode != WIFI_MODE_AP)
+    //  return -1;
 
-    #ifdef CONFIG_SDIO_BUS_PWRCTRL
+#ifdef CONFIG_SDIO_BUS_PWRCTRL
     aicwf_hal_bus_pwr_stctl(HOST_BUS_ACTIVE);
-    #endif /* CONFIG_SDIO_BUS_PWRCTRL */
+#endif /* CONFIG_SDIO_BUS_PWRCTRL */
 
-	g_rwnx_hw->net_id = wlan_start_ap(cfg);
+    g_rwnx_hw->net_id = wlan_start_ap(cfg);
 
-	return g_rwnx_hw->net_id;
+    return g_rwnx_hw->net_id;
 }
 
 int aic_wifi_stop_ap(void)
 {
-	int ret = 0;
+    int ret = 0;
 
-	//if(g_rwnx_hw->mode != WIFI_MODE_AP)
-	//	return -1;
+    //if(g_rwnx_hw->mode != WIFI_MODE_AP)
+    //  return -1;
 
-	ret = wlan_stop_ap();
+    ret = wlan_stop_ap();
 
-    #ifdef CONFIG_SDIO_BUS_PWRCTRL
+#ifdef CONFIG_SDIO_BUS_PWRCTRL
     aicwf_hal_bus_pwr_stctl(HOST_BUS_SLEEP);
-    #endif /* CONFIG_SDIO_BUS_PWRCTRL */
+#endif /* CONFIG_SDIO_BUS_PWRCTRL */
 
-	if (ret)
-	{
-		AIC_LOG_PRINTF("wlan_stop_ap failed have stoped! %d\n", ret);
-		return -1;
-	}
-	else
-	{
-		AIC_LOG_PRINTF("wlan_stop_ap success: %d\n", ret);
-	}
+    if (ret)
+    {
+        AIC_LOG_PRINTF("wlan_stop_ap failed have stoped! %d\n", ret);
+        return -1;
+    }
+    else
+    {
+        AIC_LOG_PRINTF("wlan_stop_ap success: %d\n", ret);
+    }
 
-	rtos_res_list_info_show();
+    rtos_res_list_info_show();
 
-	g_rwnx_hw->net_id = 0;
+    g_rwnx_hw->net_id = 0;
 
-	return 0;
+    return 0;
 }
 
 int aic_wifi_set_ps_lvl(int lvl)
 {
-	struct mm_set_ap_ps_level_req req;
-	int ret = -1;
+    struct mm_set_ap_ps_level_req req;
+    int ret = -1;
 
-	req.ap_ps_level = lvl;
+    req.ap_ps_level = lvl;
 
-	if (req.ap_ps_level == AP_PS_CLK_1 || req.ap_ps_level == AP_PS_CLK_2 ||
-		req.ap_ps_level == AP_PS_CLK_3 || req.ap_ps_level == AP_PS_CLK_4 ||
-		req.ap_ps_level == AP_PS_CLK_5 )
-	{
-		req.hwconfig_id = AP_PS_LEVEL_SET_REQ;
-		ret = rwnx_send_set_vendor_hwconfig_req(g_rwnx_hw, AP_PS_LEVEL_SET_REQ, (int32_t *)&req, NULL);
-	}
+    if (req.ap_ps_level == AP_PS_CLK_1 || req.ap_ps_level == AP_PS_CLK_2 ||
+            req.ap_ps_level == AP_PS_CLK_3 || req.ap_ps_level == AP_PS_CLK_4 ||
+            req.ap_ps_level == AP_PS_CLK_5)
+    {
+        req.hwconfig_id = AP_PS_LEVEL_SET_REQ;
+        ret = rwnx_send_set_vendor_hwconfig_req(g_rwnx_hw, AP_PS_LEVEL_SET_REQ, (int32_t *)&req, NULL);
+    }
 
-	return ret;
+    return ret;
 }
 
 int aic_wifi_get_temp(int32_t *temp)
@@ -147,15 +142,15 @@ int aic_wifi_init(int mode, int chip_id, void *param)
     //set_mac_address(mac_addr);
     ret = aic_wifi_open(mode, param, chip_id);
     if (ret)
-	{
+    {
         AIC_LOG_PRINTF("wifi_open fail, ret=%d\n", ret);
         return -1;
     }
 
     aic_wifi_event_register(aic_wifi_event_callback);
 
-    if(sp_aic_wifi_event_cb)
-	{
+    if (sp_aic_wifi_event_cb)
+    {
         wifi_drv_event drv_event;
         struct wifi_dev_event dev_event;
         dev_event.drv_status = WIFI_DEVICE_DRIVER_LOADED;
@@ -178,12 +173,12 @@ void aic_wifi_deinit(int mode)
 {
     AIC_LOG_PRINTF("aic_wifi_deinit, mode=%d\r\n", mode);
 
-	aic_wifi_close(mode);
+    aic_wifi_close(mode);
 
-	aic_wifi_event_register(NULL);
+    aic_wifi_event_register(NULL);
 
-    if(sp_aic_wifi_event_cb)
-	{
+    if (sp_aic_wifi_event_cb)
+    {
         wifi_drv_event drv_event;
         struct wifi_dev_event dev_event;
         dev_event.drv_status = WIFI_DEVICE_DRIVER_UNLOAD;
@@ -250,7 +245,7 @@ int aic_ap_wps_pbc(int fhost_vif_idx)
     return fhost_ap_wps_pbc(fhost_vif_idx);
 }
 
-int aic_ap_wps_pin(int fhost_vif_idx,char *pin)
+int aic_ap_wps_pin(int fhost_vif_idx, char *pin)
 {
     return fhost_ap_wps_pin(fhost_vif_idx, pin);
 }
@@ -268,19 +263,23 @@ int aic_ap_wps_cacel(int fhost_vif_idx)
 int aic_wifi_fvif_mac_address_get(int fhost_vif_idx, uint8_t *mac_addr)
 {
     int ret = 0;
-    do {
+    do
+    {
         struct fhost_vif_tag *fhost_vif;
-        if (fhost_vif_idx >= NX_VIRT_DEV_MAX) {
+        if (fhost_vif_idx >= NX_VIRT_DEV_MAX)
+        {
             ret = -1;
             break;
         }
-        if (mac_addr == NULL) {
+        if (mac_addr == NULL)
+        {
             ret = -2;
             break;
         }
         fhost_vif = &fhost_env.vif[fhost_vif_idx];
         memcpy(mac_addr, &fhost_vif->mac_addr, 6);
-    } while (0);
+    }
+    while (0);
     return ret;
 }
 
@@ -288,13 +287,19 @@ int aic_wifi_fvif_active_get(int fhost_vif_idx)
 {
     int ret = 0;
     struct fhost_vif_tag *fhost_vif = &fhost_env.vif[fhost_vif_idx];
-    if (fhost_vif->mac_vif) {
-        if (fhost_vif->mac_vif->type == VIF_STA) {
-            if (fhost_vif->ap_id != INVALID_STA_IDX) {
+    if (fhost_vif->mac_vif)
+    {
+        if (fhost_vif->mac_vif->type == VIF_STA)
+        {
+            if (fhost_vif->ap_id != INVALID_STA_IDX)
+            {
                 ret = 1;
             }
-        } else if (fhost_vif->mac_vif->type == VIF_AP) {
-            if (fhost_vif->conn_sock != -1) {
+        }
+        else if (fhost_vif->mac_vif->type == VIF_AP)
+        {
+            if (fhost_vif->conn_sock != -1)
+            {
                 ret = 1;
             }
         }
@@ -305,12 +310,17 @@ int aic_wifi_fvif_active_get(int fhost_vif_idx)
 int aic_wifi_fvif_mode_get(int fhost_vif_idx)
 {
     uint8_t fvif_type = WIFI_MODE_UNKNOWN;
-    if (fhost_vif_idx < NX_VIRT_DEV_MAX) {
+    if (fhost_vif_idx < NX_VIRT_DEV_MAX)
+    {
         struct fhost_vif_tag *fhost_vif = &fhost_env.vif[fhost_vif_idx];
-        if (fhost_vif->mac_vif) {
-            if (fhost_vif->mac_vif->type == VIF_STA) {
+        if (fhost_vif->mac_vif)
+        {
+            if (fhost_vif->mac_vif->type == VIF_STA)
+            {
                 fvif_type = WIFI_MODE_STA;
-            } else if (fhost_vif->mac_vif->type == VIF_AP) {
+            }
+            else if (fhost_vif->mac_vif->type == VIF_AP)
+            {
                 fvif_type = WIFI_MODE_AP;
             }
         }

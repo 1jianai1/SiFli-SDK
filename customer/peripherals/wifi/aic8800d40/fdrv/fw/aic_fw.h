@@ -1,5 +1,5 @@
 /*
- * SPDX-FileCopyrightText: 2019-2026 SiFli Technologies(Nanjing) Co., Ltd
+ * SPDX-FileCopyrightText: 2026 AICSemi Ltd
  *
  * SPDX-License-Identifier: Apache-2.0
  */
@@ -10,7 +10,8 @@
 #include "aic_plat_types.h"
 
 
-enum aic_fw {
+enum aic_fw
+{
     FW_UNKNOWN = 0,
     FMACFW,
     FMACFW_RF,
@@ -44,7 +45,7 @@ enum aic_fw {
     FW_PATCH_TABLE_8800D80,
     FW_PATCH_TABLE_8800D80_U02,
     FW_PATCH_8800DC_U02_EXT,
-	FW_PATCH_8800D80_U02_EXT,
+    FW_PATCH_8800D80_U02_EXT,
     FW_ADID_8800DC_U02H,
     FW_PATCH_8800DC_U02H,
     FW_PATCH_TABLE_8800DC_U02H,

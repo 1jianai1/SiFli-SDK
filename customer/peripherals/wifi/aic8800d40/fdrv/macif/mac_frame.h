@@ -1,5 +1,5 @@
 /*
- * SPDX-FileCopyrightText: 2019-2026 SiFli Technologies(Nanjing) Co., Ltd
+ * SPDX-FileCopyrightText: 2026 AICSemi Ltd
  *
  * SPDX-License-Identifier: Apache-2.0
  */
@@ -991,11 +991,11 @@ enum mac_ht_oper_prot_val
 #define MAC_HE_CAPA_LEN_OFT                     1
 #define MAC_HE_CAPA_EXT_ID_OFT                  2
 #if NX_11AX_DRAFT_2_0
-#define MAC_HE_CAPA_IE_MAC_CAPA_LEN            (MAC_HE_MAC_CAPA_LEN - 1)
-#define MAC_HE_CAPA_IE_PHY_CAPA_LEN            (MAC_HE_PHY_CAPA_LEN - 2)
+    #define MAC_HE_CAPA_IE_MAC_CAPA_LEN            (MAC_HE_MAC_CAPA_LEN - 1)
+    #define MAC_HE_CAPA_IE_PHY_CAPA_LEN            (MAC_HE_PHY_CAPA_LEN - 2)
 #else
-#define MAC_HE_CAPA_IE_MAC_CAPA_LEN             MAC_HE_MAC_CAPA_LEN
-#define MAC_HE_CAPA_IE_PHY_CAPA_LEN             MAC_HE_PHY_CAPA_LEN
+    #define MAC_HE_CAPA_IE_MAC_CAPA_LEN             MAC_HE_MAC_CAPA_LEN
+    #define MAC_HE_CAPA_IE_PHY_CAPA_LEN             MAC_HE_PHY_CAPA_LEN
 #endif
 #define MAC_HE_MAC_CAPA_INFO_OFT                3
 #define MAC_HE_PHY_CAPA_INFO_OFT               (MAC_HE_MAC_CAPA_INFO_OFT + MAC_HE_CAPA_IE_MAC_CAPA_LEN)
@@ -1012,13 +1012,13 @@ enum mac_ht_oper_prot_val
 #define MAC_HE_OPER_PARAM_OFT                   3
 #define MAC_HE_OPER_PARAM_LEN                   4
 #if NX_11AX_DRAFT_2_0
-#define MAC_HE_OPER_BSS_COLOR_OFT               0
-#define MAC_HE_OPER_BSS_COLOR_PARTIAL_BIT       CO_BIT(20)
-#define MAC_HE_OPER_BSS_COLOR_DISABLED_BIT      CO_BIT(30)
+    #define MAC_HE_OPER_BSS_COLOR_OFT               0
+    #define MAC_HE_OPER_BSS_COLOR_PARTIAL_BIT       CO_BIT(20)
+    #define MAC_HE_OPER_BSS_COLOR_DISABLED_BIT      CO_BIT(30)
 #else
-#define MAC_HE_OPER_BSS_COLOR_OFT               24
-#define MAC_HE_OPER_BSS_COLOR_PARTIAL_BIT       CO_BIT(30)
-#define MAC_HE_OPER_BSS_COLOR_DISABLED_BIT      CO_BIT(31)
+    #define MAC_HE_OPER_BSS_COLOR_OFT               24
+    #define MAC_HE_OPER_BSS_COLOR_PARTIAL_BIT       CO_BIT(30)
+    #define MAC_HE_OPER_BSS_COLOR_DISABLED_BIT      CO_BIT(31)
 #endif
 #define MAC_HE_OPER_BSS_COLOR_MASK             (0x3F << MAC_HE_OPER_BSS_COLOR_OFT)
 #define MAC_HE_OPER_TXOP_DUR_RTS_THRES_OFT      4
@@ -2042,7 +2042,7 @@ enum
 #define MAC_AC_VO_TXOP_ag                47    // 1504us / 32 us
 
 
- /** @} */
+/** @} */
 
 /**
  * @name RSNIE definitions

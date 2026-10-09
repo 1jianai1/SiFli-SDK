@@ -1,5 +1,5 @@
 /*
- * SPDX-FileCopyrightText: 2019-2026 SiFli Technologies(Nanjing) Co., Ltd
+ * SPDX-FileCopyrightText: 2026 AICSemi Ltd
  *
  * SPDX-License-Identifier: Apache-2.0
  */
@@ -9,7 +9,8 @@
 
 #include <stdint.h>
 
-static const uint32_t fmacfw_rf[] = {
+static const uint32_t fmacfw_rf[] =
+{
     0x00183000,
     0x00120189,
     0x0012c291,

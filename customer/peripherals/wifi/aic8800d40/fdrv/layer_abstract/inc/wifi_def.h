@@ -1,14 +1,9 @@
 /*
- * SPDX-FileCopyrightText: 2019-2026 SiFli Technologies(Nanjing) Co., Ltd
+ * SPDX-FileCopyrightText: 2026 AICSemi Ltd
  *
  * SPDX-License-Identifier: Apache-2.0
  */
 
-/*
- * Copyright (C) 2018-2024 AICSemi Ltd.
- *
- * All Rights Reserved
- */
 
 #ifndef _WIFI_DEF_H_
 #define _WIFI_DEF_H_
@@ -130,7 +125,7 @@ struct aic_ap_cfg
      */
     unsigned char sta_num;
 
-	unsigned char dtim;
+    unsigned char dtim;
 };
 
 struct aic_sta_cfg
@@ -205,11 +200,11 @@ typedef struct _aic_wifi_event_data
         struct _aic_wifi_join_data  join_data;
         struct _aic_wifi_leave_data  leave_data;
         struct _aic_wifi_auth_deauth_data  auth_deauth_data;
-    }data;
-    #ifdef CONFIG_P2P
+    } data;
+#ifdef CONFIG_P2P
     unsigned int p2p_enabled;
     unsigned int p2p_dev_port_num;
-    #endif
+#endif
 } aic_wifi_event_data;
 
 typedef int (* wifi_event_handle)(void *enData);

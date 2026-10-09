@@ -1,14 +1,9 @@
 /*
- * SPDX-FileCopyrightText: 2019-2026 SiFli Technologies(Nanjing) Co., Ltd
+ * SPDX-FileCopyrightText: 2026 AICSemi Ltd
  *
  * SPDX-License-Identifier: Apache-2.0
  */
 
-/*
- * Copyright (C) 2018-2024 AICSemi Ltd.
- *
- * All Rights Reserved
- */
 #include <drivers/pin.h>
 #include <aic_log.h>
 
@@ -16,7 +11,7 @@ int wifi_pwrkey_pin = 0;
 int wifi_rstkey_pin = 0;
 int bt_rstkey_pin = 0;
 #ifndef AIC_WIRELESS_PWR_GPIO
-#define AIC_WIRELESS_PWR_GPIO (26)
+    #define AIC_WIRELESS_PWR_GPIO (26)
 #endif
 
 static void platform_pwr_wifi_pin_set(int on)

@@ -1,14 +1,9 @@
 /*
- * SPDX-FileCopyrightText: 2019-2026 SiFli Technologies(Nanjing) Co., Ltd
+ * SPDX-FileCopyrightText: 2026 AICSemi Ltd
  *
  * SPDX-License-Identifier: Apache-2.0
  */
 
-/*
- * Copyright (C) 2018-2024 AICSemi Ltd.
- *
- * All Rights Reserved
- */
 
 #include "mac_frame.h"
 #include "fhost_tx.h"
@@ -59,7 +54,8 @@ net_if_t *net_if_find_from_wifi_idx(unsigned int idx)
 net_if_t *net_if_from_fvif_idx(unsigned int idx)
 {
     net_if_t *net_if = NULL;
-    if (idx < NX_VIRT_DEV_MAX) {
+    if (idx < NX_VIRT_DEV_MAX)
+    {
         net_if = &fvif_netifs[idx];
     }
     return net_if;
@@ -82,11 +78,11 @@ int net_l2_send(net_if_t *net_if, const uint8_t *data, int data_len, uint16_t et
     net_buf_tx_t *net_buf;
     struct aic_netif_dev *netifdev = &netif_dev;
 
-	if(!netifdev->net_inited)
-	{
-		aic_dbg("%s:net is not init\n",__func__);
-		return -2;
-	}
+    if (!netifdev->net_inited)
+    {
+        aic_dbg("%s:net is not init\n", __func__);
+        return -2;
+    }
 
     if (net_if == NULL || data == NULL /* || data_len >= net_if->mtu || !netif_is_up(net_if) */)
         return -1;
@@ -98,8 +94,8 @@ int net_l2_send(net_if_t *net_if, const uint8_t *data, int data_len, uint16_t et
     if (dst_addr)
     {
         // Need to add ethernet header as fhost_tx_start is called directly
-        struct mac_eth_hdr* ethhdr;
-        ethhdr = (struct mac_eth_hdr*)net_buf->data_ptr;
+        struct mac_eth_hdr *ethhdr;
+        ethhdr = (struct mac_eth_hdr *)net_buf->data_ptr;
         ethhdr->type = htons(ethertype);
         memcpy(&ethhdr->da, dst_addr, 6);
         memcpy(&ethhdr->sa, net_if->hwaddr, 6);
@@ -135,7 +131,7 @@ int net_l2_socket_create(net_if_t *net_if, uint16_t ethertype)
     for (i = 0; i < NX_NB_L2_FILTER; i++)
     {
         if ((netifdev->l2_filter[i].net_if == net_if) &&
-            (netifdev->l2_filter[i].ethertype == ethertype))
+                (netifdev->l2_filter[i].ethertype == ethertype))
         {
             return -1;
         }
@@ -171,7 +167,7 @@ int net_l2_socket_delete(int sock)
     for (i = 0; i < NX_NB_L2_FILTER; i++)
     {
         if ((netifdev->l2_filter[i].net_if != NULL) &&
-            (netifdev->l2_filter[i].sock == sock))
+                (netifdev->l2_filter[i].sock == sock))
         {
             netifdev->l2_filter[i].net_if = NULL;
             fhost_cntrl_cfgrwnx_link_close(netifdev->l2_filter[i].link);
@@ -190,20 +186,20 @@ err_t net_eth_receive(unsigned char *pdata, unsigned short len, net_if_t *netif)
 {
     int i;
     struct l2_filter_tag *filter = NULL;
-    struct mac_eth_hdr* ethhdr = (struct mac_eth_hdr*)pdata;
+    struct mac_eth_hdr *ethhdr = (struct mac_eth_hdr *)pdata;
     uint16_t ethertype = ntohs(ethhdr->type);
     struct aic_netif_dev *netifdev = &netif_dev;
 
-	if(!netifdev->net_inited)
-	{
-		aic_dbg("%s:net is not init\n",__func__);
-		return -2;
-	}
+    if (!netifdev->net_inited)
+    {
+        aic_dbg("%s:net is not init\n", __func__);
+        return -2;
+    }
 
     for (i = 0; i < NX_NB_L2_FILTER; i++)
     {
         if ((netifdev->l2_filter[i].net_if == netif) &&
-            (netifdev->l2_filter[i].ethertype == ethertype))
+                (netifdev->l2_filter[i].ethertype == ethertype))
         {
             filter = &netifdev->l2_filter[i];
             break;
@@ -224,8 +220,8 @@ err_t net_eth_receive(unsigned char *pdata, unsigned short len, net_if_t *netif)
 //-------------------------------------------------------------------
 // Driver other API define
 //-------------------------------------------------------------------
-char* aic_inet_ntoa(struct in_addr addr)
+char *aic_inet_ntoa(struct in_addr addr)
 {
-  	return inet_ntoa(addr);
+    return inet_ntoa(addr);
 }
 

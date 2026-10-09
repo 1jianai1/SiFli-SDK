@@ -1,5 +1,5 @@
 /*
- * SPDX-FileCopyrightText: 2019-2026 SiFli Technologies(Nanjing) Co., Ltd
+ * SPDX-FileCopyrightText: 2026 AICSemi Ltd
  *
  * SPDX-License-Identifier: Apache-2.0
  */
@@ -166,7 +166,8 @@ u32 wifi_txgain_table_24g_1_8800dcdw_h[32] =
     0x00001825,
 };
 
-u32 wifi_rxgain_table_24g_20m_8800dcdw[64] = {
+u32 wifi_rxgain_table_24g_20m_8800dcdw[64] =
+{
     0x82f282d1,//index 0
     0x9591a324,
     0x80808419,
@@ -233,7 +234,8 @@ u32 wifi_rxgain_table_24g_20m_8800dcdw[64] = {
     0x000000f0
 };
 
-u32 wifi_rxgain_table_24g_40m_8800dcdw[64] = {
+u32 wifi_rxgain_table_24g_40m_8800dcdw[64] =
+{
     0x83428151,//index 0
     0x9631a328,
     0x80808419,
@@ -307,7 +309,8 @@ static inline void *rwnx_msg_zalloc(lmac_msg_id_t const id,
 {
     struct lmac_msg *msg;
     msg = (struct lmac_msg *)rtos_malloc(sizeof(struct lmac_msg) + param_len);
-    if (msg == NULL) {
+    if (msg == NULL)
+    {
         aic_dbg("%s: msg allocation failed\n", __func__);
         return NULL;
     }
@@ -383,7 +386,7 @@ int rwnx_send_me_config_req(struct rwnx_hw *rwnx_hw, struct me_config_req *cfg_r
 
     /* Build the ME_CONFIG_REQ message */
     req = rwnx_msg_zalloc(ME_CONFIG_REQ, TASK_ME, DRV_TASK_ID,
-                                   sizeof(struct me_config_req));
+                          sizeof(struct me_config_req));
     if (!req)
         return -1;
 
@@ -391,7 +394,8 @@ int rwnx_send_me_config_req(struct rwnx_hw *rwnx_hw, struct me_config_req *cfg_r
 
     /* Send the ME_CONFIG_REQ message to LMAC FW */
     ret = rwnx_host_send_msg(rwnx_hw, req, 1, ME_CONFIG_CFM, NULL);
-    if (ret < 0) {
+    if (ret < 0)
+    {
         aic_dbg("send msg(ME_CONFIG_REQ) err: %d\n", ret);
     }
     return ret;
@@ -404,14 +408,15 @@ int rwnx_send_me_chan_config_req(struct rwnx_hw *rwnx_hw, struct me_chan_config_
 
     /* Build the ME_CHAN_CONFIG_REQ message */
     req = rwnx_msg_zalloc(ME_CHAN_CONFIG_REQ, TASK_ME, DRV_TASK_ID,
-                                            sizeof(struct me_chan_config_req));
+                          sizeof(struct me_chan_config_req));
     if (!req)
         return -1;
 
     memcpy(req, chan_cfg, sizeof_b(struct me_chan_config_req));
 
     ret = rwnx_host_send_msg(rwnx_hw, req, 1, ME_CHAN_CONFIG_CFM, NULL);
-    if (ret < 0) {
+    if (ret < 0)
+    {
         aic_dbg("send msg(ME_CHAN_CONFIG_REQ) err: %d\n", ret);
     }
 
@@ -445,12 +450,13 @@ int rwnx_set_hw_idle_req(struct rwnx_hw *rwnx_hw, uint8_t idle)
 
     /* Build the ADD_IF_REQ message */
     req = rwnx_msg_zalloc(MM_SET_IDLE_REQ, TASK_MM, DRV_TASK_ID,
-                                       sizeof(struct mm_set_idle_req));
+                          sizeof(struct mm_set_idle_req));
     if (!req)
         return -1;
 
     ret = rwnx_host_send_msg(rwnx_hw, req, 1, MM_SET_IDLE_CFM, NULL);
-    if (ret < 0) {
+    if (ret < 0)
+    {
         aic_dbg("send msg(MM_SET_IDLE_REQ) err: %d\n", ret);
     }
 
@@ -472,7 +478,8 @@ int rwnx_send_add_if(struct rwnx_hw *rwnx_hw, struct mm_add_if_req *req, struct 
     memcpy(add_if_req_param, req, sizeof_b(struct mm_add_if_req));
 
     ret = rwnx_host_send_msg(rwnx_hw, add_if_req_param, 1, MM_ADD_IF_CFM, cfm);
-    if (ret < 0) {
+    if (ret < 0)
+    {
         aic_dbg("send msg(MM_ADD_IF_REQ) err: %d\n", ret);
     }
 
@@ -504,7 +511,7 @@ int rwnx_set_disable_agg_req(struct rwnx_hw *rwnx_hw, uint8_t agg_disable, uint8
 
     /* Build the ADD_IF_REQ message */
     req = rwnx_msg_zalloc(MM_SET_AGG_DISABLE_REQ, TASK_MM, DRV_TASK_ID,
-                                       sizeof(struct mm_set_agg_disable_req));
+                          sizeof(struct mm_set_agg_disable_req));
     if (!req)
         return -1;
 
@@ -513,7 +520,8 @@ int rwnx_set_disable_agg_req(struct rwnx_hw *rwnx_hw, uint8_t agg_disable, uint8
 
     ret = rwnx_host_send_msg(rwnx_hw, req, 1, MM_SET_AGG_DISABLE_CFM, NULL);
 
-    if (ret < 0) {
+    if (ret < 0)
+    {
         aic_dbg("send msg(MM_SET_AGG_DISABLE_REQ) err: %d\n", ret);
     }
 
@@ -521,14 +529,14 @@ int rwnx_set_disable_agg_req(struct rwnx_hw *rwnx_hw, uint8_t agg_disable, uint8
 }
 
 int rwnx_set_coex_config_req(struct rwnx_hw *rwnx_hw, uint8_t disable_coexnull, uint8_t enable_periodic_timer, uint8_t enable_nullcts,
-                                    uint8_t coex_timeslot_set, uint32_t param1, uint32_t param2)
+                             uint8_t coex_timeslot_set, uint32_t param1, uint32_t param2)
 {
     struct mm_set_coex_req *req;
     int ret;
 
     /* Build the ADD_IF_REQ message */
     req = rwnx_msg_zalloc(MM_SET_COEX_REQ, TASK_MM, DRV_TASK_ID,
-                                       sizeof(struct mm_set_coex_req));
+                          sizeof(struct mm_set_coex_req));
     if (!req)
         return -1;
 
@@ -542,7 +550,8 @@ int rwnx_set_coex_config_req(struct rwnx_hw *rwnx_hw, uint8_t disable_coexnull, 
 
     ret = rwnx_host_send_msg(rwnx_hw, req, 1, MM_SET_COEX_CFM, NULL);
 
-    if (ret < 0) {
+    if (ret < 0)
+    {
         aic_dbg("send msg(MM_SET_COEX_REQ) err: %d\n", ret);
     }
 
@@ -558,9 +567,10 @@ int rwnx_send_rf_config_req(struct rwnx_hw *rwnx_hw, u8_l ofst, u8_l sel, u8_l *
 
     /* Build the MM_SET_RF_CONFIG_REQ message */
     rf_config_req = rwnx_msg_zalloc(MM_SET_RF_CONFIG_REQ, TASK_MM, DRV_TASK_ID,
-                                  sizeof(struct mm_set_rf_config_req));
+                                    sizeof(struct mm_set_rf_config_req));
 
-    if (!rf_config_req) {
+    if (!rf_config_req)
+    {
         return -12;//ENOMEM;
     }
 
@@ -587,17 +597,22 @@ int rwnx_send_rf_calib_req(struct rwnx_hw *rwnx_hw, struct mm_set_rf_calib_cfm *
 
     /* Build the ADD_IF_REQ message */
     req = rwnx_msg_zalloc(MM_SET_RF_CALIB_REQ, TASK_MM, DRV_TASK_ID,
-                                       sizeof(struct mm_set_rf_calib_req));
+                          sizeof(struct mm_set_rf_calib_req));
     if (!req)
         return -12;//ENOMEM;
 
-    if (rwnx_hw->chipid == PRODUCT_ID_AIC8801) {
+    if (rwnx_hw->chipid == PRODUCT_ID_AIC8801)
+    {
         req->cal_cfg_24g = 0xbf;
         req->cal_cfg_5g = 0x3f;
-    } else if (rwnx_hw->chipid == PRODUCT_ID_AIC8800DC || rwnx_hw->chipid == PRODUCT_ID_AIC8800DW) {
+    }
+    else if (rwnx_hw->chipid == PRODUCT_ID_AIC8800DC || rwnx_hw->chipid == PRODUCT_ID_AIC8800DW)
+    {
         req->cal_cfg_24g = 0x0f8f;
         req->cal_cfg_5g = 0;
-    }else if (rwnx_hw->chipid == PRODUCT_ID_AIC8800D80) {
+    }
+    else if (rwnx_hw->chipid == PRODUCT_ID_AIC8800D80)
+    {
         req->cal_cfg_24g = 0x0f8f;
         req->cal_cfg_5g = 0x0f0f;
     }
@@ -608,22 +623,26 @@ int rwnx_send_rf_calib_req(struct rwnx_hw *rwnx_hw, struct mm_set_rf_calib_cfm *
     if (rwnx_hw->chipid == PRODUCT_ID_AIC8801)
         get_nvram_xtal_cap(&xtal_cap);
     else if (rwnx_hw->chipid == PRODUCT_ID_AIC8800DC ||
-            rwnx_hw->chipid == PRODUCT_ID_AIC8800DW ||
-            rwnx_hw->chipid == PRODUCT_ID_AIC8800D80)
+             rwnx_hw->chipid == PRODUCT_ID_AIC8800DW ||
+             rwnx_hw->chipid == PRODUCT_ID_AIC8800D80)
         get_userconfig_xtal_cap(&xtal_cap);
 
-    if (xtal_cap.enable) {
+    if (xtal_cap.enable)
+    {
         aic_dbg("user ctal cap: %d, cap_fine: %d\n", xtal_cap.xtal_cap, xtal_cap.xtal_cap_fine);
         req->xtal_cap = xtal_cap.xtal_cap;
         req->xtal_cap_fine = xtal_cap.xtal_cap_fine;
-    } else {
+    }
+    else
+    {
         req->xtal_cap = 0;
         req->xtal_cap_fine = 0;
     }
 
     ret = rwnx_host_send_msg(rwnx_hw, req, 1, MM_SET_RF_CALIB_CFM, cfm);
 
-    if (ret < 0) {
+    if (ret < 0)
+    {
         aic_dbg("send msg(MM_SET_RF_CALIB_REQ) err: %d\n", ret);
     }
 
@@ -634,22 +653,28 @@ int aicwf_set_rf_config_8800dc(struct rwnx_hw *rwnx_hw, struct mm_set_rf_calib_c
 {
     int ret = 0;
 
-    if ((ret = rwnx_send_txpwr_lvl_req(rwnx_hw))) {
+    if ((ret = rwnx_send_txpwr_lvl_req(rwnx_hw)))
+    {
         return -1;
     }
 
-    if ((ret = rwnx_send_txpwr_ofst_req(rwnx_hw))) {
+    if ((ret = rwnx_send_txpwr_ofst_req(rwnx_hw)))
+    {
         return -1;
     }
 
-    if (rwnx_hw->mode != WIFI_MODE_RFTEST) {
-        if (IS_CHIP_ID_H()) {
+    if (rwnx_hw->mode != WIFI_MODE_RFTEST)
+    {
+        if (IS_CHIP_ID_H())
+        {
             if ((ret = rwnx_send_rf_config_req(rwnx_hw, 0,    1, (u8_l *)wifi_txgain_table_24g_8800dcdw_h, 128)))
                 return -1;
 
             if ((ret = rwnx_send_rf_config_req(rwnx_hw, 16,    1, (u8_l *)wifi_txgain_table_24g_1_8800dcdw_h, 128)))
                 return -1;
-        } else {
+        }
+        else
+        {
             if ((ret = rwnx_send_rf_config_req(rwnx_hw, 0,    1, (u8_l *)wifi_txgain_table_24g_8800dcdw, 128)))
                 return -1;
 
@@ -663,25 +688,33 @@ int aicwf_set_rf_config_8800dc(struct rwnx_hw *rwnx_hw, struct mm_set_rf_calib_c
         if ((ret = rwnx_send_rf_config_req(rwnx_hw, 32,  0, (u8_l *)wifi_rxgain_table_24g_40m_8800dcdw, 256)))
             return -1;
 
-        if ((ret = rwnx_send_rf_calib_req(rwnx_hw, cfm))) {
+        if ((ret = rwnx_send_rf_calib_req(rwnx_hw, cfm)))
+        {
             return -1;
         }
-    } else if (rwnx_hw->mode == WIFI_MODE_RFTEST) {
-		if (chip_sub_id >= 1) {
+    }
+    else if (rwnx_hw->mode == WIFI_MODE_RFTEST)
+    {
+        if (chip_sub_id >= 1)
+        {
 #ifdef CONFIG_DPD
 #ifndef CONFIG_FORCE_DPD_CALIB
-            if (is_file_exist(FW_DPDRESULT_NAME_8800DC) == 1) {
+            if (is_file_exist(FW_DPDRESULT_NAME_8800DC) == 1)
+            {
                 AIC_LOG_PRINTF("%s load dpd bin\n", __func__);
                 ret = aicwf_dpd_result_load_8800dc(rwnx_hw, &dpd_res);
-                if (ret) {
+                if (ret)
+                {
                     AIC_LOG_PRINTF("load dpd bin fail: %d\n", ret);
                     return ret;
                 }
             }
 #endif
-            if (dpd_res.bit_mask[1]) {
+            if (dpd_res.bit_mask[1])
+            {
                 ret = aicwf_dpd_result_apply_8800dc(rwnx_hw, &dpd_res);
-                if (ret) {
+                if (ret)
+                {
                     AIC_LOG_PRINTF("apply dpd bin fail: %d\n", ret);
                     return ret;
                 }
@@ -689,20 +722,22 @@ int aicwf_set_rf_config_8800dc(struct rwnx_hw *rwnx_hw, struct mm_set_rf_calib_c
 #else
             {
                 ret = aicwf_misc_ram_init_8800dc(rwnx_hw);
-                if (ret) {
+                if (ret)
+                {
                     AIC_LOG_PRINTF("misc ram init fail: %d\n", ret);
                     return ret;
                 }
             }
 #endif
-	   		//ret = rwnx_send_rf_calib_req(rwnx_hw, &cfm);
-	   		ret = rwnx_send_rf_calib_req(rwnx_hw, cfm);
-			if (ret) {
-				AIC_LOG_PRINTF("rf calib req fail: %d\n", ret);
-		   		return -1;
-	   		}
-	   }
-	}
+            //ret = rwnx_send_rf_calib_req(rwnx_hw, &cfm);
+            ret = rwnx_send_rf_calib_req(rwnx_hw, cfm);
+            if (ret)
+            {
+                AIC_LOG_PRINTF("rf calib req fail: %d\n", ret);
+                return -1;
+            }
+        }
+    }
 
     return 0 ;
 }
@@ -711,16 +746,20 @@ int aicwf_set_rf_config_8800d80(struct rwnx_hw *rwnx_hw, struct mm_set_rf_calib_
 {
     int ret = 0;
 
-    if ((ret = rwnx_send_txpwr_lvl_v3_req(rwnx_hw))) {
+    if ((ret = rwnx_send_txpwr_lvl_v3_req(rwnx_hw)))
+    {
         return -1;
     }
 
-    if ((ret = rwnx_send_txpwr_ofst2x_req(rwnx_hw))) {
+    if ((ret = rwnx_send_txpwr_ofst2x_req(rwnx_hw)))
+    {
         return -1;
     }
 
-    if (rwnx_hw->mode != WIFI_MODE_RFTEST) {
-        if ((ret = rwnx_send_rf_calib_req(rwnx_hw, cfm))) {
+    if (rwnx_hw->mode != WIFI_MODE_RFTEST)
+    {
+        if ((ret = rwnx_send_rf_calib_req(rwnx_hw, cfm)))
+        {
             return -1;
         }
     }
@@ -730,23 +769,24 @@ int aicwf_set_rf_config_8800d80(struct rwnx_hw *rwnx_hw, struct mm_set_rf_calib_
 
 int rwnx_send_get_macaddr_req(struct rwnx_hw *rwnx_hw, struct mm_get_mac_addr_cfm *cfm)
 {
-	struct mm_get_mac_addr_req *get_macaddr_req;
-	int error;
+    struct mm_get_mac_addr_req *get_macaddr_req;
+    int error;
 
-	/* Build the MM_GET_MAC_ADDR_REQ message */
-	get_macaddr_req = rwnx_msg_zalloc(MM_GET_MAC_ADDR_REQ, TASK_MM, DRV_TASK_ID,
-								  sizeof(struct mm_get_mac_addr_req));
+    /* Build the MM_GET_MAC_ADDR_REQ message */
+    get_macaddr_req = rwnx_msg_zalloc(MM_GET_MAC_ADDR_REQ, TASK_MM, DRV_TASK_ID,
+                                      sizeof(struct mm_get_mac_addr_req));
 
-	if (!get_macaddr_req) {
-		return -12;
-	}
+    if (!get_macaddr_req)
+    {
+        return -12;
+    }
 
-	get_macaddr_req->get = 1;
+    get_macaddr_req->get = 1;
 
-	/* Send the MM_GET_MAC_ADDR_REQ  message to UMAC FW */
-	error = rwnx_host_send_msg(rwnx_hw, get_macaddr_req, 1, MM_GET_MAC_ADDR_CFM, cfm);
+    /* Send the MM_GET_MAC_ADDR_REQ  message to UMAC FW */
+    error = rwnx_host_send_msg(rwnx_hw, get_macaddr_req, 1, MM_GET_MAC_ADDR_CFM, cfm);
 
-	return error;
+    return error;
 };
 
 int rwnx_send_set_vendor_hwconfig_req(struct rwnx_hw *rwnx_hw, uint32_t hwconfig_id, int32_t *param, int32_t *param_out)
@@ -755,45 +795,51 @@ int rwnx_send_set_vendor_hwconfig_req(struct rwnx_hw *rwnx_hw, uint32_t hwconfig
 
     switch (hwconfig_id)
     {
-        case CHIP_TEMP_GET_REQ:
+    case CHIP_TEMP_GET_REQ:
         if ((rwnx_hw->chipid == PRODUCT_ID_AIC8800DC) ||
-            (rwnx_hw->chipid == PRODUCT_ID_AIC8800DW))
+                (rwnx_hw->chipid == PRODUCT_ID_AIC8800DW))
         {
             struct mm_get_chip_temp_req *req;
             struct mm_set_vendor_hwconfig_cfm cfm = {0,};
 
             /* Build the MM_SET_VENDOR_HWCONFIG_REQ message */
             req = rwnx_msg_zalloc(MM_SET_VENDOR_HWCONFIG_REQ, TASK_MM, DRV_TASK_ID,
-                                          sizeof(struct mm_get_chip_temp_req));
-            if (!req) {
+                                  sizeof(struct mm_get_chip_temp_req));
+            if (!req)
+            {
                 return -12;
             }
             req->hwconfig_id = hwconfig_id;
 
             /* Send the MM_GET_MAC_ADDR_REQ  message to UMAC FW */
             error = rwnx_host_send_msg(rwnx_hw, req, 1, MM_SET_VENDOR_HWCONFIG_CFM, &cfm);
-            if (!error) {
-                if (param_out) {
+            if (!error)
+            {
+                if (param_out)
+                {
                     param_out[0] = (int32_t)cfm.chip_temp_cfm.degree;
                 }
                 AIC_LOG_PRINTF("get_chip_temp degree=%d\n", cfm.chip_temp_cfm.degree);
-            } else {
+            }
+            else
+            {
                 AIC_LOG_PRINTF("get_chip_temp err=%d\n", error);
             }
         }
         break;
 
-        case AP_PS_LEVEL_SET_REQ:
+    case AP_PS_LEVEL_SET_REQ:
         if ((rwnx_hw->chipid == PRODUCT_ID_AIC8800DC) ||
-            (rwnx_hw->chipid == PRODUCT_ID_AIC8800DW))
+                (rwnx_hw->chipid == PRODUCT_ID_AIC8800DW))
         {
             struct mm_set_ap_ps_level_req *req;
             struct mm_set_ap_ps_level_req *param_req = (struct mm_set_ap_ps_level_req *)param;
 
             /* Build the MM_SET_VENDOR_HWCONFIG_REQ message */
             req = rwnx_msg_zalloc(MM_SET_VENDOR_HWCONFIG_REQ, TASK_MM, DRV_TASK_ID,
-                                          sizeof(struct mm_set_ap_ps_level_req));
-            if (!req) {
+                                  sizeof(struct mm_set_ap_ps_level_req));
+            if (!req)
+            {
                 return -12;
             }
             req->hwconfig_id = hwconfig_id;
@@ -804,7 +850,7 @@ int rwnx_send_set_vendor_hwconfig_req(struct rwnx_hw *rwnx_hw, uint32_t hwconfig
         }
         break;
 
-        default:
+    default:
         return -0xFF;
     }
 
@@ -812,7 +858,7 @@ int rwnx_send_set_vendor_hwconfig_req(struct rwnx_hw *rwnx_hw, uint32_t hwconfig
 };
 
 int rwnx_send_set_stack_start_req(struct rwnx_hw *rwnx_hw, u8_l on, u8_l efuse_valid, u8_l set_vendor_info,
-                    u8_l fwtrace_redir_en, struct mm_set_stack_start_cfm *cfm)
+                                  u8_l fwtrace_redir_en, struct mm_set_stack_start_cfm *cfm)
 {
     struct mm_set_stack_start_req *req;
     int error;
@@ -820,7 +866,8 @@ int rwnx_send_set_stack_start_req(struct rwnx_hw *rwnx_hw, u8_l on, u8_l efuse_v
     /* Build the MM_SET_STACK_START_REQ message */
     req = rwnx_msg_zalloc(MM_SET_STACK_START_REQ, TASK_MM, DRV_TASK_ID, sizeof(struct mm_set_stack_start_req));
 
-    if (!req) {
+    if (!req)
+    {
         return -12;//ENOMEM;
     }
 
@@ -844,32 +891,36 @@ int rwnx_send_txpwr_idx_req(struct rwnx_hw *rwnx_hw)
 
     /* Build the MM_SET_TXPWR_IDX_REQ message */
     txpwr_idx_req = rwnx_msg_zalloc(MM_SET_TXPWR_IDX_LVL_REQ, TASK_MM, DRV_TASK_ID,
-                                  sizeof(struct mm_set_txpwr_idx_req));
+                                    sizeof(struct mm_set_txpwr_idx_req));
 
-    if (!txpwr_idx_req) {
+    if (!txpwr_idx_req)
+    {
         return -12;//ENOMEM;
     }
 
     txpwr_idx = &txpwr_idx_req->txpwr_idx;
     txpwr_idx->enable = 1;
-    txpwr_idx->dsss=9;
-    txpwr_idx->ofdmlowrate_2g4=8;
-    txpwr_idx->ofdm64qam_2g4=8;
-    txpwr_idx->ofdm256qam_2g4=8;
-    txpwr_idx->ofdm1024qam_2g4=8;
-    txpwr_idx->ofdmlowrate_5g=10;
-    txpwr_idx->ofdm64qam_5g=9;
-    txpwr_idx->ofdm256qam_5g=9;
-    txpwr_idx->ofdm1024qam_5g=8;
+    txpwr_idx->dsss = 9;
+    txpwr_idx->ofdmlowrate_2g4 = 8;
+    txpwr_idx->ofdm64qam_2g4 = 8;
+    txpwr_idx->ofdm256qam_2g4 = 8;
+    txpwr_idx->ofdm1024qam_2g4 = 8;
+    txpwr_idx->ofdmlowrate_5g = 10;
+    txpwr_idx->ofdm64qam_5g = 9;
+    txpwr_idx->ofdm256qam_5g = 9;
+    txpwr_idx->ofdm1024qam_5g = 8;
 
-    #ifdef CONFIG_LOAD_USERCONFIG
+#ifdef CONFIG_LOAD_USERCONFIG
     get_nvram_txpwr_idx(txpwr_idx);
-    #endif
+#endif
 
-    if (txpwr_idx->enable == 0) {
+    if (txpwr_idx->enable == 0)
+    {
         rwnx_msg_free(rwnx_hw, txpwr_idx_req);
         return 0;
-    } else {
+    }
+    else
+    {
         AIC_LOG_PRINTF("%s:enable:%d\r\n", __func__, txpwr_idx->enable);
         AIC_LOG_PRINTF("%s:dsss:%d\r\n", __func__, txpwr_idx->dsss);
         AIC_LOG_PRINTF("%s:ofdmlowrate_2g4:%d\r\n", __func__, txpwr_idx->ofdmlowrate_2g4);
@@ -900,23 +951,27 @@ int rwnx_send_txpwr_lvl_req(struct rwnx_hw *rwnx_hw)
 
     /* Build the MM_SET_TXPWR_LVL_REQ message */
     txpwr_lvl_req = rwnx_msg_zalloc(MM_SET_TXPWR_IDX_LVL_REQ, TASK_MM, DRV_TASK_ID,
-                                  sizeof(struct mm_set_txpwr_lvl_req));
+                                    sizeof(struct mm_set_txpwr_lvl_req));
 
-    if (!txpwr_lvl_req) {
+    if (!txpwr_lvl_req)
+    {
         return -12;//ENOMEM;
     }
 
     txpwr_lvl_v2 = &txpwr_lvl_v2_tmp;
 
-    #ifdef CONFIG_LOAD_USERCONFIG
+#ifdef CONFIG_LOAD_USERCONFIG
     aicwf_userconfig_init();
     get_userconfig_txpwr_lvl_v2(txpwr_lvl_v2);
-    #endif
+#endif
 
-    if (txpwr_lvl_v2->enable == 0) {
+    if (txpwr_lvl_v2->enable == 0)
+    {
         rwnx_msg_free(rwnx_hw, txpwr_lvl_req);
         return 0;
-    } else {
+    }
+    else
+    {
         AIC_LOG_PRINTF("%s:enable:%d\r\n",               __func__, txpwr_lvl_v2->enable);
         AIC_LOG_PRINTF("%s:lvl_11b_11ag_1m_2g4:%d\r\n",  __func__, txpwr_lvl_v2->pwrlvl_11b_11ag_2g4[0]);
         AIC_LOG_PRINTF("%s:lvl_11b_11ag_2m_2g4:%d\r\n",  __func__, txpwr_lvl_v2->pwrlvl_11b_11ag_2g4[1]);
@@ -930,16 +985,16 @@ int rwnx_send_txpwr_lvl_req(struct rwnx_hw *rwnx_hw)
         AIC_LOG_PRINTF("%s:lvl_11b_11ag_36m_2g4:%d\r\n", __func__, txpwr_lvl_v2->pwrlvl_11b_11ag_2g4[9]);
         AIC_LOG_PRINTF("%s:lvl_11b_11ag_48m_2g4:%d\r\n", __func__, txpwr_lvl_v2->pwrlvl_11b_11ag_2g4[10]);
         AIC_LOG_PRINTF("%s:lvl_11b_11ag_54m_2g4:%d\r\n", __func__, txpwr_lvl_v2->pwrlvl_11b_11ag_2g4[11]);
-        AIC_LOG_PRINTF("%s:lvl_11n_11ac_mcs0_2g4:%d\r\n",__func__, txpwr_lvl_v2->pwrlvl_11n_11ac_2g4[0]);
-        AIC_LOG_PRINTF("%s:lvl_11n_11ac_mcs1_2g4:%d\r\n",__func__, txpwr_lvl_v2->pwrlvl_11n_11ac_2g4[1]);
-        AIC_LOG_PRINTF("%s:lvl_11n_11ac_mcs2_2g4:%d\r\n",__func__, txpwr_lvl_v2->pwrlvl_11n_11ac_2g4[2]);
-        AIC_LOG_PRINTF("%s:lvl_11n_11ac_mcs3_2g4:%d\r\n",__func__, txpwr_lvl_v2->pwrlvl_11n_11ac_2g4[3]);
-        AIC_LOG_PRINTF("%s:lvl_11n_11ac_mcs4_2g4:%d\r\n",__func__, txpwr_lvl_v2->pwrlvl_11n_11ac_2g4[4]);
-        AIC_LOG_PRINTF("%s:lvl_11n_11ac_mcs5_2g4:%d\r\n",__func__, txpwr_lvl_v2->pwrlvl_11n_11ac_2g4[5]);
-        AIC_LOG_PRINTF("%s:lvl_11n_11ac_mcs6_2g4:%d\r\n",__func__, txpwr_lvl_v2->pwrlvl_11n_11ac_2g4[6]);
-        AIC_LOG_PRINTF("%s:lvl_11n_11ac_mcs7_2g4:%d\r\n",__func__, txpwr_lvl_v2->pwrlvl_11n_11ac_2g4[7]);
-        AIC_LOG_PRINTF("%s:lvl_11n_11ac_mcs8_2g4:%d\r\n",__func__, txpwr_lvl_v2->pwrlvl_11n_11ac_2g4[8]);
-        AIC_LOG_PRINTF("%s:lvl_11n_11ac_mcs9_2g4:%d\r\n",__func__, txpwr_lvl_v2->pwrlvl_11n_11ac_2g4[9]);
+        AIC_LOG_PRINTF("%s:lvl_11n_11ac_mcs0_2g4:%d\r\n", __func__, txpwr_lvl_v2->pwrlvl_11n_11ac_2g4[0]);
+        AIC_LOG_PRINTF("%s:lvl_11n_11ac_mcs1_2g4:%d\r\n", __func__, txpwr_lvl_v2->pwrlvl_11n_11ac_2g4[1]);
+        AIC_LOG_PRINTF("%s:lvl_11n_11ac_mcs2_2g4:%d\r\n", __func__, txpwr_lvl_v2->pwrlvl_11n_11ac_2g4[2]);
+        AIC_LOG_PRINTF("%s:lvl_11n_11ac_mcs3_2g4:%d\r\n", __func__, txpwr_lvl_v2->pwrlvl_11n_11ac_2g4[3]);
+        AIC_LOG_PRINTF("%s:lvl_11n_11ac_mcs4_2g4:%d\r\n", __func__, txpwr_lvl_v2->pwrlvl_11n_11ac_2g4[4]);
+        AIC_LOG_PRINTF("%s:lvl_11n_11ac_mcs5_2g4:%d\r\n", __func__, txpwr_lvl_v2->pwrlvl_11n_11ac_2g4[5]);
+        AIC_LOG_PRINTF("%s:lvl_11n_11ac_mcs6_2g4:%d\r\n", __func__, txpwr_lvl_v2->pwrlvl_11n_11ac_2g4[6]);
+        AIC_LOG_PRINTF("%s:lvl_11n_11ac_mcs7_2g4:%d\r\n", __func__, txpwr_lvl_v2->pwrlvl_11n_11ac_2g4[7]);
+        AIC_LOG_PRINTF("%s:lvl_11n_11ac_mcs8_2g4:%d\r\n", __func__, txpwr_lvl_v2->pwrlvl_11n_11ac_2g4[8]);
+        AIC_LOG_PRINTF("%s:lvl_11n_11ac_mcs9_2g4:%d\r\n", __func__, txpwr_lvl_v2->pwrlvl_11n_11ac_2g4[9]);
         AIC_LOG_PRINTF("%s:lvl_11ax_mcs0_2g4:%d\r\n",    __func__, txpwr_lvl_v2->pwrlvl_11ax_2g4[0]);
         AIC_LOG_PRINTF("%s:lvl_11ax_mcs1_2g4:%d\r\n",    __func__, txpwr_lvl_v2->pwrlvl_11ax_2g4[1]);
         AIC_LOG_PRINTF("%s:lvl_11ax_mcs2_2g4:%d\r\n",    __func__, txpwr_lvl_v2->pwrlvl_11ax_2g4[2]);
@@ -953,18 +1008,21 @@ int rwnx_send_txpwr_lvl_req(struct rwnx_hw *rwnx_hw)
         AIC_LOG_PRINTF("%s:lvl_11ax_mcs10_2g4:%d\r\n",   __func__, txpwr_lvl_v2->pwrlvl_11ax_2g4[10]);
         AIC_LOG_PRINTF("%s:lvl_11ax_mcs11_2g4:%d\r\n",   __func__, txpwr_lvl_v2->pwrlvl_11ax_2g4[11]);
 
-        if ((rwnx_hw->mode != WIFI_MODE_RFTEST) && (chip_sub_id == 0)) {
+        if ((rwnx_hw->mode != WIFI_MODE_RFTEST) && (chip_sub_id == 0))
+        {
             txpwr_lvl_req->txpwr_lvl.enable         = txpwr_lvl_v2->enable;
             txpwr_lvl_req->txpwr_lvl.dsss           = txpwr_lvl_v2->pwrlvl_11b_11ag_2g4[3]; // 11M
-            txpwr_lvl_req->txpwr_lvl.ofdmlowrate_2g4= txpwr_lvl_v2->pwrlvl_11ax_2g4[4]; // MCS4
+            txpwr_lvl_req->txpwr_lvl.ofdmlowrate_2g4 = txpwr_lvl_v2->pwrlvl_11ax_2g4[4]; // MCS4
             txpwr_lvl_req->txpwr_lvl.ofdm64qam_2g4  = txpwr_lvl_v2->pwrlvl_11ax_2g4[7]; // MCS7
             txpwr_lvl_req->txpwr_lvl.ofdm256qam_2g4 = txpwr_lvl_v2->pwrlvl_11ax_2g4[9]; // MCS9
-            txpwr_lvl_req->txpwr_lvl.ofdm1024qam_2g4= txpwr_lvl_v2->pwrlvl_11ax_2g4[11]; // MCS11
+            txpwr_lvl_req->txpwr_lvl.ofdm1024qam_2g4 = txpwr_lvl_v2->pwrlvl_11ax_2g4[11]; // MCS11
             txpwr_lvl_req->txpwr_lvl.ofdmlowrate_5g = 13; // unused
             txpwr_lvl_req->txpwr_lvl.ofdm64qam_5g   = 13; // unused
             txpwr_lvl_req->txpwr_lvl.ofdm256qam_5g  = 13; // unused
             txpwr_lvl_req->txpwr_lvl.ofdm1024qam_5g = 13; // unused
-        } else {
+        }
+        else
+        {
             txpwr_lvl_req->txpwr_lvl_v2  = *txpwr_lvl_v2;
         }
 
@@ -987,26 +1045,30 @@ int aicwf_send_txpwr_lvl_req(txpwr_lvl_conf_v2_t *txpwrlvl)
 
     /* Build the MM_SET_TXPWR_LVL_REQ message */
     txpwr_lvl_req = rwnx_msg_zalloc(MM_SET_TXPWR_IDX_LVL_REQ, TASK_MM, DRV_TASK_ID,
-                                  sizeof(struct mm_set_txpwr_lvl_req));
+                                    sizeof(struct mm_set_txpwr_lvl_req));
 
-    if (!txpwr_lvl_req) {
+    if (!txpwr_lvl_req)
+    {
         return -12;//ENOMEM;
     }
     txpwr_lvl_v2 = &txpwr_lvl_v2_tmp;
 
     // get txpwr lvl
     txpwr_lvl_v2->enable = (u8_l)txpwrlvl->enable;
-    for (i=0; i<12; i++)
+    for (i = 0; i < 12; i++)
         txpwr_lvl_v2->pwrlvl_11b_11ag_2g4[i] = (s8_l)txpwrlvl->pwrlvl_11b_11ag_2g4[i];
-    for (i=0; i<10; i++)
+    for (i = 0; i < 10; i++)
         txpwr_lvl_v2->pwrlvl_11n_11ac_2g4[i] = (s8_l)txpwrlvl->pwrlvl_11n_11ac_2g4[i];
-    for (i=0; i<12; i++)
+    for (i = 0; i < 12; i++)
         txpwr_lvl_v2->pwrlvl_11ax_2g4[i] = (s8_l)txpwrlvl->pwrlvl_11ax_2g4[i];
 
-    if (txpwr_lvl_v2->enable == 0) {
+    if (txpwr_lvl_v2->enable == 0)
+    {
         rwnx_msg_free(rwnx_hw, txpwr_lvl_req);
         return 0;
-    } else {
+    }
+    else
+    {
         AIC_LOG_PRINTF("%s:enable:%d\r\n",               __func__, txpwr_lvl_v2->enable);
         AIC_LOG_PRINTF("%s:lvl_11b_11ag_1m_2g4:%d\r\n",  __func__, txpwr_lvl_v2->pwrlvl_11b_11ag_2g4[0]);
         AIC_LOG_PRINTF("%s:lvl_11b_11ag_2m_2g4:%d\r\n",  __func__, txpwr_lvl_v2->pwrlvl_11b_11ag_2g4[1]);
@@ -1020,16 +1082,16 @@ int aicwf_send_txpwr_lvl_req(txpwr_lvl_conf_v2_t *txpwrlvl)
         AIC_LOG_PRINTF("%s:lvl_11b_11ag_36m_2g4:%d\r\n", __func__, txpwr_lvl_v2->pwrlvl_11b_11ag_2g4[9]);
         AIC_LOG_PRINTF("%s:lvl_11b_11ag_48m_2g4:%d\r\n", __func__, txpwr_lvl_v2->pwrlvl_11b_11ag_2g4[10]);
         AIC_LOG_PRINTF("%s:lvl_11b_11ag_54m_2g4:%d\r\n", __func__, txpwr_lvl_v2->pwrlvl_11b_11ag_2g4[11]);
-        AIC_LOG_PRINTF("%s:lvl_11n_11ac_mcs0_2g4:%d\r\n",__func__, txpwr_lvl_v2->pwrlvl_11n_11ac_2g4[0]);
-        AIC_LOG_PRINTF("%s:lvl_11n_11ac_mcs1_2g4:%d\r\n",__func__, txpwr_lvl_v2->pwrlvl_11n_11ac_2g4[1]);
-        AIC_LOG_PRINTF("%s:lvl_11n_11ac_mcs2_2g4:%d\r\n",__func__, txpwr_lvl_v2->pwrlvl_11n_11ac_2g4[2]);
-        AIC_LOG_PRINTF("%s:lvl_11n_11ac_mcs3_2g4:%d\r\n",__func__, txpwr_lvl_v2->pwrlvl_11n_11ac_2g4[3]);
-        AIC_LOG_PRINTF("%s:lvl_11n_11ac_mcs4_2g4:%d\r\n",__func__, txpwr_lvl_v2->pwrlvl_11n_11ac_2g4[4]);
-        AIC_LOG_PRINTF("%s:lvl_11n_11ac_mcs5_2g4:%d\r\n",__func__, txpwr_lvl_v2->pwrlvl_11n_11ac_2g4[5]);
-        AIC_LOG_PRINTF("%s:lvl_11n_11ac_mcs6_2g4:%d\r\n",__func__, txpwr_lvl_v2->pwrlvl_11n_11ac_2g4[6]);
-        AIC_LOG_PRINTF("%s:lvl_11n_11ac_mcs7_2g4:%d\r\n",__func__, txpwr_lvl_v2->pwrlvl_11n_11ac_2g4[7]);
-        AIC_LOG_PRINTF("%s:lvl_11n_11ac_mcs8_2g4:%d\r\n",__func__, txpwr_lvl_v2->pwrlvl_11n_11ac_2g4[8]);
-        AIC_LOG_PRINTF("%s:lvl_11n_11ac_mcs9_2g4:%d\r\n",__func__, txpwr_lvl_v2->pwrlvl_11n_11ac_2g4[9]);
+        AIC_LOG_PRINTF("%s:lvl_11n_11ac_mcs0_2g4:%d\r\n", __func__, txpwr_lvl_v2->pwrlvl_11n_11ac_2g4[0]);
+        AIC_LOG_PRINTF("%s:lvl_11n_11ac_mcs1_2g4:%d\r\n", __func__, txpwr_lvl_v2->pwrlvl_11n_11ac_2g4[1]);
+        AIC_LOG_PRINTF("%s:lvl_11n_11ac_mcs2_2g4:%d\r\n", __func__, txpwr_lvl_v2->pwrlvl_11n_11ac_2g4[2]);
+        AIC_LOG_PRINTF("%s:lvl_11n_11ac_mcs3_2g4:%d\r\n", __func__, txpwr_lvl_v2->pwrlvl_11n_11ac_2g4[3]);
+        AIC_LOG_PRINTF("%s:lvl_11n_11ac_mcs4_2g4:%d\r\n", __func__, txpwr_lvl_v2->pwrlvl_11n_11ac_2g4[4]);
+        AIC_LOG_PRINTF("%s:lvl_11n_11ac_mcs5_2g4:%d\r\n", __func__, txpwr_lvl_v2->pwrlvl_11n_11ac_2g4[5]);
+        AIC_LOG_PRINTF("%s:lvl_11n_11ac_mcs6_2g4:%d\r\n", __func__, txpwr_lvl_v2->pwrlvl_11n_11ac_2g4[6]);
+        AIC_LOG_PRINTF("%s:lvl_11n_11ac_mcs7_2g4:%d\r\n", __func__, txpwr_lvl_v2->pwrlvl_11n_11ac_2g4[7]);
+        AIC_LOG_PRINTF("%s:lvl_11n_11ac_mcs8_2g4:%d\r\n", __func__, txpwr_lvl_v2->pwrlvl_11n_11ac_2g4[8]);
+        AIC_LOG_PRINTF("%s:lvl_11n_11ac_mcs9_2g4:%d\r\n", __func__, txpwr_lvl_v2->pwrlvl_11n_11ac_2g4[9]);
         AIC_LOG_PRINTF("%s:lvl_11ax_mcs0_2g4:%d\r\n",    __func__, txpwr_lvl_v2->pwrlvl_11ax_2g4[0]);
         AIC_LOG_PRINTF("%s:lvl_11ax_mcs1_2g4:%d\r\n",    __func__, txpwr_lvl_v2->pwrlvl_11ax_2g4[1]);
         AIC_LOG_PRINTF("%s:lvl_11ax_mcs2_2g4:%d\r\n",    __func__, txpwr_lvl_v2->pwrlvl_11ax_2g4[2]);
@@ -1043,18 +1105,21 @@ int aicwf_send_txpwr_lvl_req(txpwr_lvl_conf_v2_t *txpwrlvl)
         AIC_LOG_PRINTF("%s:lvl_11ax_mcs10_2g4:%d\r\n",   __func__, txpwr_lvl_v2->pwrlvl_11ax_2g4[10]);
         AIC_LOG_PRINTF("%s:lvl_11ax_mcs11_2g4:%d\r\n",   __func__, txpwr_lvl_v2->pwrlvl_11ax_2g4[11]);
 
-        if ((rwnx_hw->mode != WIFI_MODE_RFTEST) && (chip_sub_id == 0)) {
+        if ((rwnx_hw->mode != WIFI_MODE_RFTEST) && (chip_sub_id == 0))
+        {
             txpwr_lvl_req->txpwr_lvl.enable         = txpwr_lvl_v2->enable;
             txpwr_lvl_req->txpwr_lvl.dsss           = txpwr_lvl_v2->pwrlvl_11b_11ag_2g4[3]; // 11M
-            txpwr_lvl_req->txpwr_lvl.ofdmlowrate_2g4= txpwr_lvl_v2->pwrlvl_11ax_2g4[4]; // MCS4
+            txpwr_lvl_req->txpwr_lvl.ofdmlowrate_2g4 = txpwr_lvl_v2->pwrlvl_11ax_2g4[4]; // MCS4
             txpwr_lvl_req->txpwr_lvl.ofdm64qam_2g4  = txpwr_lvl_v2->pwrlvl_11ax_2g4[7]; // MCS7
             txpwr_lvl_req->txpwr_lvl.ofdm256qam_2g4 = txpwr_lvl_v2->pwrlvl_11ax_2g4[9]; // MCS9
-            txpwr_lvl_req->txpwr_lvl.ofdm1024qam_2g4= txpwr_lvl_v2->pwrlvl_11ax_2g4[11]; // MCS11
+            txpwr_lvl_req->txpwr_lvl.ofdm1024qam_2g4 = txpwr_lvl_v2->pwrlvl_11ax_2g4[11]; // MCS11
             txpwr_lvl_req->txpwr_lvl.ofdmlowrate_5g = 13; // unused
             txpwr_lvl_req->txpwr_lvl.ofdm64qam_5g   = 13; // unused
             txpwr_lvl_req->txpwr_lvl.ofdm256qam_5g  = 13; // unused
             txpwr_lvl_req->txpwr_lvl.ofdm1024qam_5g = 13; // unused
-        } else {
+        }
+        else
+        {
             txpwr_lvl_req->txpwr_lvl_v2  = *txpwr_lvl_v2;
         }
 
@@ -1077,23 +1142,27 @@ int rwnx_send_txpwr_lvl_v3_req(struct rwnx_hw *rwnx_hw)
 
     /* Build the MM_SET_TXPWR_LVL_REQ message */
     txpwr_lvl_req = rwnx_msg_zalloc(MM_SET_TXPWR_IDX_LVL_REQ, TASK_MM, DRV_TASK_ID,
-                                  sizeof(struct mm_set_txpwr_lvl_req));
+                                    sizeof(struct mm_set_txpwr_lvl_req));
 
-    if (!txpwr_lvl_req) {
+    if (!txpwr_lvl_req)
+    {
         return -12;//ENOMEM;
     }
 
     txpwr_lvl_v3 = &txpwr_lvl_v3_tmp;
 
-    #ifdef CONFIG_LOAD_USERCONFIG
+#ifdef CONFIG_LOAD_USERCONFIG
     aicwf_userconfig_init();
     get_userconfig_txpwr_lvl_v3(txpwr_lvl_v3);
-    #endif
+#endif
 
-    if (txpwr_lvl_v3->enable == 0) {
+    if (txpwr_lvl_v3->enable == 0)
+    {
         rwnx_msg_free(rwnx_hw, txpwr_lvl_req);
         return 0;
-    } else {
+    }
+    else
+    {
         AIC_LOG_PRINTF("%s:enable:%d\r\n",               __func__, txpwr_lvl_v3->enable);
         AIC_LOG_PRINTF("%s:lvl_11b_11ag_1m_2g4:%d\r\n",  __func__, txpwr_lvl_v3->pwrlvl_11b_11ag_2g4[0]);
         AIC_LOG_PRINTF("%s:lvl_11b_11ag_2m_2g4:%d\r\n",  __func__, txpwr_lvl_v3->pwrlvl_11b_11ag_2g4[1]);
@@ -1107,16 +1176,16 @@ int rwnx_send_txpwr_lvl_v3_req(struct rwnx_hw *rwnx_hw)
         AIC_LOG_PRINTF("%s:lvl_11b_11ag_36m_2g4:%d\r\n", __func__, txpwr_lvl_v3->pwrlvl_11b_11ag_2g4[9]);
         AIC_LOG_PRINTF("%s:lvl_11b_11ag_48m_2g4:%d\r\n", __func__, txpwr_lvl_v3->pwrlvl_11b_11ag_2g4[10]);
         AIC_LOG_PRINTF("%s:lvl_11b_11ag_54m_2g4:%d\r\n", __func__, txpwr_lvl_v3->pwrlvl_11b_11ag_2g4[11]);
-        AIC_LOG_PRINTF("%s:lvl_11n_11ac_mcs0_2g4:%d\r\n",__func__, txpwr_lvl_v3->pwrlvl_11n_11ac_2g4[0]);
-        AIC_LOG_PRINTF("%s:lvl_11n_11ac_mcs1_2g4:%d\r\n",__func__, txpwr_lvl_v3->pwrlvl_11n_11ac_2g4[1]);
-        AIC_LOG_PRINTF("%s:lvl_11n_11ac_mcs2_2g4:%d\r\n",__func__, txpwr_lvl_v3->pwrlvl_11n_11ac_2g4[2]);
-        AIC_LOG_PRINTF("%s:lvl_11n_11ac_mcs3_2g4:%d\r\n",__func__, txpwr_lvl_v3->pwrlvl_11n_11ac_2g4[3]);
-        AIC_LOG_PRINTF("%s:lvl_11n_11ac_mcs4_2g4:%d\r\n",__func__, txpwr_lvl_v3->pwrlvl_11n_11ac_2g4[4]);
-        AIC_LOG_PRINTF("%s:lvl_11n_11ac_mcs5_2g4:%d\r\n",__func__, txpwr_lvl_v3->pwrlvl_11n_11ac_2g4[5]);
-        AIC_LOG_PRINTF("%s:lvl_11n_11ac_mcs6_2g4:%d\r\n",__func__, txpwr_lvl_v3->pwrlvl_11n_11ac_2g4[6]);
-        AIC_LOG_PRINTF("%s:lvl_11n_11ac_mcs7_2g4:%d\r\n",__func__, txpwr_lvl_v3->pwrlvl_11n_11ac_2g4[7]);
-        AIC_LOG_PRINTF("%s:lvl_11n_11ac_mcs8_2g4:%d\r\n",__func__, txpwr_lvl_v3->pwrlvl_11n_11ac_2g4[8]);
-        AIC_LOG_PRINTF("%s:lvl_11n_11ac_mcs9_2g4:%d\r\n",__func__, txpwr_lvl_v3->pwrlvl_11n_11ac_2g4[9]);
+        AIC_LOG_PRINTF("%s:lvl_11n_11ac_mcs0_2g4:%d\r\n", __func__, txpwr_lvl_v3->pwrlvl_11n_11ac_2g4[0]);
+        AIC_LOG_PRINTF("%s:lvl_11n_11ac_mcs1_2g4:%d\r\n", __func__, txpwr_lvl_v3->pwrlvl_11n_11ac_2g4[1]);
+        AIC_LOG_PRINTF("%s:lvl_11n_11ac_mcs2_2g4:%d\r\n", __func__, txpwr_lvl_v3->pwrlvl_11n_11ac_2g4[2]);
+        AIC_LOG_PRINTF("%s:lvl_11n_11ac_mcs3_2g4:%d\r\n", __func__, txpwr_lvl_v3->pwrlvl_11n_11ac_2g4[3]);
+        AIC_LOG_PRINTF("%s:lvl_11n_11ac_mcs4_2g4:%d\r\n", __func__, txpwr_lvl_v3->pwrlvl_11n_11ac_2g4[4]);
+        AIC_LOG_PRINTF("%s:lvl_11n_11ac_mcs5_2g4:%d\r\n", __func__, txpwr_lvl_v3->pwrlvl_11n_11ac_2g4[5]);
+        AIC_LOG_PRINTF("%s:lvl_11n_11ac_mcs6_2g4:%d\r\n", __func__, txpwr_lvl_v3->pwrlvl_11n_11ac_2g4[6]);
+        AIC_LOG_PRINTF("%s:lvl_11n_11ac_mcs7_2g4:%d\r\n", __func__, txpwr_lvl_v3->pwrlvl_11n_11ac_2g4[7]);
+        AIC_LOG_PRINTF("%s:lvl_11n_11ac_mcs8_2g4:%d\r\n", __func__, txpwr_lvl_v3->pwrlvl_11n_11ac_2g4[8]);
+        AIC_LOG_PRINTF("%s:lvl_11n_11ac_mcs9_2g4:%d\r\n", __func__, txpwr_lvl_v3->pwrlvl_11n_11ac_2g4[9]);
         AIC_LOG_PRINTF("%s:lvl_11ax_mcs0_2g4:%d\r\n",    __func__, txpwr_lvl_v3->pwrlvl_11ax_2g4[0]);
         AIC_LOG_PRINTF("%s:lvl_11ax_mcs1_2g4:%d\r\n",    __func__, txpwr_lvl_v3->pwrlvl_11ax_2g4[1]);
         AIC_LOG_PRINTF("%s:lvl_11ax_mcs2_2g4:%d\r\n",    __func__, txpwr_lvl_v3->pwrlvl_11ax_2g4[2]);
@@ -1184,9 +1253,10 @@ int rwnx_send_txpwr_ofst_req(struct rwnx_hw *rwnx_hw)
 
     /* Build the MM_SET_TXPWR_OFST_REQ message */
     txpwr_ofst_req = rwnx_msg_zalloc(MM_SET_TXPWR_OFST_REQ, TASK_MM, DRV_TASK_ID,
-                                  sizeof(struct mm_set_txpwr_ofst_req));
+                                     sizeof(struct mm_set_txpwr_ofst_req));
 
-    if (!txpwr_ofst_req) {
+    if (!txpwr_ofst_req)
+    {
         return -12;//ENOMEM;
     }
 
@@ -1200,19 +1270,25 @@ int rwnx_send_txpwr_ofst_req(struct rwnx_hw *rwnx_hw)
     txpwr_ofst->chan_122_140 = 0;
     txpwr_ofst->chan_142_165 = 0;
 
-    #ifdef CONFIG_LOAD_USERCONFIG
-    if(rwnx_hw->chipid == PRODUCT_ID_AIC8801){
+#ifdef CONFIG_LOAD_USERCONFIG
+    if (rwnx_hw->chipid == PRODUCT_ID_AIC8801)
+    {
         get_nvram_txpwr_ofst(txpwr_ofst);
-    }else if(rwnx_hw->chipid == PRODUCT_ID_AIC8800DC ||
-            rwnx_hw->chipid == PRODUCT_ID_AIC8800DW){
+    }
+    else if (rwnx_hw->chipid == PRODUCT_ID_AIC8800DC ||
+             rwnx_hw->chipid == PRODUCT_ID_AIC8800DW)
+    {
         get_userconfig_txpwr_ofst(txpwr_ofst);
     }
-    #endif
+#endif
 
-    if (txpwr_ofst->enable == 0) {
+    if (txpwr_ofst->enable == 0)
+    {
         rwnx_msg_free(rwnx_hw, txpwr_ofst_req);
         return 0;
-    } else {
+    }
+    else
+    {
         AIC_LOG_PRINTF("%s:enable      :%d\r\n", __func__, txpwr_ofst->enable);
         AIC_LOG_PRINTF("%s:chan_1_4    :%d\r\n", __func__, txpwr_ofst->chan_1_4);
         AIC_LOG_PRINTF("%s:chan_5_9    :%d\r\n", __func__, txpwr_ofst->chan_5_9);
@@ -1240,40 +1316,50 @@ int rwnx_send_txpwr_ofst2x_req(struct rwnx_hw *rwnx_hw)
 
     /* Build the MM_SET_TXPWR_OFST_REQ message */
     txpwr_ofst_req = rwnx_msg_zalloc(MM_SET_TXPWR_OFST_REQ, TASK_MM, DRV_TASK_ID,
-                                  sizeof(struct mm_set_txpwr_ofst_req));
+                                     sizeof(struct mm_set_txpwr_ofst_req));
 
-    if (!txpwr_ofst_req) {
+    if (!txpwr_ofst_req)
+    {
         return -12; //ENOMEM;
     }
 
     txpwr_ofst2x = &txpwr_ofst_req->txpwr_ofst2x;
     txpwr_ofst2x->enable = 0;
-    for (type = 0; type < 3; type++) {
-        for (ch_grp = 0; ch_grp < 6; ch_grp++) {
-            if (ch_grp < 3) {
+    for (type = 0; type < 3; type++)
+    {
+        for (ch_grp = 0; ch_grp < 6; ch_grp++)
+        {
+            if (ch_grp < 3)
+            {
                 txpwr_ofst2x->pwrofst2x_tbl_2g4[type][ch_grp] = 0;
             }
             txpwr_ofst2x->pwrofst2x_tbl_5g[type][ch_grp] = 0;
         }
     }
-    if (rwnx_hw->chipid == PRODUCT_ID_AIC8800D80){
+    if (rwnx_hw->chipid == PRODUCT_ID_AIC8800D80)
+    {
         get_userconfig_txpwr_ofst2x(txpwr_ofst2x);
     }
-    if (txpwr_ofst2x->enable){
+    if (txpwr_ofst2x->enable)
+    {
         AIC_LOG_PRINTF("%s:enable:%d\r\n", __func__, txpwr_ofst2x->enable);
         AIC_LOG_PRINTF("pwrofst2x 2.4g: [0]:11b, [1]:ofdm_highrate, [2]:ofdm_lowrate\n"
-            "  chan=" "\t1-4" "\t5-9" "\t10-13");
-        for (type = 0; type < 3; type++) {
+                       "  chan=" "\t1-4" "\t5-9" "\t10-13");
+        for (type = 0; type < 3; type++)
+        {
             AIC_LOG_PRINTF("\n  [%d] =", type);
-            for (ch_grp = 0; ch_grp < 3; ch_grp++) {
+            for (ch_grp = 0; ch_grp < 3; ch_grp++)
+            {
                 AIC_LOG_PRINTF("\t%d", txpwr_ofst2x->pwrofst2x_tbl_2g4[type][ch_grp]);
             }
         }
         AIC_LOG_PRINTF("\npwrofst2x 5g: [0]:ofdm_lowrate, [1]:ofdm_highrate, [2]:ofdm_midrate\n"
-            "  chan=" "\t36-50" "\t51-64" "\t98-114" "\t115-130" "\t131-146" "\t147-166");
-        for (type = 0; type < 3; type++) {
+                       "  chan=" "\t36-50" "\t51-64" "\t98-114" "\t115-130" "\t131-146" "\t147-166");
+        for (type = 0; type < 3; type++)
+        {
             AIC_LOG_PRINTF("\n  [%d] =", type);
-            for (ch_grp = 0; ch_grp < 6; ch_grp++) {
+            for (ch_grp = 0; ch_grp < 6; ch_grp++)
+            {
                 AIC_LOG_PRINTF("\t%d", txpwr_ofst2x->pwrofst2x_tbl_5g[type][ch_grp]);
             }
         }
@@ -1281,7 +1367,9 @@ int rwnx_send_txpwr_ofst2x_req(struct rwnx_hw *rwnx_hw)
 
         /* Send the MM_SET_TXPWR_OFST_REQ message to UMAC FW */
         error = rwnx_host_send_msg(rwnx_hw, txpwr_ofst_req, 1, MM_SET_TXPWR_OFST_CFM, NULL);
-    }else{
+    }
+    else
+    {
         AIC_LOG_PRINTF("%s:Do not use txpwr_ofst2x\r\n", __func__);
         rwnx_msg_free(rwnx_hw, txpwr_ofst_req);
     }
@@ -1300,7 +1388,7 @@ int rwnx_send_sm_connect_req(struct rwnx_hw *rwnx_hw,
 
     /* Build the SM_CONNECT_REQ message */
     req = rwnx_msg_zalloc(SM_CONNECT_REQ, TASK_SM, DRV_TASK_ID,
-                                   sizeof(struct sm_connect_req));
+                          sizeof(struct sm_connect_req));
     if (!req)
         return -12;//ENOMEM;
 
@@ -1320,7 +1408,7 @@ int rwnx_send_sm_disconnect_req(struct rwnx_hw *rwnx_hw,
 
     /* Build the SM_DISCONNECT_REQ message */
     req = rwnx_msg_zalloc(SM_DISCONNECT_REQ, TASK_SM, DRV_TASK_ID,
-                                   sizeof(struct sm_disconnect_req));
+                          sizeof(struct sm_disconnect_req));
     if (!req)
         return -12;//ENOMEM;
 
@@ -1345,12 +1433,14 @@ int rwnx_send_scanu_req(struct rwnx_hw *rwnx_hw, struct scanu_start_req *start_r
 
     memcpy(req, start_req, sizeof_b(struct scanu_start_req));
 
-    #if 1
-    if (req->add_ie_len && req->add_ies) {
+#if 1
+    if (req->add_ie_len && req->add_ies)
+    {
         struct scanu_vendor_ie_req *ie_req = NULL;
         ie_req = rwnx_msg_zalloc(SCANU_VENDOR_IE_REQ, TASK_SCANU, DRV_TASK_ID,
                                  sizeof(struct scanu_vendor_ie_req));
-        if (!ie_req) {
+        if (!ie_req)
+        {
             rwnx_msg_free(rwnx_hw, req);
             return -12;//ENOMEM;
         }
@@ -1363,13 +1453,14 @@ int rwnx_send_scanu_req(struct rwnx_hw *rwnx_hw, struct scanu_start_req *start_r
         if (err)
             aic_dbg("send msg(SCANU_VENDOR_IE_REQ) err: %d\n", err);
     }
-    #endif
+#endif
     req->add_ie_len = 0;
     req->add_ies = 0;
 
     /* Send the SCANU_START_REQ message to LMAC FW */
     err = rwnx_host_send_msg(rwnx_hw, req, 1,  SCANU_START_CFM_ADDTIONAL, NULL);
-    if (err) {
+    if (err)
+    {
         aic_dbg("send msg(SCANU_START_REQ) err: %d\n", err);
     }
     return err;
@@ -1512,13 +1603,14 @@ int rwnx_send_msg_tx(struct rwnx_hw *rwnx_hw, lmac_task_id_t dst_id, lmac_msg_id
     if (!req)
         return -1;
 
-    if(msg_len)
+    if (msg_len)
         memcpy(req, msg, msg_len);
 
     //AIC_LOG_PRINTF("%s msg_id %x\n", __FUNCTION__, msg_id);
 
     ret = rwnx_host_send_msg(rwnx_hw, req, reqcfm, reqid, cfm);
-    if (ret < 0) {
+    if (ret < 0)
+    {
         aic_dbg("send msgID 0x%x err %d\n", msg_id, ret);
     }
 
@@ -1537,13 +1629,13 @@ int rwnx_send_rftest_req(struct rwnx_hw *rwnx_hw, u32_l cmd, u32_l argc, u8_l *a
     if (!mem_rftest_cmd_req)
         return -12;//-ENOMEM;
 
-    if(argc > 30)
+    if (argc > 30)
         return -12;//-ENOMEM;
 
     /* Set parameters for the DBG_MEM_MASK_WRITE_REQ message */
     mem_rftest_cmd_req->cmd = cmd;
     mem_rftest_cmd_req->argc = argc;
-    if(argc != 0)
+    if (argc != 0)
         memcpy(mem_rftest_cmd_req->argv, argv, argc);
 
     /* Send the DBG_RFTEST_CMD_REQ message to LMAC FW */

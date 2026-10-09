@@ -1,0 +1,429 @@
+scons: Reading SConscript files ...
+Board: dpi-hdk_lb575ybbn6_n16_epd_hcpu
+Adding ftab subproject for chip: SF32LB57X (ptab v1/v2)
+========
+Multi-Project Info
+--------
+full_name       main.bootloader
+parent          main
+bsp_root        D:\work_test\SiFli-SDK\example\boot_loader\project\sf32lb57x\ram_v2
+build_dir       build_dpi-hdk_lb575ybbn6_n16_epd_hcpu/bootloader
+link_script     D:/work_test/SiFli-SDK/example/boot_loader/project/sf32lb57x/ram_v2\link
+ptab            D:\work_test\SiFli-SDK\customer\boards\dpi-hdk_lb575ybbn6_n16_epd\ptab.json
+embedded:       False
+--------
+full_name       main
+parent          
+bsp_root        D:\work_test\SiFli-SDK\example\multimedia\lvgl\lvgl_tools_example\eez_studio\project
+build_dir       build_dpi-hdk_lb575ybbn6_n16_epd_hcpu/
+link_script     D:/work_test/SiFli-SDK/drivers/cmsis/sf32lb57x/Templates/gcc/hcpu/link
+ptab            D:\work_test\SiFli-SDK\customer\boards\dpi-hdk_lb575ybbn6_n16_epd\ptab.json
+--------
+full_name       main.ftab
+parent          main
+bsp_root        D:\work_test\SiFli-SDK\example\flash_table\sf32lb57x_common_v2
+build_dir       build_dpi-hdk_lb575ybbn6_n16_epd_hcpu/ftab
+link_script     D:/work_test/SiFli-SDK/drivers/cmsis/sf32lb57x/Templates/gcc/hcpu/link
+ptab            D:\work_test\SiFli-SDK\customer\boards\dpi-hdk_lb575ybbn6_n16_epd\ptab.json
+embedded:       False
+========
+scons: done reading SConscript files.
+scons: Building targets ...
+scons: building associated VariantDir targets: build_dpi-hdk_lb575ybbn6_n16_epd_hcpu . .
+Generating build_dpi-hdk_lb575ybbn6_n16_epd_hcpu\bootloader\link_copy.lds ...
+CC build_dpi-hdk_lb575ybbn6_n16_epd_hcpu\sifli_sdk\customer\boards\common\bsp_common.o
+Building compilation database build_dpi-hdk_lb575ybbn6_n16_epd_hcpu\bootloader\compile_commands.json
+Building compilation database build_dpi-hdk_lb575ybbn6_n16_epd_hcpu\compile_commands.json
+CC build_dpi-hdk_lb575ybbn6_n16_epd_hcpu\sifli_sdk\customer\boards\common\bsp_psram.o
+CC build_dpi-hdk_lb575ybbn6_n16_epd_hcpu\sifli_sdk\customer\boards\common\flash.o
+CC build_dpi-hdk_lb575ybbn6_n16_epd_hcpu\sifli_sdk\customer\boards\sf32lb57-dpi-hdk_base\bsp_init.o
+CC build_dpi-hdk_lb575ybbn6_n16_epd_hcpu\sifli_sdk\customer\boards\sf32lb57-dpi-hdk_base\bsp_lcd_tp.o
+CC build_dpi-hdk_lb575ybbn6_n16_epd_hcpu\sifli_sdk\customer\boards\sf32lb57-dpi-hdk_base\bsp_pinmux.o
+CC build_dpi-hdk_lb575ybbn6_n16_epd_hcpu\sifli_sdk\customer\boards\sf32lb57-dpi-hdk_base\bsp_power.o
+CC build_dpi-hdk_lb575ybbn6_n16_epd_hcpu\sifli_sdk\customer\peripherals\display\epd_opm060da\epd_opm060da.o
+CC build_dpi-hdk_lb575ybbn6_n16_epd_hcpu\sifli_sdk\customer\peripherals\display\epd_opm060da\epd_tps.o
+CC build_dpi-hdk_lb575ybbn6_n16_epd_hcpu\sifli_sdk\customer\peripherals\display\epd_opm060da\epd_waveform.o
+CC build_dpi-hdk_lb575ybbn6_n16_epd_hcpu\sifli_sdk\customer\peripherals\display\epd_opm060da\epd_waveform_bin_reader_port.o
+CC build_dpi-hdk_lb575ybbn6_n16_epd_hcpu\sifli_sdk\customer\peripherals\pa\AW8155\sifli_aw8155.o
+CC build_dpi-hdk_lb575ybbn6_n16_epd_hcpu\sifli_sdk\customer\peripherals\sensor\MMC56x3\mmc56x3.o
+CC build_dpi-hdk_lb575ybbn6_n16_epd_hcpu\sifli_sdk\customer\peripherals\sensor\MMC56x3\sensor_memsic_mmc56x3.o
+CC build_dpi-hdk_lb575ybbn6_n16_epd_hcpu\sifli_sdk\drivers\cmsis\sf32lb57x\lcpu_config_type.o
+CC build_dpi-hdk_lb575ybbn6_n16_epd_hcpu\sifli_sdk\drivers\cmsis\sf32lb57x\bf0_lcpu_init.o
+CC build_dpi-hdk_lb575ybbn6_n16_epd_hcpu\sifli_sdk\drivers\cmsis\sf32lb57x\bt_rf_cw_config.o
+CC build_dpi-hdk_lb575ybbn6_n16_epd_hcpu\sifli_sdk\drivers\cmsis\sf32lb57x\bt_power_config.o
+CC build_dpi-hdk_lb575ybbn6_n16_epd_hcpu\sifli_sdk\drivers\cmsis\sf32lb57x\bt_rf_test.o
+CC build_dpi-hdk_lb575ybbn6_n16_epd_hcpu\sifli_sdk\drivers\hal\bf0_hal_hcd.o
+CC build_dpi-hdk_lb575ybbn6_n16_epd_hcpu\sifli_sdk\drivers\hal\bf0_hal_i2c.o
+D:\work_test\SiFli-SDK\customer\peripherals\sensor\MMC56x3\sensor_memsic_mmc56x3.c: In function 'mmc56x3_control':
+D:\work_test\SiFli-SDK\customer\peripherals\sensor\MMC56x3\sensor_memsic_mmc56x3.c:70:28: warning: cast from pointer to integer of different size [-Wpointer-to-int-cast]
+   70 |             uint16_t odr = (uint16_t)args;
+      |                            ^
+CC build_dpi-hdk_lb575ybbn6_n16_epd_hcpu\sifli_sdk\drivers\hal\bf0_hal_pcd.o
+CC build_dpi-hdk_lb575ybbn6_n16_epd_hcpu\sifli_sdk\drivers\hal\bf0_hal_pmu.o
+CC build_dpi-hdk_lb575ybbn6_n16_epd_hcpu\sifli_sdk\drivers\hal\bf0_hal_pmu_sf32lb57x.o
+CC build_dpi-hdk_lb575ybbn6_n16_epd_hcpu\sifli_sdk\drivers\hal\bf0_sys_cfg.o
+CC build_dpi-hdk_lb575ybbn6_n16_epd_hcpu\sifli_sdk\external\FlashDB\port\fal\src\fal.o
+CC build_dpi-hdk_lb575ybbn6_n16_epd_hcpu\sifli_sdk\external\FlashDB\port\fal\src\fal_flash.o
+CC build_dpi-hdk_lb575ybbn6_n16_epd_hcpu\sifli_sdk\external\FlashDB\port\fal\src\fal_flash_sifli_port.o
+CC build_dpi-hdk_lb575ybbn6_n16_epd_hcpu\sifli_sdk\external\FlashDB\port\fal\src\fal_partition.o
+CC build_dpi-hdk_lb575ybbn6_n16_epd_hcpu\sifli_sdk\external\FlashDB\port\fal\src\fal_rtt.o
+CC build_dpi-hdk_lb575ybbn6_n16_epd_hcpu\sifli_sdk\external\lvgl_v8\src\core\lv_disp.o
+CC build_dpi-hdk_lb575ybbn6_n16_epd_hcpu\sifli_sdk\external\lvgl_v8\src\core\lv_event.o
+CC build_dpi-hdk_lb575ybbn6_n16_epd_hcpu\sifli_sdk\external\lvgl_v8\src\core\lv_gesture.o
+CC build_dpi-hdk_lb575ybbn6_n16_epd_hcpu\sifli_sdk\external\lvgl_v8\src\core\lv_group.o
+CC build_dpi-hdk_lb575ybbn6_n16_epd_hcpu\sifli_sdk\external\lvgl_v8\src\core\lv_indev.o
+CC build_dpi-hdk_lb575ybbn6_n16_epd_hcpu\sifli_sdk\external\lvgl_v8\src\core\lv_indev_scroll.o
+CC build_dpi-hdk_lb575ybbn6_n16_epd_hcpu\sifli_sdk\external\lvgl_v8\src\core\lv_obj.o
+CC build_dpi-hdk_lb575ybbn6_n16_epd_hcpu\sifli_sdk\external\lvgl_v8\src\core\lv_obj_class.o
+CC build_dpi-hdk_lb575ybbn6_n16_epd_hcpu\sifli_sdk\external\lvgl_v8\src\core\lv_obj_draw.o
+CC build_dpi-hdk_lb575ybbn6_n16_epd_hcpu\sifli_sdk\external\lvgl_v8\src\core\lv_obj_pos.o
+CC build_dpi-hdk_lb575ybbn6_n16_epd_hcpu\sifli_sdk\external\lvgl_v8\src\core\lv_obj_scroll.o
+CC build_dpi-hdk_lb575ybbn6_n16_epd_hcpu\sifli_sdk\external\lvgl_v8\src\core\lv_obj_style.o
+CC build_dpi-hdk_lb575ybbn6_n16_epd_hcpu\sifli_sdk\external\lvgl_v8\src\core\lv_obj_style_gen.o
+CC build_dpi-hdk_lb575ybbn6_n16_epd_hcpu\sifli_sdk\external\lvgl_v8\src\core\lv_obj_tree.o
+CC build_dpi-hdk_lb575ybbn6_n16_epd_hcpu\sifli_sdk\external\lvgl_v8\src\core\lv_refr.o
+CC build_dpi-hdk_lb575ybbn6_n16_epd_hcpu\sifli_sdk\external\lvgl_v8\src\core\lv_theme.o
+CC build_dpi-hdk_lb575ybbn6_n16_epd_hcpu\sifli_sdk\external\lvgl_v8\src\draw\lv_draw.o
+CC build_dpi-hdk_lb575ybbn6_n16_epd_hcpu\sifli_sdk\external\lvgl_v8\src\draw\lv_draw_arc.o
+CC build_dpi-hdk_lb575ybbn6_n16_epd_hcpu\sifli_sdk\external\lvgl_v8\src\draw\lv_draw_img.o
+D:\work_test\SiFli-SDK\external\lvgl_v8\src\core\lv_obj_tree.c: In function 'lv_obj_swap':
+D:\work_test\SiFli-SDK\external\lvgl_v8\src\core\lv_obj_tree.c:240:12: warning: potential null pointer dereference [-Wnull-dereference]
+  240 |     parent2->spec_attr->children[index2] = obj1;
+      |     ~~~~~~~^~~~~~~~~~~
+CC build_dpi-hdk_lb575ybbn6_n16_epd_hcpu\sifli_sdk\external\lvgl_v8\src\draw\lv_draw_label.o
+CC build_dpi-hdk_lb575ybbn6_n16_epd_hcpu\sifli_sdk\external\lvgl_v8\src\draw\lv_draw_layer.o
+CC build_dpi-hdk_lb575ybbn6_n16_epd_hcpu\sifli_sdk\external\lvgl_v8\src\draw\lv_draw_line.o
+CC build_dpi-hdk_lb575ybbn6_n16_epd_hcpu\sifli_sdk\external\lvgl_v8\src\draw\lv_draw_mask.o
+CC build_dpi-hdk_lb575ybbn6_n16_epd_hcpu\sifli_sdk\external\lvgl_v8\src\draw\lv_draw_rect.o
+CC build_dpi-hdk_lb575ybbn6_n16_epd_hcpu\sifli_sdk\external\lvgl_v8\src\draw\lv_draw_transform.o
+CC build_dpi-hdk_lb575ybbn6_n16_epd_hcpu\sifli_sdk\external\lvgl_v8\src\draw\lv_draw_triangle.o
+CC build_dpi-hdk_lb575ybbn6_n16_epd_hcpu\sifli_sdk\external\lvgl_v8\src\draw\lv_img_buf.o
+CC build_dpi-hdk_lb575ybbn6_n16_epd_hcpu\sifli_sdk\external\lvgl_v8\src\draw\lv_img_cache.o
+CC build_dpi-hdk_lb575ybbn6_n16_epd_hcpu\sifli_sdk\external\lvgl_v8\src\draw\lv_img_decoder.o
+CC build_dpi-hdk_lb575ybbn6_n16_epd_hcpu\sifli_sdk\external\lvgl_v8\src\extra\lv_extra.o
+CC build_dpi-hdk_lb575ybbn6_n16_epd_hcpu\sifli_sdk\external\lvgl_v8\src\font\lv_font.o
+CC build_dpi-hdk_lb575ybbn6_n16_epd_hcpu\sifli_sdk\external\lvgl_v8\src\font\lv_font_dejavu_16_persian_hebrew.o
+CC build_dpi-hdk_lb575ybbn6_n16_epd_hcpu\sifli_sdk\external\lvgl_v8\src\font\lv_font_fmt_txt.o
+CC build_dpi-hdk_lb575ybbn6_n16_epd_hcpu\sifli_sdk\external\lvgl_v8\src\font\lv_font_loader.o
+CC build_dpi-hdk_lb575ybbn6_n16_epd_hcpu\sifli_sdk\external\lvgl_v8\src\font\lv_font_montserrat_10.o
+CC build_dpi-hdk_lb575ybbn6_n16_epd_hcpu\sifli_sdk\external\lvgl_v8\src\font\lv_font_montserrat_12.o
+CC build_dpi-hdk_lb575ybbn6_n16_epd_hcpu\sifli_sdk\external\lvgl_v8\src\font\lv_font_montserrat_12_subpx.o
+CC build_dpi-hdk_lb575ybbn6_n16_epd_hcpu\sifli_sdk\external\lvgl_v8\src\font\lv_font_montserrat_14.o
+CC build_dpi-hdk_lb575ybbn6_n16_epd_hcpu\sifli_sdk\external\lvgl_v8\src\font\lv_font_montserrat_16.o
+CC build_dpi-hdk_lb575ybbn6_n16_epd_hcpu\sifli_sdk\external\lvgl_v8\src\font\lv_font_montserrat_18.o
+CC build_dpi-hdk_lb575ybbn6_n16_epd_hcpu\sifli_sdk\external\lvgl_v8\src\font\lv_font_montserrat_20.o
+CC build_dpi-hdk_lb575ybbn6_n16_epd_hcpu\sifli_sdk\external\lvgl_v8\src\font\lv_font_montserrat_22.o
+CC build_dpi-hdk_lb575ybbn6_n16_epd_hcpu\sifli_sdk\external\lvgl_v8\src\font\lv_font_montserrat_24.o
+CC build_dpi-hdk_lb575ybbn6_n16_epd_hcpu\sifli_sdk\external\lvgl_v8\src\font\lv_font_montserrat_26.o
+CC build_dpi-hdk_lb575ybbn6_n16_epd_hcpu\sifli_sdk\external\lvgl_v8\src\font\lv_font_montserrat_28.o
+CC build_dpi-hdk_lb575ybbn6_n16_epd_hcpu\sifli_sdk\external\lvgl_v8\src\font\lv_font_montserrat_28_compressed.o
+CC build_dpi-hdk_lb575ybbn6_n16_epd_hcpu\sifli_sdk\external\lvgl_v8\src\font\lv_font_montserrat_30.o
+CC build_dpi-hdk_lb575ybbn6_n16_epd_hcpu\sifli_sdk\external\lvgl_v8\src\font\lv_font_montserrat_32.o
+CC build_dpi-hdk_lb575ybbn6_n16_epd_hcpu\sifli_sdk\external\lvgl_v8\src\font\lv_font_montserrat_34.o
+CC build_dpi-hdk_lb575ybbn6_n16_epd_hcpu\sifli_sdk\external\lvgl_v8\src\font\lv_font_montserrat_36.o
+CC build_dpi-hdk_lb575ybbn6_n16_epd_hcpu\sifli_sdk\external\lvgl_v8\src\font\lv_font_montserrat_38.o
+CC build_dpi-hdk_lb575ybbn6_n16_epd_hcpu\sifli_sdk\external\lvgl_v8\src\font\lv_font_montserrat_40.o
+CC build_dpi-hdk_lb575ybbn6_n16_epd_hcpu\sifli_sdk\external\lvgl_v8\src\font\lv_font_montserrat_42.o
+CC build_dpi-hdk_lb575ybbn6_n16_epd_hcpu\sifli_sdk\external\lvgl_v8\src\font\lv_font_montserrat_44.o
+CC build_dpi-hdk_lb575ybbn6_n16_epd_hcpu\sifli_sdk\external\lvgl_v8\src\font\lv_font_montserrat_46.o
+CC build_dpi-hdk_lb575ybbn6_n16_epd_hcpu\sifli_sdk\external\lvgl_v8\src\font\lv_font_montserrat_48.o
+CC build_dpi-hdk_lb575ybbn6_n16_epd_hcpu\sifli_sdk\external\lvgl_v8\src\font\lv_font_montserrat_8.o
+CC build_dpi-hdk_lb575ybbn6_n16_epd_hcpu\sifli_sdk\external\lvgl_v8\src\font\lv_font_simsun_16_cjk.o
+CC build_dpi-hdk_lb575ybbn6_n16_epd_hcpu\sifli_sdk\external\lvgl_v8\src\font\lv_font_unscii_16.o
+CC build_dpi-hdk_lb575ybbn6_n16_epd_hcpu\sifli_sdk\external\lvgl_v8\src\font\lv_font_unscii_8.o
+CC build_dpi-hdk_lb575ybbn6_n16_epd_hcpu\sifli_sdk\external\lvgl_v8\src\hal\lv_hal_disp.o
+CC build_dpi-hdk_lb575ybbn6_n16_epd_hcpu\sifli_sdk\external\lvgl_v8\src\hal\lv_hal_indev.o
+CC build_dpi-hdk_lb575ybbn6_n16_epd_hcpu\sifli_sdk\external\lvgl_v8\src\hal\lv_hal_tick.o
+CC build_dpi-hdk_lb575ybbn6_n16_epd_hcpu\sifli_sdk\external\lvgl_v8\src\misc\lv_anim.o
+CC build_dpi-hdk_lb575ybbn6_n16_epd_hcpu\sifli_sdk\external\lvgl_v8\src\misc\lv_anim_timeline.o
+CC build_dpi-hdk_lb575ybbn6_n16_epd_hcpu\sifli_sdk\external\lvgl_v8\src\misc\lv_area.o
+CC build_dpi-hdk_lb575ybbn6_n16_epd_hcpu\sifli_sdk\external\lvgl_v8\src\misc\lv_async.o
+CC build_dpi-hdk_lb575ybbn6_n16_epd_hcpu\sifli_sdk\external\lvgl_v8\src\misc\lv_bidi.o
+CC build_dpi-hdk_lb575ybbn6_n16_epd_hcpu\sifli_sdk\external\lvgl_v8\src\misc\lv_color.o
+CC build_dpi-hdk_lb575ybbn6_n16_epd_hcpu\sifli_sdk\external\lvgl_v8\src\misc\lv_fs.o
+CC build_dpi-hdk_lb575ybbn6_n16_epd_hcpu\sifli_sdk\external\lvgl_v8\src\misc\lv_gc.o
+CC build_dpi-hdk_lb575ybbn6_n16_epd_hcpu\sifli_sdk\external\lvgl_v8\src\misc\lv_ll.o
+CC build_dpi-hdk_lb575ybbn6_n16_epd_hcpu\sifli_sdk\external\lvgl_v8\src\misc\lv_log.o
+CC build_dpi-hdk_lb575ybbn6_n16_epd_hcpu\sifli_sdk\external\lvgl_v8\src\misc\lv_lru.o
+CC build_dpi-hdk_lb575ybbn6_n16_epd_hcpu\sifli_sdk\external\lvgl_v8\src\misc\lv_math.o
+CC build_dpi-hdk_lb575ybbn6_n16_epd_hcpu\sifli_sdk\external\lvgl_v8\src\misc\lv_mem.o
+CC build_dpi-hdk_lb575ybbn6_n16_epd_hcpu\sifli_sdk\external\lvgl_v8\src\misc\lv_printf.o
+CC build_dpi-hdk_lb575ybbn6_n16_epd_hcpu\sifli_sdk\external\lvgl_v8\src\misc\lv_style.o
+CC build_dpi-hdk_lb575ybbn6_n16_epd_hcpu\sifli_sdk\external\lvgl_v8\src\misc\lv_style_gen.o
+CC build_dpi-hdk_lb575ybbn6_n16_epd_hcpu\sifli_sdk\external\lvgl_v8\src\misc\lv_timer.o
+CC build_dpi-hdk_lb575ybbn6_n16_epd_hcpu\sifli_sdk\external\lvgl_v8\src\misc\lv_tlsf.o
+CC build_dpi-hdk_lb575ybbn6_n16_epd_hcpu\sifli_sdk\external\lvgl_v8\src\misc\lv_txt.o
+CC build_dpi-hdk_lb575ybbn6_n16_epd_hcpu\sifli_sdk\external\lvgl_v8\src\misc\lv_txt_ap.o
+CC build_dpi-hdk_lb575ybbn6_n16_epd_hcpu\sifli_sdk\external\lvgl_v8\src\widgets\lv_arc.o
+CC build_dpi-hdk_lb575ybbn6_n16_epd_hcpu\sifli_sdk\external\lvgl_v8\src\widgets\lv_bar.o
+CC build_dpi-hdk_lb575ybbn6_n16_epd_hcpu\sifli_sdk\external\lvgl_v8\src\widgets\lv_btn.o
+CC build_dpi-hdk_lb575ybbn6_n16_epd_hcpu\sifli_sdk\external\lvgl_v8\src\widgets\lv_btnmatrix.o
+CC build_dpi-hdk_lb575ybbn6_n16_epd_hcpu\sifli_sdk\external\lvgl_v8\src\widgets\lv_canvas.o
+CC build_dpi-hdk_lb575ybbn6_n16_epd_hcpu\sifli_sdk\external\lvgl_v8\src\widgets\lv_checkbox.o
+CC build_dpi-hdk_lb575ybbn6_n16_epd_hcpu\sifli_sdk\external\lvgl_v8\src\widgets\lv_dropdown.o
+CC build_dpi-hdk_lb575ybbn6_n16_epd_hcpu\sifli_sdk\external\lvgl_v8\src\widgets\lv_img.o
+CC build_dpi-hdk_lb575ybbn6_n16_epd_hcpu\sifli_sdk\external\lvgl_v8\src\widgets\lv_label.o
+CC build_dpi-hdk_lb575ybbn6_n16_epd_hcpu\sifli_sdk\external\lvgl_v8\src\widgets\lv_line.o
+CC build_dpi-hdk_lb575ybbn6_n16_epd_hcpu\sifli_sdk\external\lvgl_v8\src\widgets\lv_roller.o
+CC build_dpi-hdk_lb575ybbn6_n16_epd_hcpu\sifli_sdk\external\lvgl_v8\src\widgets\lv_slider.o
+CC build_dpi-hdk_lb575ybbn6_n16_epd_hcpu\sifli_sdk\external\lvgl_v8\src\widgets\lv_switch.o
+CC build_dpi-hdk_lb575ybbn6_n16_epd_hcpu\sifli_sdk\external\lvgl_v8\src\widgets\lv_table.o
+CC build_dpi-hdk_lb575ybbn6_n16_epd_hcpu\sifli_sdk\external\lvgl_v8\src\widgets\lv_textarea.o
+CC build_dpi-hdk_lb575ybbn6_n16_epd_hcpu\sifli_sdk\external\lvgl_v8\src\draw\arm2d\lv_gpu_arm2d.o
+CC build_dpi-hdk_lb575ybbn6_n16_epd_hcpu\sifli_sdk\external\lvgl_v8\src\draw\nxp\lv_gpu_nxp.o
+CC build_dpi-hdk_lb575ybbn6_n16_epd_hcpu\sifli_sdk\external\lvgl_v8\src\draw\sdl\lv_draw_sdl.o
+CC build_dpi-hdk_lb575ybbn6_n16_epd_hcpu\sifli_sdk\external\lvgl_v8\src\draw\sdl\lv_draw_sdl_arc.o
+CC build_dpi-hdk_lb575ybbn6_n16_epd_hcpu\sifli_sdk\external\lvgl_v8\src\draw\sdl\lv_draw_sdl_bg.o
+CC build_dpi-hdk_lb575ybbn6_n16_epd_hcpu\sifli_sdk\external\lvgl_v8\src\draw\sdl\lv_draw_sdl_composite.o
+CC build_dpi-hdk_lb575ybbn6_n16_epd_hcpu\sifli_sdk\external\lvgl_v8\src\draw\sdl\lv_draw_sdl_img.o
+CC build_dpi-hdk_lb575ybbn6_n16_epd_hcpu\sifli_sdk\external\lvgl_v8\src\draw\sdl\lv_draw_sdl_label.o
+CC build_dpi-hdk_lb575ybbn6_n16_epd_hcpu\sifli_sdk\external\lvgl_v8\src\draw\sdl\lv_draw_sdl_layer.o
+CC build_dpi-hdk_lb575ybbn6_n16_epd_hcpu\sifli_sdk\external\lvgl_v8\src\draw\sdl\lv_draw_sdl_line.o
+CC build_dpi-hdk_lb575ybbn6_n16_epd_hcpu\sifli_sdk\external\lvgl_v8\src\draw\sdl\lv_draw_sdl_mask.o
+CC build_dpi-hdk_lb575ybbn6_n16_epd_hcpu\sifli_sdk\external\lvgl_v8\src\draw\sdl\lv_draw_sdl_polygon.o
+CC build_dpi-hdk_lb575ybbn6_n16_epd_hcpu\sifli_sdk\external\lvgl_v8\src\draw\sdl\lv_draw_sdl_rect.o
+CC build_dpi-hdk_lb575ybbn6_n16_epd_hcpu\sifli_sdk\external\lvgl_v8\src\draw\sdl\lv_draw_sdl_stack_blur.o
+CC build_dpi-hdk_lb575ybbn6_n16_epd_hcpu\sifli_sdk\external\lvgl_v8\src\draw\sdl\lv_draw_sdl_texture_cache.o
+CC build_dpi-hdk_lb575ybbn6_n16_epd_hcpu\sifli_sdk\external\lvgl_v8\src\draw\sdl\lv_draw_sdl_utils.o
+CC build_dpi-hdk_lb575ybbn6_n16_epd_hcpu\sifli_sdk\external\lvgl_v8\src\draw\stm32_dma2d\lv_gpu_stm32_dma2d.o
+CC build_dpi-hdk_lb575ybbn6_n16_epd_hcpu\sifli_sdk\external\lvgl_v8\src\draw\sw\lv_draw_sw.o
+CC build_dpi-hdk_lb575ybbn6_n16_epd_hcpu\sifli_sdk\external\lvgl_v8\src\draw\sw\lv_draw_sw_arc.o
+CC build_dpi-hdk_lb575ybbn6_n16_epd_hcpu\sifli_sdk\external\lvgl_v8\src\draw\sw\lv_draw_sw_blend.o
+CC build_dpi-hdk_lb575ybbn6_n16_epd_hcpu\sifli_sdk\external\lvgl_v8\src\draw\sw\lv_draw_sw_dither.o
+CC build_dpi-hdk_lb575ybbn6_n16_epd_hcpu\sifli_sdk\external\lvgl_v8\src\draw\sw\lv_draw_sw_gradient.o
+CC build_dpi-hdk_lb575ybbn6_n16_epd_hcpu\sifli_sdk\external\lvgl_v8\src\draw\sw\lv_draw_sw_img.o
+CC build_dpi-hdk_lb575ybbn6_n16_epd_hcpu\sifli_sdk\external\lvgl_v8\src\draw\sw\lv_draw_sw_layer.o
+CC build_dpi-hdk_lb575ybbn6_n16_epd_hcpu\sifli_sdk\external\lvgl_v8\src\draw\sw\lv_draw_sw_letter.o
+CC build_dpi-hdk_lb575ybbn6_n16_epd_hcpu\sifli_sdk\external\lvgl_v8\src\draw\sw\lv_draw_sw_line.o
+CC build_dpi-hdk_lb575ybbn6_n16_epd_hcpu\sifli_sdk\external\lvgl_v8\src\draw\sw\lv_draw_sw_polygon.o
+CC build_dpi-hdk_lb575ybbn6_n16_epd_hcpu\sifli_sdk\external\lvgl_v8\src\draw\sw\lv_draw_sw_rect.o
+CC build_dpi-hdk_lb575ybbn6_n16_epd_hcpu\sifli_sdk\external\lvgl_v8\src\draw\sw\lv_draw_sw_transform.o
+CC build_dpi-hdk_lb575ybbn6_n16_epd_hcpu\sifli_sdk\external\lvgl_v8\src\draw\swm341_dma2d\lv_gpu_swm341_dma2d.o
+CC build_dpi-hdk_lb575ybbn6_n16_epd_hcpu\sifli_sdk\external\lvgl_v8\src\draw\nxp\pxp\lv_draw_pxp_blend.o
+CC build_dpi-hdk_lb575ybbn6_n16_epd_hcpu\sifli_sdk\external\lvgl_v8\src\draw\nxp\pxp\lv_gpu_nxp_pxp.o
+CC build_dpi-hdk_lb575ybbn6_n16_epd_hcpu\sifli_sdk\external\lvgl_v8\src\draw\nxp\pxp\lv_gpu_nxp_pxp_osa.o
+CC build_dpi-hdk_lb575ybbn6_n16_epd_hcpu\sifli_sdk\external\lvgl_v8\src\draw\nxp\vglite\lv_draw_vglite_arc.o
+CC build_dpi-hdk_lb575ybbn6_n16_epd_hcpu\sifli_sdk\external\lvgl_v8\src\draw\nxp\vglite\lv_draw_vglite_blend.o
+CC build_dpi-hdk_lb575ybbn6_n16_epd_hcpu\sifli_sdk\external\lvgl_v8\src\draw\nxp\vglite\lv_draw_vglite_rect.o
+CC build_dpi-hdk_lb575ybbn6_n16_epd_hcpu\sifli_sdk\external\lvgl_v8\src\draw\nxp\vglite\lv_gpu_nxp_vglite.o
+CC build_dpi-hdk_lb575ybbn6_n16_epd_hcpu\sifli_sdk\external\lvgl_v8\src\extra\layouts\flex\lv_flex.o
+CC build_dpi-hdk_lb575ybbn6_n16_epd_hcpu\sifli_sdk\external\lvgl_v8\src\extra\layouts\grid\lv_grid.o
+CC build_dpi-hdk_lb575ybbn6_n16_epd_hcpu\sifli_sdk\external\lvgl_v8\src\extra\libs\bmp\lv_bmp.o
+CC build_dpi-hdk_lb575ybbn6_n16_epd_hcpu\sifli_sdk\external\lvgl_v8\src\extra\libs\ffmpeg\lv_ffmpeg.o
+CC build_dpi-hdk_lb575ybbn6_n16_epd_hcpu\sifli_sdk\external\lvgl_v8\src\extra\libs\freetype\lv_freetype.o
+CC build_dpi-hdk_lb575ybbn6_n16_epd_hcpu\sifli_sdk\external\lvgl_v8\src\extra\libs\fsdrv\lv_fs_fatfs.o
+CC build_dpi-hdk_lb575ybbn6_n16_epd_hcpu\sifli_sdk\external\lvgl_v8\src\extra\libs\fsdrv\lv_fs_posix.o
+CC build_dpi-hdk_lb575ybbn6_n16_epd_hcpu\sifli_sdk\external\lvgl_v8\src\extra\libs\fsdrv\lv_fs_stdio.o
+CC build_dpi-hdk_lb575ybbn6_n16_epd_hcpu\sifli_sdk\external\lvgl_v8\src\extra\libs\fsdrv\lv_fs_win32.o
+CC build_dpi-hdk_lb575ybbn6_n16_epd_hcpu\sifli_sdk\external\lvgl_v8\src\extra\libs\gif\gifdec.o
+CC build_dpi-hdk_lb575ybbn6_n16_epd_hcpu\sifli_sdk\external\lvgl_v8\src\extra\libs\gif\lv_gif.o
+CC build_dpi-hdk_lb575ybbn6_n16_epd_hcpu\sifli_sdk\external\lvgl_v8\src\extra\libs\png\lodepng.o
+CC build_dpi-hdk_lb575ybbn6_n16_epd_hcpu\sifli_sdk\external\lvgl_v8\src\extra\libs\png\lv_png.o
+CC build_dpi-hdk_lb575ybbn6_n16_epd_hcpu\sifli_sdk\external\lvgl_v8\src\extra\libs\qrcode\lv_qrcode.o
+CC build_dpi-hdk_lb575ybbn6_n16_epd_hcpu\sifli_sdk\external\lvgl_v8\src\extra\libs\qrcode\qrcodegen.o
+CC build_dpi-hdk_lb575ybbn6_n16_epd_hcpu\sifli_sdk\external\lvgl_v8\src\extra\libs\rlottie\lv_rlottie.o
+CC build_dpi-hdk_lb575ybbn6_n16_epd_hcpu\sifli_sdk\external\lvgl_v8\src\extra\libs\sjpg\lv_sjpg.o
+CC build_dpi-hdk_lb575ybbn6_n16_epd_hcpu\sifli_sdk\external\lvgl_v8\src\extra\libs\sjpg\tjpgd.o
+CC build_dpi-hdk_lb575ybbn6_n16_epd_hcpu\sifli_sdk\external\lvgl_v8\src\extra\others\fragment\lv_fragment.o
+CC build_dpi-hdk_lb575ybbn6_n16_epd_hcpu\sifli_sdk\external\lvgl_v8\src\extra\others\fragment\lv_fragment_manager.o
+CC build_dpi-hdk_lb575ybbn6_n16_epd_hcpu\sifli_sdk\external\lvgl_v8\src\extra\others\gridnav\lv_gridnav.o
+CC build_dpi-hdk_lb575ybbn6_n16_epd_hcpu\sifli_sdk\external\lvgl_v8\src\extra\others\ime\lv_ime_pinyin.o
+CC build_dpi-hdk_lb575ybbn6_n16_epd_hcpu\sifli_sdk\external\lvgl_v8\src\extra\others\imgfont\lv_imgfont.o
+CC build_dpi-hdk_lb575ybbn6_n16_epd_hcpu\sifli_sdk\external\lvgl_v8\src\extra\others\monkey\lv_monkey.o
+CC build_dpi-hdk_lb575ybbn6_n16_epd_hcpu\sifli_sdk\external\lvgl_v8\src\extra\others\msg\lv_msg.o
+CC build_dpi-hdk_lb575ybbn6_n16_epd_hcpu\sifli_sdk\external\lvgl_v8\src\extra\others\snapshot\lv_snapshot.o
+CC build_dpi-hdk_lb575ybbn6_n16_epd_hcpu\sifli_sdk\external\lvgl_v8\src\extra\themes\basic\lv_theme_basic.o
+CC build_dpi-hdk_lb575ybbn6_n16_epd_hcpu\sifli_sdk\external\lvgl_v8\src\extra\themes\default\lv_theme_default.o
+CC build_dpi-hdk_lb575ybbn6_n16_epd_hcpu\sifli_sdk\external\lvgl_v8\src\extra\themes\mono\lv_theme_mono.o
+CC build_dpi-hdk_lb575ybbn6_n16_epd_hcpu\sifli_sdk\external\lvgl_v8\src\extra\widgets\animimg\lv_animimg.o
+CC build_dpi-hdk_lb575ybbn6_n16_epd_hcpu\sifli_sdk\external\lvgl_v8\src\extra\widgets\calendar\lv_calendar.o
+CC build_dpi-hdk_lb575ybbn6_n16_epd_hcpu\sifli_sdk\external\lvgl_v8\src\extra\widgets\calendar\lv_calendar_header_arrow.o
+CC build_dpi-hdk_lb575ybbn6_n16_epd_hcpu\sifli_sdk\external\lvgl_v8\src\extra\widgets\calendar\lv_calendar_header_dropdown.o
+CC build_dpi-hdk_lb575ybbn6_n16_epd_hcpu\sifli_sdk\external\lvgl_v8\src\extra\widgets\chart\lv_chart.o
+CC build_dpi-hdk_lb575ybbn6_n16_epd_hcpu\sifli_sdk\external\lvgl_v8\src\extra\widgets\colorwheel\lv_colorwheel.o
+CC build_dpi-hdk_lb575ybbn6_n16_epd_hcpu\sifli_sdk\external\lvgl_v8\src\extra\widgets\imgbtn\lv_imgbtn.o
+CC build_dpi-hdk_lb575ybbn6_n16_epd_hcpu\sifli_sdk\external\lvgl_v8\src\extra\widgets\keyboard\lv_keyboard.o
+CC build_dpi-hdk_lb575ybbn6_n16_epd_hcpu\sifli_sdk\external\lvgl_v8\src\extra\widgets\led\lv_led.o
+CC build_dpi-hdk_lb575ybbn6_n16_epd_hcpu\sifli_sdk\external\lvgl_v8\src\extra\widgets\list\lv_list.o
+CC build_dpi-hdk_lb575ybbn6_n16_epd_hcpu\sifli_sdk\external\lvgl_v8\src\extra\widgets\menu\lv_menu.o
+CC build_dpi-hdk_lb575ybbn6_n16_epd_hcpu\sifli_sdk\external\lvgl_v8\src\extra\widgets\meter\lv_meter.o
+CC build_dpi-hdk_lb575ybbn6_n16_epd_hcpu\sifli_sdk\external\lvgl_v8\src\extra\widgets\msgbox\lv_msgbox.o
+CC build_dpi-hdk_lb575ybbn6_n16_epd_hcpu\sifli_sdk\external\lvgl_v8\src\extra\widgets\span\lv_span.o
+CC build_dpi-hdk_lb575ybbn6_n16_epd_hcpu\sifli_sdk\external\lvgl_v8\src\extra\widgets\spinbox\lv_spinbox.o
+CC build_dpi-hdk_lb575ybbn6_n16_epd_hcpu\sifli_sdk\external\lvgl_v8\src\extra\widgets\spinner\lv_spinner.o
+CC build_dpi-hdk_lb575ybbn6_n16_epd_hcpu\sifli_sdk\external\lvgl_v8\src\extra\widgets\tabview\lv_tabview.o
+CC build_dpi-hdk_lb575ybbn6_n16_epd_hcpu\sifli_sdk\external\lvgl_v8\src\extra\widgets\tileview\lv_tileview.o
+CC build_dpi-hdk_lb575ybbn6_n16_epd_hcpu\sifli_sdk\external\lvgl_v8\src\extra\widgets\win\lv_win.o
+CC build_dpi-hdk_lb575ybbn6_n16_epd_hcpu\sifli_sdk\middleware\button\button.o
+CC build_dpi-hdk_lb575ybbn6_n16_epd_hcpu\sifli_sdk\middleware\cpu_usage_profiler\cpu_usage_profiler.o
+CC build_dpi-hdk_lb575ybbn6_n16_epd_hcpu\sifli_sdk\middleware\lvgl\littlevgl2rtt.o
+CC build_dpi-hdk_lb575ybbn6_n16_epd_hcpu\sifli_sdk\middleware\lvgl\lvsf_perf.o
+CC build_dpi-hdk_lb575ybbn6_n16_epd_hcpu\sifli_sdk\middleware\lvgl\lvsf_perf_v9.o
+CC build_dpi-hdk_lb575ybbn6_n16_epd_hcpu\sifli_sdk\middleware\lvgl\app_mem.o
+CC build_dpi-hdk_lb575ybbn6_n16_epd_hcpu\sifli_sdk\middleware\lvgl\hash_cache.o
+CC build_dpi-hdk_lb575ybbn6_n16_epd_hcpu\sifli_sdk\middleware\lvgl\lv_drivers\lv_gpu_new_api.o
+CC build_dpi-hdk_lb575ybbn6_n16_epd_hcpu\sifli_sdk\middleware\lvgl\lv_drivers\lv_keypad.o
+CC build_dpi-hdk_lb575ybbn6_n16_epd_hcpu\sifli_sdk\middleware\lvgl\lv_drivers\lv_lcd.o
+CC build_dpi-hdk_lb575ybbn6_n16_epd_hcpu\sifli_sdk\middleware\lvgl\lv_drivers\lv_touch.o
+CC build_dpi-hdk_lb575ybbn6_n16_epd_hcpu\sifli_sdk\middleware\lvgl\lv_drivers\lv_wheel.o
+CC build_dpi-hdk_lb575ybbn6_n16_epd_hcpu\sifli_sdk\middleware\lvgl\lv_drivers\lvgl_drv.o
+CC build_dpi-hdk_lb575ybbn6_n16_epd_hcpu\sifli_sdk\middleware\lvgl\lv_drivers\lvsf_img_decoder.o
+CC build_dpi-hdk_lb575ybbn6_n16_epd_hcpu\sifli_sdk\middleware\sifli_lib\lib\agif.o
+CC build_dpi-hdk_lb575ybbn6_n16_epd_hcpu\sifli_sdk\middleware\sifli_matrix\sifli_matrix.o
+CC build_dpi-hdk_lb575ybbn6_n16_epd_hcpu\sifli_sdk\middleware\system\bf0_common.o
+CC build_dpi-hdk_lb575ybbn6_n16_epd_hcpu\sifli_sdk\rtos\os_adaptor\src\os_adaptor_rtthread.o
+CC build_dpi-hdk_lb575ybbn6_n16_epd_hcpu\sifli_sdk\rtos\rtthread\bsp\sifli\drivers\drv_dma.o
+CC build_dpi-hdk_lb575ybbn6_n16_epd_hcpu\sifli_sdk\rtos\rtthread\bsp\sifli\drivers\drv_gpio.o
+CC build_dpi-hdk_lb575ybbn6_n16_epd_hcpu\sifli_sdk\rtos\rtthread\bsp\sifli\drivers\drv_usart.o
+CC build_dpi-hdk_lb575ybbn6_n16_epd_hcpu\sifli_sdk\rtos\rtthread\bsp\sifli\drivers\drv_hwtimer.o
+CC build_dpi-hdk_lb575ybbn6_n16_epd_hcpu\sifli_sdk\rtos\rtthread\bsp\sifli\drivers\drv_pwm_tim.o
+CC build_dpi-hdk_lb575ybbn6_n16_epd_hcpu\sifli_sdk\rtos\rtthread\bsp\sifli\drivers\drv_pwm_lptim.o
+CC build_dpi-hdk_lb575ybbn6_n16_epd_hcpu\sifli_sdk\rtos\rtthread\bsp\sifli\drivers\drv_pwm.o
+CC build_dpi-hdk_lb575ybbn6_n16_epd_hcpu\sifli_sdk\rtos\rtthread\bsp\sifli\drivers\drv_spi.o
+CC build_dpi-hdk_lb575ybbn6_n16_epd_hcpu\sifli_sdk\rtos\rtthread\bsp\sifli\drivers\drv_soft_i2c.o
+CC build_dpi-hdk_lb575ybbn6_n16_epd_hcpu\sifli_sdk\rtos\rtthread\bsp\sifli\drivers\drv_i2c.o
+CC build_dpi-hdk_lb575ybbn6_n16_epd_hcpu\sifli_sdk\rtos\rtthread\bsp\sifli\drivers\drv_adc.o
+CC build_dpi-hdk_lb575ybbn6_n16_epd_hcpu\sifli_sdk\rtos\rtthread\bsp\sifli\drivers\drv_spi_flash.o
+CC build_dpi-hdk_lb575ybbn6_n16_epd_hcpu\sifli_sdk\rtos\rtthread\bsp\sifli\drivers\drv_spi_nand.o
+CC build_dpi-hdk_lb575ybbn6_n16_epd_hcpu\sifli_sdk\rtos\rtthread\bsp\sifli\drivers\drv_sys_cfg.o
+CC build_dpi-hdk_lb575ybbn6_n16_epd_hcpu\sifli_sdk\rtos\rtthread\bsp\sifli\drivers\drv_rtc.o
+CC build_dpi-hdk_lb575ybbn6_n16_epd_hcpu\sifli_sdk\rtos\rtthread\bsp\sifli\drivers\drv_audprc.o
+CC build_dpi-hdk_lb575ybbn6_n16_epd_hcpu\sifli_sdk\rtos\rtthread\bsp\sifli\drivers\drv_audcodec_m.o
+CC build_dpi-hdk_lb575ybbn6_n16_epd_hcpu\sifli_sdk\rtos\rtthread\bsp\sifli\drivers\drv_lcd_private.o
+CC build_dpi-hdk_lb575ybbn6_n16_epd_hcpu\sifli_sdk\rtos\rtthread\bsp\sifli\drivers\drv_lcd.o
+CC build_dpi-hdk_lb575ybbn6_n16_epd_hcpu\sifli_sdk\rtos\rtthread\bsp\sifli\drivers\drv_ram_lcd.o
+CC build_dpi-hdk_lb575ybbn6_n16_epd_hcpu\sifli_sdk\rtos\rtthread\bsp\sifli\drivers\drv_lcd_test.o
+CC build_dpi-hdk_lb575ybbn6_n16_epd_hcpu\sifli_sdk\rtos\rtthread\bsp\sifli\drivers\drv_lcd_fb.o
+CC build_dpi-hdk_lb575ybbn6_n16_epd_hcpu\sifli_sdk\rtos\rtthread\bsp\sifli\drivers\drv_touch.o
+CC build_dpi-hdk_lb575ybbn6_n16_epd_hcpu\sifli_sdk\rtos\rtthread\bsp\sifli\drivers\drv_epic.o
+CC build_dpi-hdk_lb575ybbn6_n16_epd_hcpu\sifli_sdk\rtos\rtthread\bsp\sifli\drivers\drv_epic_rl_com.o
+CC build_dpi-hdk_lb575ybbn6_n16_epd_hcpu\sifli_sdk\rtos\rtthread\bsp\sifli\drivers\drv_epic_mask.o
+CC build_dpi-hdk_lb575ybbn6_n16_epd_hcpu\sifli_sdk\rtos\rtthread\bsp\sifli\drivers\drv_epic_rl_mng.o
+CC build_dpi-hdk_lb575ybbn6_n16_epd_hcpu\sifli_sdk\rtos\rtthread\bsp\sifli\drivers\drv_epic_rl_ll.o
+CC build_dpi-hdk_lb575ybbn6_n16_epd_hcpu\sifli_sdk\rtos\rtthread\bsp\sifli\drivers\drv_epic_rl_draw.o
+CC build_dpi-hdk_lb575ybbn6_n16_epd_hcpu\sifli_sdk\rtos\rtthread\bsp\sifli\drivers\drv_psram.o
+CC build_dpi-hdk_lb575ybbn6_n16_epd_hcpu\sifli_sdk\rtos\rtthread\bsp\sifli\drivers\drv_mpi.o
+CC build_dpi-hdk_lb575ybbn6_n16_epd_hcpu\sifli_sdk\rtos\rtthread\bsp\sifli\drivers\drv_aes.o
+CC build_dpi-hdk_lb575ybbn6_n16_epd_hcpu\sifli_sdk\rtos\rtthread\bsp\sifli\drivers\drv_common.o
+CC build_dpi-hdk_lb575ybbn6_n16_epd_hcpu\sifli_sdk\rtos\rtthread\bsp\sifli\drivers\drv_dbg.o
+CC build_dpi-hdk_lb575ybbn6_n16_epd_hcpu\sifli_sdk\rtos\rtthread\bsp\sifli\drivers\drv_epictl.o
+CC build_dpi-hdk_lb575ybbn6_n16_epd_hcpu\src\images.o
+CC build_dpi-hdk_lb575ybbn6_n16_epd_hcpu\src\main.o
+CC build_dpi-hdk_lb575ybbn6_n16_epd_hcpu\src\screens.o
+CC build_dpi-hdk_lb575ybbn6_n16_epd_hcpu\src\styles.o
+CC build_dpi-hdk_lb575ybbn6_n16_epd_hcpu\src\ui.o
+GenImgFile build_dpi-hdk_lb575ybbn6_n16_epd_hcpu\image\ezip\img_shanghai.tmp.c
+ImgFileBuilder= -rgb565 -cfile 2 -pal_support -winsize 2048 
+CC build_dpi-hdk_lb575ybbn6_n16_epd_hcpu\sifli_sdk\rtos\kernel\src\clock.o
+CC build_dpi-hdk_lb575ybbn6_n16_epd_hcpu\sifli_sdk\rtos\kernel\src\components.o
+CC build_dpi-hdk_lb575ybbn6_n16_epd_hcpu\sifli_sdk\rtos\kernel\src\cpu.o
+ezip version: 2.6.4_20260414_dyn_app_support_separate_dir build time: Apr 24 2026 17:18:55
+
+----- ezip convert begin: ezip -convert D:\work_test\SiFli-SDK\example\multimedia\lvgl\lvgl_tools_example\eez_studio\image\ezip\img_shanghai.c color RGB565 -------------
+
+  Found array: img_shanghai_map (480000 bytes)
+  Parsed image: img_shanghai_map (400x400px, CF: LV_IMG_CF_TRUE_COLOR_ALPHA -> 0x05)
+
+
+------  ezip convert success:  convert_num 0 error_num 0 run time 0.249 (s) ------
+
+CC build_dpi-hdk_lb575ybbn6_n16_epd_hcpu\image\ezip\img_shanghai.tmp.o
+CC build_dpi-hdk_lb575ybbn6_n16_epd_hcpu\sifli_sdk\rtos\kernel\src\device.o
+CC build_dpi-hdk_lb575ybbn6_n16_epd_hcpu\sifli_sdk\rtos\kernel\src\idle.o
+CC build_dpi-hdk_lb575ybbn6_n16_epd_hcpu\sifli_sdk\rtos\kernel\src\ipc.o
+CC build_dpi-hdk_lb575ybbn6_n16_epd_hcpu\sifli_sdk\rtos\kernel\src\irq.o
+CC build_dpi-hdk_lb575ybbn6_n16_epd_hcpu\sifli_sdk\rtos\kernel\src\kservice.o
+CC build_dpi-hdk_lb575ybbn6_n16_epd_hcpu\sifli_sdk\rtos\kernel\src\mem.o
+CC build_dpi-hdk_lb575ybbn6_n16_epd_hcpu\sifli_sdk\rtos\kernel\src\memheap.o
+CC build_dpi-hdk_lb575ybbn6_n16_epd_hcpu\sifli_sdk\rtos\kernel\src\memheap2.o
+CC build_dpi-hdk_lb575ybbn6_n16_epd_hcpu\sifli_sdk\rtos\kernel\src\mempool.o
+CC build_dpi-hdk_lb575ybbn6_n16_epd_hcpu\sifli_sdk\rtos\kernel\src\object.o
+CC build_dpi-hdk_lb575ybbn6_n16_epd_hcpu\sifli_sdk\rtos\kernel\src\scheduler.o
+CC build_dpi-hdk_lb575ybbn6_n16_epd_hcpu\sifli_sdk\rtos\kernel\src\signal.o
+CC build_dpi-hdk_lb575ybbn6_n16_epd_hcpu\sifli_sdk\rtos\kernel\src\thread.o
+CC build_dpi-hdk_lb575ybbn6_n16_epd_hcpu\sifli_sdk\rtos\kernel\src\timer.o
+CC build_dpi-hdk_lb575ybbn6_n16_epd_hcpu\sifli_sdk\rtos\kernel\libcpu\arm\cortex-m33\cpuport.o
+CC build_dpi-hdk_lb575ybbn6_n16_epd_hcpu\sifli_sdk\rtos\kernel\libcpu\arm\common\backtrace.o
+CC build_dpi-hdk_lb575ybbn6_n16_epd_hcpu\sifli_sdk\rtos\kernel\libcpu\arm\common\showmem.o
+CXX build_dpi-hdk_lb575ybbn6_n16_epd_hcpu\sifli_sdk\rtos\kernel\components\cplusplus\cxx_crt.o
+CXX build_dpi-hdk_lb575ybbn6_n16_epd_hcpu\sifli_sdk\rtos\kernel\components\cplusplus\cxx_mutex.o
+CXX build_dpi-hdk_lb575ybbn6_n16_epd_hcpu\sifli_sdk\rtos\kernel\components\cplusplus\cxx_semaphore.o
+CXX build_dpi-hdk_lb575ybbn6_n16_epd_hcpu\sifli_sdk\rtos\kernel\components\cplusplus\cxx_thread.o
+CC build_dpi-hdk_lb575ybbn6_n16_epd_hcpu\sifli_sdk\rtos\kernel\components\cplusplus\cxx_crt_init.o
+CC build_dpi-hdk_lb575ybbn6_n16_epd_hcpu\sifli_sdk\rtos\kernel\components\dfs\src\dfs.o
+CC build_dpi-hdk_lb575ybbn6_n16_epd_hcpu\sifli_sdk\rtos\kernel\components\dfs\src\dfs_file.o
+CC build_dpi-hdk_lb575ybbn6_n16_epd_hcpu\sifli_sdk\rtos\kernel\components\dfs\src\dfs_fs.o
+CC build_dpi-hdk_lb575ybbn6_n16_epd_hcpu\sifli_sdk\rtos\kernel\components\dfs\src\dfs_posix.o
+CC build_dpi-hdk_lb575ybbn6_n16_epd_hcpu\sifli_sdk\rtos\kernel\components\dfs\src\poll.o
+CC build_dpi-hdk_lb575ybbn6_n16_epd_hcpu\sifli_sdk\rtos\kernel\components\dfs\src\select.o
+CC build_dpi-hdk_lb575ybbn6_n16_epd_hcpu\sifli_sdk\rtos\kernel\components\dfs\filesystems\devfs\devfs.o
+CC build_dpi-hdk_lb575ybbn6_n16_epd_hcpu\sifli_sdk\rtos\kernel\components\drivers\sensors\sensor.o
+CC build_dpi-hdk_lb575ybbn6_n16_epd_hcpu\sifli_sdk\rtos\kernel\components\drivers\sensors\sensor_cmd.o
+CC build_dpi-hdk_lb575ybbn6_n16_epd_hcpu\sifli_sdk\rtos\kernel\components\finsh\shell.o
+CC build_dpi-hdk_lb575ybbn6_n16_epd_hcpu\sifli_sdk\rtos\kernel\components\finsh\symbol.o
+CC build_dpi-hdk_lb575ybbn6_n16_epd_hcpu\sifli_sdk\rtos\kernel\components\finsh\cmd.o
+CC build_dpi-hdk_lb575ybbn6_n16_epd_hcpu\sifli_sdk\rtos\kernel\components\finsh\msh.o
+CC build_dpi-hdk_lb575ybbn6_n16_epd_hcpu\sifli_sdk\rtos\kernel\components\finsh\msh_cmd.o
+CC build_dpi-hdk_lb575ybbn6_n16_epd_hcpu\sifli_sdk\rtos\kernel\components\finsh\msh_file.o
+CC build_dpi-hdk_lb575ybbn6_n16_epd_hcpu\sifli_sdk\rtos\kernel\components\libc\compilers\common\gmtime_r.o
+CC build_dpi-hdk_lb575ybbn6_n16_epd_hcpu\sifli_sdk\rtos\kernel\components\libc\compilers\common\unistd.o
+CC build_dpi-hdk_lb575ybbn6_n16_epd_hcpu\sifli_sdk\rtos\kernel\components\libc\compilers\newlib\libc.o
+CC build_dpi-hdk_lb575ybbn6_n16_epd_hcpu\sifli_sdk\rtos\kernel\components\libc\compilers\newlib\libc_syms.o
+CC build_dpi-hdk_lb575ybbn6_n16_epd_hcpu\sifli_sdk\rtos\kernel\components\libc\compilers\newlib\stdio.o
+CC build_dpi-hdk_lb575ybbn6_n16_epd_hcpu\sifli_sdk\rtos\kernel\components\libc\compilers\newlib\syscalls.o
+CC build_dpi-hdk_lb575ybbn6_n16_epd_hcpu\sifli_sdk\rtos\kernel\components\libc\compilers\newlib\time.o
+CC build_dpi-hdk_lb575ybbn6_n16_epd_hcpu\sifli_sdk\rtos\kernel\components\utilities\llt_mem\llt_mem.o
+CC build_dpi-hdk_lb575ybbn6_n16_epd_hcpu\sifli_sdk\rtos\kernel\components\utilities\ulog\ulog.o
+CC build_dpi-hdk_lb575ybbn6_n16_epd_hcpu\sifli_sdk\rtos\kernel\components\utilities\ulog\backend\console_be.o
+CC build_dpi-hdk_lb575ybbn6_n16_epd_hcpu\sifli_sdk\middleware\lvgl\lvsf\lv_ex_data.o
+CC build_dpi-hdk_lb575ybbn6_n16_epd_hcpu\sifli_sdk\middleware\lvgl\lvsf\lvsf_analogclk.o
+CC build_dpi-hdk_lb575ybbn6_n16_epd_hcpu\sifli_sdk\middleware\lvgl\lvsf\lvsf_barcode.o
+CC build_dpi-hdk_lb575ybbn6_n16_epd_hcpu\sifli_sdk\middleware\lvgl\lvsf\lvsf_comp.o
+CC build_dpi-hdk_lb575ybbn6_n16_epd_hcpu\sifli_sdk\middleware\lvgl\lvsf\lvsf_composite.o
+CC build_dpi-hdk_lb575ybbn6_n16_epd_hcpu\sifli_sdk\middleware\lvgl\lvsf\lvsf_corner.o
+CC build_dpi-hdk_lb575ybbn6_n16_epd_hcpu\sifli_sdk\middleware\lvgl\lvsf\lvsf_curvetext.o
+CC build_dpi-hdk_lb575ybbn6_n16_epd_hcpu\sifli_sdk\middleware\lvgl\lvsf\lvsf_emoji.o
+CC build_dpi-hdk_lb575ybbn6_n16_epd_hcpu\sifli_sdk\middleware\lvgl\lvsf\lvsf_ezipa.o
+CC build_dpi-hdk_lb575ybbn6_n16_epd_hcpu\sifli_sdk\middleware\lvgl\lvsf\lvsf_font.o
+CC build_dpi-hdk_lb575ybbn6_n16_epd_hcpu\sifli_sdk\middleware\lvgl\lvsf\lvsf_font_manager.o
+CC build_dpi-hdk_lb575ybbn6_n16_epd_hcpu\sifli_sdk\middleware\lvgl\lvsf\lvsf_gesture.o
+CC build_dpi-hdk_lb575ybbn6_n16_epd_hcpu\sifli_sdk\middleware\lvgl\lvsf\lvsf_header.o
+CC build_dpi-hdk_lb575ybbn6_n16_epd_hcpu\sifli_sdk\middleware\lvgl\lvsf\lvsf_idximg.o
+CC build_dpi-hdk_lb575ybbn6_n16_epd_hcpu\sifli_sdk\middleware\lvgl\lvsf\lvsf_input.o
+CC build_dpi-hdk_lb575ybbn6_n16_epd_hcpu\sifli_sdk\middleware\lvgl\lvsf\lvsf_popup.o
+CC build_dpi-hdk_lb575ybbn6_n16_epd_hcpu\sifli_sdk\middleware\lvgl\lvsf\lvsf_rlottie.o
+CC build_dpi-hdk_lb575ybbn6_n16_epd_hcpu\sifli_sdk\middleware\lvgl\lvsf\lvsf_theme_1.o
+CC build_dpi-hdk_lb575ybbn6_n16_epd_hcpu\sifli_sdk\middleware\lvgl\lvsf\lvsf_utils.o
+CC build_dpi-hdk_lb575ybbn6_n16_epd_hcpu\sifli_sdk\rtos\kernel\components\drivers\audio\audio.o
+CC build_dpi-hdk_lb575ybbn6_n16_epd_hcpu\sifli_sdk\rtos\kernel\components\drivers\audio\audio_pipe.o
+CC build_dpi-hdk_lb575ybbn6_n16_epd_hcpu\sifli_sdk\rtos\kernel\components\drivers\hwmailbox\hwmailbox.o
+CC build_dpi-hdk_lb575ybbn6_n16_epd_hcpu\sifli_sdk\rtos\kernel\components\drivers\hwtimer\hwtimer.o
+CC build_dpi-hdk_lb575ybbn6_n16_epd_hcpu\sifli_sdk\rtos\kernel\components\drivers\i2c\i2c_core.o
+CC build_dpi-hdk_lb575ybbn6_n16_epd_hcpu\sifli_sdk\rtos\kernel\components\drivers\i2c\i2c_dev.o
+CC build_dpi-hdk_lb575ybbn6_n16_epd_hcpu\sifli_sdk\rtos\kernel\components\drivers\i2c\i2c-bit-ops.o
+CC build_dpi-hdk_lb575ybbn6_n16_epd_hcpu\sifli_sdk\rtos\kernel\components\drivers\misc\pin.o
+CC build_dpi-hdk_lb575ybbn6_n16_epd_hcpu\sifli_sdk\rtos\kernel\components\drivers\misc\adc.o
+CC build_dpi-hdk_lb575ybbn6_n16_epd_hcpu\sifli_sdk\rtos\kernel\components\drivers\misc\rt_drv_pwm.o
+CC build_dpi-hdk_lb575ybbn6_n16_epd_hcpu\sifli_sdk\rtos\kernel\components\drivers\mtd\mtd_nor.o
+CC build_dpi-hdk_lb575ybbn6_n16_epd_hcpu\sifli_sdk\rtos\kernel\components\drivers\rtc\rtc.o
+CC build_dpi-hdk_lb575ybbn6_n16_epd_hcpu\sifli_sdk\rtos\kernel\components\drivers\serial\serial.o
+CC build_dpi-hdk_lb575ybbn6_n16_epd_hcpu\sifli_sdk\rtos\kernel\components\drivers\spi\spi_core.o
+CC build_dpi-hdk_lb575ybbn6_n16_epd_hcpu\sifli_sdk\rtos\kernel\components\drivers\spi\spi_dev.o
+CC build_dpi-hdk_lb575ybbn6_n16_epd_hcpu\sifli_sdk\rtos\kernel\components\drivers\src\completion.o
+CC build_dpi-hdk_lb575ybbn6_n16_epd_hcpu\sifli_sdk\rtos\kernel\components\drivers\src\dataqueue.o
+CC build_dpi-hdk_lb575ybbn6_n16_epd_hcpu\sifli_sdk\rtos\kernel\components\drivers\src\pipe.o
+CC build_dpi-hdk_lb575ybbn6_n16_epd_hcpu\sifli_sdk\rtos\kernel\components\drivers\src\ringblk_buf.o
+CC build_dpi-hdk_lb575ybbn6_n16_epd_hcpu\sifli_sdk\rtos\kernel\components\drivers\src\ringbuffer.o
+CC build_dpi-hdk_lb575ybbn6_n16_epd_hcpu\sifli_sdk\rtos\kernel\components\drivers\src\ringbuffer32.o
+CC build_dpi-hdk_lb575ybbn6_n16_epd_hcpu\sifli_sdk\rtos\kernel\components\drivers\src\waitqueue.o
+CC build_dpi-hdk_lb575ybbn6_n16_epd_hcpu\sifli_sdk\rtos\kernel\components\drivers\src\workqueue.o
+Generating build_dpi-hdk_lb575ybbn6_n16_epd_hcpu\link_copy.lds ...
+Generating build_dpi-hdk_lb575ybbn6_n16_epd_hcpu\ftab\link_copy.lds ...
+Building compilation database build_dpi-hdk_lb575ybbn6_n16_epd_hcpu\ftab\compile_commands.json
+LINK build_dpi-hdk_lb575ybbn6_n16_epd_hcpu\main.elf
+C:/env_1.1.2.1/tools/gnu_gcc/arm_gcc_14.2.1/bin/../lib/gcc/arm-none-eabi/14.2.1/../../../../arm-none-eabi/bin/ld.exe: build_dpi-hdk_lb575ybbn6_n16_epd_hcpu\main.elf section `.RW_IRAM0' will not fit in region `RAM'
+C:/env_1.1.2.1/tools/gnu_gcc/arm_gcc_14.2.1/bin/../lib/gcc/arm-none-eabi/14.2.1/../../../../arm-none-eabi/bin/ld.exe: region `RAM' overflowed by 265340 bytes
+C:/env_1.1.2.1/tools/gnu_gcc/arm_gcc_14.2.1/bin/../lib/gcc/arm-none-eabi/14.2.1/../../../../arm-none-eabi/bin/ld.exe: warning: build_dpi-hdk_lb575ybbn6_n16_epd_hcpu\main.elf has a LOAD segment with RWX permissions
+collect2.exe: error: ld returned 1 exit status
+scons: *** [build_dpi-hdk_lb575ybbn6_n16_epd_hcpu\main.elf] Error 1
+scons: building terminated because of errors.

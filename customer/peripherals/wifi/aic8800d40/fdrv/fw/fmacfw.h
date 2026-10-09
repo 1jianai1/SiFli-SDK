@@ -1,5 +1,5 @@
 /*
- * SPDX-FileCopyrightText: 2019-2026 SiFli Technologies(Nanjing) Co., Ltd
+ * SPDX-FileCopyrightText: 2026 AICSemi Ltd
  *
  * SPDX-License-Identifier: Apache-2.0
  */
@@ -9,7 +9,8 @@
 
 #include <stdint.h>
 
-static const uint32_t fmacfw[] = {
+static const uint32_t fmacfw[] =
+{
     0x001d8000,
     0x00120191,
     0x0012c8cd,

@@ -1,5 +1,5 @@
 /*
- * SPDX-FileCopyrightText: 2019-2026 SiFli Technologies(Nanjing) Co., Ltd
+ * SPDX-FileCopyrightText: 2026 AICSemi Ltd
  *
  * SPDX-License-Identifier: Apache-2.0
  */
@@ -35,7 +35,8 @@
  * They are then processed by the function @ref fhost_wpa_event_process and the callbacks
  * registered with @ref fhost_wpa_cb_register
  */
-enum fhost_wpa_event {
+enum fhost_wpa_event
+{
     /**
      * - desc: WPA task ends
      * - data_type: int
@@ -82,13 +83,16 @@ enum fhost_wpa_error
     FHOST_WPA_ERROR_JOIN_SCAN_LIMIT_REACHED,
 };
 
-typedef struct {
-  int err_type;
-  union {
-    struct {
-        int reason_code;
-    } wrong_key_evt;
-  };
+typedef struct
+{
+    int err_type;
+    union
+    {
+        struct
+        {
+            int reason_code;
+        } wrong_key_evt;
+    };
 } fhost_wpa_err_evt_t;
 
 /**
@@ -113,7 +117,8 @@ enum fhost_wpa_state
 /**
  * Configuration of wpa_supplicant task
  */
-struct fhost_wpa_config {
+struct fhost_wpa_config
+{
     /**
      * Name of the interface
      */
@@ -135,8 +140,8 @@ struct fhost_wpa_config {
 };
 
 /// WPA event message callback type
-typedef void (*fhost_wpa_cb_t) (int fhost_vif_idx, enum fhost_wpa_event event,
-                                void *event_params, void *arg);
+typedef void (*fhost_wpa_cb_t)(int fhost_vif_idx, enum fhost_wpa_event event,
+                               void *event_params, void *arg);
 
 /**
  ****************************************************************************************
@@ -346,7 +351,7 @@ int fhost_wpa_disassociate_sta(int fhost_vif_idx, struct mac_addr *macaddr);
 int fhost_wpa_wps(int fhost_vif_idx, bool enable, int timeout_ms);
 int fhost_wpa_switch_channel(int fhost_vif_idx, uint32_t frequency);
 #if NX_P2P
-int fhost_wpa_set_wps_pbc(int fhost_vif_idx);
+    int fhost_wpa_set_wps_pbc(int fhost_vif_idx);
 #endif
 int fhost_ap_add_blacklist(int fhost_vif_idx, struct mac_addr *macaddr);
 int fhost_ap_del_blacklist(int fhost_vif_idx, struct mac_addr *macaddr);
@@ -362,7 +367,7 @@ int fhost_ap_clear_whitelist(int fhost_vif_idx);
 int fhost_ap_macaddr_acl(int fhost_vif_idx, uint8_t acl);
 
 int fhost_ap_wps_pbc(int fhost_vif_idx);
-int fhost_ap_wps_pin(int fhost_vif_idx,char *pin);
+int fhost_ap_wps_pin(int fhost_vif_idx, char *pin);
 int fhost_ap_wps_cacel(int fhost_vif_idx);
 int fhost_ap_wps_disable(int fhost_vif_idx);
 

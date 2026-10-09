@@ -1,0 +1,77 @@
+scons: Reading SConscript files ...
+Board: dpi-hdk_lb575ybbn6_n16_epd_hcpu
+Adding ftab subproject for chip: SF32LB57X (ptab v1/v2)
+========
+Multi-Project Info
+--------
+full_name       main.bootloader
+parent          main
+bsp_root        D:\work_test\SiFli-SDK\example\boot_loader\project\sf32lb57x\ram_v2
+build_dir       build_dpi-hdk_lb575ybbn6_n16_epd_hcpu/bootloader
+link_script     D:/work_test/SiFli-SDK/example/boot_loader/project/sf32lb57x/ram_v2\link
+ptab            D:\work_test\SiFli-SDK\customer\boards\dpi-hdk_lb575ybbn6_n16_epd\ptab.json
+embedded:       False
+--------
+full_name       main
+parent          
+bsp_root        D:\work_test\SiFli-SDK\example\multimedia\lvgl\lvgl_tools_example\eez_studio\project
+build_dir       build_dpi-hdk_lb575ybbn6_n16_epd_hcpu/
+link_script     D:/work_test/SiFli-SDK/drivers/cmsis/sf32lb57x/Templates/gcc/hcpu/link
+ptab            D:\work_test\SiFli-SDK\customer\boards\dpi-hdk_lb575ybbn6_n16_epd\ptab.json
+--------
+full_name       main.ftab
+parent          main
+bsp_root        D:\work_test\SiFli-SDK\example\flash_table\sf32lb57x_common_v2
+build_dir       build_dpi-hdk_lb575ybbn6_n16_epd_hcpu/ftab
+link_script     D:/work_test/SiFli-SDK/drivers/cmsis/sf32lb57x/Templates/gcc/hcpu/link
+ptab            D:\work_test\SiFli-SDK\customer\boards\dpi-hdk_lb575ybbn6_n16_epd\ptab.json
+embedded:       False
+========
+scons: done reading SConscript files.
+scons: Building targets ...
+scons: building associated VariantDir targets: build_dpi-hdk_lb575ybbn6_n16_epd_hcpu . .
+Generating build_dpi-hdk_lb575ybbn6_n16_epd_hcpu\bootloader\link_copy.lds ...
+Generating build_dpi-hdk_lb575ybbn6_n16_epd_hcpu\link_copy.lds ...
+Building compilation database build_dpi-hdk_lb575ybbn6_n16_epd_hcpu\compile_commands.json
+Building compilation database build_dpi-hdk_lb575ybbn6_n16_epd_hcpu\bootloader\compile_commands.json
+Generating build_dpi-hdk_lb575ybbn6_n16_epd_hcpu\ftab\link_copy.lds ...
+Building compilation database build_dpi-hdk_lb575ybbn6_n16_epd_hcpu\ftab\compile_commands.json
+LINK build_dpi-hdk_lb575ybbn6_n16_epd_hcpu\main.elf
+C:/env_1.1.2.1/tools/gnu_gcc/arm_gcc_14.2.1/bin/../lib/gcc/arm-none-eabi/14.2.1/../../../../arm-none-eabi/bin/ld.exe: warning: build_dpi-hdk_lb575ybbn6_n16_epd_hcpu\main.elf has a LOAD segment with RWX permissions
+Generating build_dpi-hdk_lb575ybbn6_n16_epd_hcpu\main.bin ...
+Generating build_dpi-hdk_lb575ybbn6_n16_epd_hcpu\main.hex ...
+Generating build_dpi-hdk_lb575ybbn6_n16_epd_hcpu\main.asm ...
+Generating build_dpi-hdk_lb575ybbn6_n16_epd_hcpu\ftab\board\ftab.c ...
+WARNING: img info is not defined for ftab item "acpu", ignored
+CC build_dpi-hdk_lb575ybbn6_n16_epd_hcpu\ftab\board\ftab.o
+LINK build_dpi-hdk_lb575ybbn6_n16_epd_hcpu\ftab\ftab.elf
+C:/env_1.1.2.1/tools/gnu_gcc/arm_gcc_14.2.1/bin/../lib/gcc/arm-none-eabi/14.2.1/../../../../arm-none-eabi/bin/ld.exe: C:/env_1.1.2.1/tools/gnu_gcc/arm_gcc_14.2.1/bin/../lib/gcc/arm-none-eabi/14.2.1/thumb/v8-m.main+fp/hard\libg_nano.a(libc_a-closer.o): in function `_close_r':
+closer.c:(.text._close_r+0xc): warning: _close is not implemented and will always fail
+C:/env_1.1.2.1/tools/gnu_gcc/arm_gcc_14.2.1/bin/../lib/gcc/arm-none-eabi/14.2.1/../../../../arm-none-eabi/bin/ld.exe: C:/env_1.1.2.1/tools/gnu_gcc/arm_gcc_14.2.1/bin/../lib/gcc/arm-none-eabi/14.2.1/thumb/v8-m.main+fp/hard\libg_nano.a(libc_a-closer.o): note: the message above does not take linker garbage collection into account
+C:/env_1.1.2.1/tools/gnu_gcc/arm_gcc_14.2.1/bin/../lib/gcc/arm-none-eabi/14.2.1/../../../../arm-none-eabi/bin/ld.exe: C:/env_1.1.2.1/tools/gnu_gcc/arm_gcc_14.2.1/bin/../lib/gcc/arm-none-eabi/14.2.1/thumb/v8-m.main+fp/hard\libg_nano.a(libc_a-lseekr.o): in function `_lseek_r':
+lseekr.c:(.text._lseek_r+0x10): warning: _lseek is not implemented and will always fail
+C:/env_1.1.2.1/tools/gnu_gcc/arm_gcc_14.2.1/bin/../lib/gcc/arm-none-eabi/14.2.1/../../../../arm-none-eabi/bin/ld.exe: C:/env_1.1.2.1/tools/gnu_gcc/arm_gcc_14.2.1/bin/../lib/gcc/arm-none-eabi/14.2.1/thumb/v8-m.main+fp/hard\libg_nano.a(libc_a-lseekr.o): note: the message above does not take linker garbage collection into account
+C:/env_1.1.2.1/tools/gnu_gcc/arm_gcc_14.2.1/bin/../lib/gcc/arm-none-eabi/14.2.1/../../../../arm-none-eabi/bin/ld.exe: C:/env_1.1.2.1/tools/gnu_gcc/arm_gcc_14.2.1/bin/../lib/gcc/arm-none-eabi/14.2.1/thumb/v8-m.main+fp/hard\libg_nano.a(libc_a-readr.o): in function `_read_r':
+readr.c:(.text._read_r+0x10): warning: _read is not implemented and will always fail
+C:/env_1.1.2.1/tools/gnu_gcc/arm_gcc_14.2.1/bin/../lib/gcc/arm-none-eabi/14.2.1/../../../../arm-none-eabi/bin/ld.exe: C:/env_1.1.2.1/tools/gnu_gcc/arm_gcc_14.2.1/bin/../lib/gcc/arm-none-eabi/14.2.1/thumb/v8-m.main+fp/hard\libg_nano.a(libc_a-readr.o): note: the message above does not take linker garbage collection into account
+C:/env_1.1.2.1/tools/gnu_gcc/arm_gcc_14.2.1/bin/../lib/gcc/arm-none-eabi/14.2.1/../../../../arm-none-eabi/bin/ld.exe: C:/env_1.1.2.1/tools/gnu_gcc/arm_gcc_14.2.1/bin/../lib/gcc/arm-none-eabi/14.2.1/thumb/v8-m.main+fp/hard\libg_nano.a(libc_a-writer.o): in function `_write_r':
+writer.c:(.text._write_r+0x10): warning: _write is not implemented and will always fail
+C:/env_1.1.2.1/tools/gnu_gcc/arm_gcc_14.2.1/bin/../lib/gcc/arm-none-eabi/14.2.1/../../../../arm-none-eabi/bin/ld.exe: C:/env_1.1.2.1/tools/gnu_gcc/arm_gcc_14.2.1/bin/../lib/gcc/arm-none-eabi/14.2.1/thumb/v8-m.main+fp/hard\libg_nano.a(libc_a-writer.o): note: the message above does not take linker garbage collection into account
+C:/env_1.1.2.1/tools/gnu_gcc/arm_gcc_14.2.1/bin/../lib/gcc/arm-none-eabi/14.2.1/../../../../arm-none-eabi/bin/ld.exe: warning: cannot find entry symbol entry; defaulting to 14000000
+Generating build_dpi-hdk_lb575ybbn6_n16_epd_hcpu\ftab\ftab.asm ...
+Generating build_dpi-hdk_lb575ybbn6_n16_epd_hcpu\ftab\ftab.hex ...
+Generating build_dpi-hdk_lb575ybbn6_n16_epd_hcpu\ftab\ftab.bin ...
+Generating build_dpi-hdk_lb575ybbn6_n16_epd_hcpu\download.bat ...
+Generated sftool param: build_dpi-hdk_lb575ybbn6_n16_epd_hcpu/sftool_param.json
+scons: done building targets.
+Traceback (most recent call last):
+  File "D:\work_test\SiFli-SDK\tools\sdk_size\sdk_size.py", line 44, in <module>
+    from rich.console import Console
+ModuleNotFoundError: No module named 'rich'
+sdk_size.py returned non-zero exit code: 1
+
+================================================================================
+Memory Usage Analysis
+================================================================================
+================================================================================
+

@@ -1,5 +1,5 @@
 /*
- * SPDX-FileCopyrightText: 2019-2026 SiFli Technologies(Nanjing) Co., Ltd
+ * SPDX-FileCopyrightText: 2026 AICSemi Ltd
  *
  * SPDX-License-Identifier: Apache-2.0
  */
@@ -68,12 +68,12 @@ struct co_dlist
     /// Number of element in the list.
     uint32_t cnt;
 
-    #if NX_DLIST_DEBUG
+#if NX_DLIST_DEBUG
     /// Maximum number of elements in the list.
     uint32_t maxcnt;
     /// Minimum number of elements in the list.
     uint32_t mincnt;
-    #endif // NX_DLIST_DEBUG
+#endif // NX_DLIST_DEBUG
 };
 
 
@@ -120,7 +120,7 @@ void co_dlist_push_front(struct co_dlist *list,
  * @return The pointer to the element extracted, and NULL if the list is empty.
  ****************************************************************************************
  */
-struct co_dlist_hdr* co_dlist_pop_front(struct co_dlist *list);
+struct co_dlist_hdr *co_dlist_pop_front(struct co_dlist *list);
 
 /**
  ****************************************************************************************
@@ -142,7 +142,7 @@ void co_dlist_extract(struct co_dlist *list,
  * @return true if the list is empty, false else otherwise.
  ****************************************************************************************
  */
-__INLINE bool co_dlist_is_empty(struct co_dlist const * list)
+__INLINE bool co_dlist_is_empty(struct co_dlist const *list)
 {
     bool listempty;
     listempty = (list->first == NULL);
@@ -158,9 +158,9 @@ __INLINE bool co_dlist_is_empty(struct co_dlist const * list)
  * @return The number of elements in the list.
  ****************************************************************************************
  */
-__INLINE uint32_t co_dlist_cnt(struct co_dlist const * list)
+__INLINE uint32_t co_dlist_cnt(struct co_dlist const *list)
 {
-    return(list->cnt);
+    return (list->cnt);
 }
 
 /**
@@ -172,9 +172,9 @@ __INLINE uint32_t co_dlist_cnt(struct co_dlist const * list)
  * @return First element address. Returns NULL pointer if the list is empty.
  ****************************************************************************************
  */
-__INLINE struct co_dlist_hdr *co_dlist_pick(struct co_dlist const * list)
+__INLINE struct co_dlist_hdr *co_dlist_pick(struct co_dlist const *list)
 {
-    return(list->first);
+    return (list->first);
 }
 
 
@@ -187,9 +187,9 @@ __INLINE struct co_dlist_hdr *co_dlist_pick(struct co_dlist const * list)
  * @return The pointer to the next element.
  ****************************************************************************************
  */
-__INLINE struct co_dlist_hdr *co_dlist_next(struct co_dlist_hdr const * list_hdr)
+__INLINE struct co_dlist_hdr *co_dlist_next(struct co_dlist_hdr const *list_hdr)
 {
-    return(list_hdr->next);
+    return (list_hdr->next);
 }
 
 /// @} end of group CODLIST

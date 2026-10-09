@@ -12,6 +12,13 @@
 #include "ulog.h"
 #include "rthw.h"
 
+/* TEMP (AIC8800 SDIO bring-up): dump the re-entrant caller of ulog output_lock.
+ * Remove this define (and all blocks guarded by it) once the caller is located. */
+#define ULOG_FORENSIC_REENT
+#ifdef ULOG_FORENSIC_REENT
+    #include <rtdevice.h>
+#endif
+
 #ifdef ULOG_USING_SYSLOG
     #include <syslog.h>
 #endif
@@ -204,6 +211,71 @@ static void output_unlock(void)
     }
 }
 
+#ifdef ULOG_FORENSIC_REENT
+/* SCB->ICSR, VECTACTIVE is bit[8:0]: non-zero means the current code runs inside
+ * an exception handler which did NOT call rt_interrupt_enter() (so nest == 0).
+ * Raw address is used on purpose to avoid pulling CMSIS headers in here. */
+#define ULOG_FORENSIC_ICSR      (*(volatile rt_uint32_t *)0xE000ED04UL)
+
+/* call site which currently owns ulog.output_locker */
+static void *ulog_forensic_owner_ra = RT_NULL;
+
+#define ULOG_FORENSIC_APPEND(...)                                           \
+    do {                                                                    \
+        if (len < (int)sizeof(buf) - 1)                                     \
+        {                                                                   \
+            int _n = rt_snprintf(buf + len, sizeof(buf) - len, __VA_ARGS__);\
+            if (_n > 0) { len += _n; }                                      \
+            if (len > (int)sizeof(buf) - 1) { len = (int)sizeof(buf) - 1; } \
+        }                                                                   \
+    } while (0)
+
+static void ulog_forensic_dump(rt_base_t level, void *cur_ra)
+{
+    char buf[640];
+    int len = 0;
+    int i;
+    rt_thread_t self = rt_thread_self();
+    rt_device_t dev;
+    rt_uint32_t *sp;
+
+    ULOG_FORENSIC_APPEND("\r\n[ULOG-REENT] vectactive=%u nest=%u level=%d hold=%u th=%s owner=%s\r\n",
+                         (unsigned)(ULOG_FORENSIC_ICSR & 0x1FFUL),
+                         (unsigned)rt_interrupt_get_nest(),
+                         (int)level,
+                         (unsigned)ulog.output_locker.hold,
+                         (self != RT_NULL && self->name != RT_NULL) ? self->name : "?",
+                         (ulog.output_locker.owner != RT_NULL && ulog.output_locker.owner->name != RT_NULL)
+                         ? ulog.output_locker.owner->name : "?");
+    ULOG_FORENSIC_APPEND("[ULOG-REENT] cur_ra=%p owner_ra=%p\r\n", cur_ra, ulog_forensic_owner_ra);
+
+    /* scan the live stack upward for Thumb return addresses (LSB set) */
+    __asm volatile("mov %0, sp" : "=r"(sp));
+    ULOG_FORENSIC_APPEND("[ULOG-REENT] stack:");
+    for (i = 0; (i < 64) && (len < (int)sizeof(buf) - 16); i++)
+    {
+        rt_uint32_t v = sp[i];
+
+        if ((v & 0x1UL) && (v > 0x10000UL))
+        {
+            ULOG_FORENSIC_APPEND(" %08x", (unsigned)v);
+        }
+    }
+    ULOG_FORENSIC_APPEND("\r\n");
+
+    /* write the console device directly, rt_kprintf would re-enter ulog itself */
+    dev = rt_console_get_device();
+    if ((dev != RT_NULL) && (len > 0))
+    {
+        rt_uint16_t old_flag = dev->open_flag;
+
+        dev->open_flag |= RT_DEVICE_FLAG_STREAM;
+        rt_device_write(dev, 0, buf, len);
+        dev->open_flag = old_flag;
+    }
+}
+#endif /* ULOG_FORENSIC_REENT */
+
 static void output_lock(void)
 {
     rt_base_t level = rt_hw_interrupt_disable();
@@ -212,6 +284,16 @@ static void output_lock(void)
     if ((rt_interrupt_get_nest() == 0) && (level == 0))
     {
         rt_mutex_take(&ulog.output_locker, RT_WAITING_FOREVER);
+#ifdef ULOG_FORENSIC_REENT
+        if (ulog.output_locker.hold != 1)
+        {
+            ulog_forensic_dump(level, __builtin_return_address(0));
+        }
+        else
+        {
+            ulog_forensic_owner_ra = __builtin_return_address(0);
+        }
+#endif /* ULOG_FORENSIC_REENT */
         RT_ASSERT(ulog.output_locker.hold == 1);
     }
     else

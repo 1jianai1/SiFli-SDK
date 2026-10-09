@@ -1,14 +1,9 @@
 /*
- * SPDX-FileCopyrightText: 2019-2026 SiFli Technologies(Nanjing) Co., Ltd
+ * SPDX-FileCopyrightText: 2026 AICSemi Ltd
  *
  * SPDX-License-Identifier: Apache-2.0
  */
 
-/*
- * Copyright (C) 2018-2024 AICSemi Ltd.
- *
- * All Rights Reserved
- */
 
 #ifndef _WIFI_AL_H_
 #define _WIFI_AL_H_
@@ -21,7 +16,7 @@
 #define MACADDR_LEN 6
 struct macaddr
 {
-    u16_l array[MACADDR_LEN/2];
+    u16_l array[MACADDR_LEN / 2];
 };
 
 struct aic_sta_info
@@ -72,7 +67,7 @@ void *aic_ap_get_associated_sta_list(void);
 int8_t aic_ap_get_associated_sta_rssi(uint8_t *addr);
 int aic_channel_set(aic_config_scan_chan *config_scan_chan);
 int aic_ap_wps_pbc(int fhost_vif_idx);
-int aic_ap_wps_pin(int fhost_vif_idx,char *pin);
+int aic_ap_wps_pin(int fhost_vif_idx, char *pin);
 int aic_ap_wps_disable(int fhost_vif_idx);
 int aic_ap_wps_cacel(int fhost_vif_idx);
 

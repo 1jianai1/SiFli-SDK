@@ -1,14 +1,9 @@
 /*
- * SPDX-FileCopyrightText: 2019-2026 SiFli Technologies(Nanjing) Co., Ltd
+ * SPDX-FileCopyrightText: 2026 AICSemi Ltd
  *
  * SPDX-License-Identifier: Apache-2.0
  */
 
-/*
- * Copyright (C) 2018-2024 AICSemi Ltd.
- *
- * All Rights Reserved
- */
 
 #ifndef _USERCONFIG_H_
 #define _USERCONFIG_H_
@@ -53,28 +48,30 @@ typedef struct
     s8_l pwrlvl_11ax_5g[12];
 } aic_txpwr_lvl_conf_v3_t;
 
-typedef struct {
-	u8_l enable;
-	u8_l dsss;
-	u8_l ofdmlowrate_2g4;
-	u8_l ofdm64qam_2g4;
-	u8_l ofdm256qam_2g4;
-	u8_l ofdm1024qam_2g4;
-	u8_l ofdmlowrate_5g;
-	u8_l ofdm64qam_5g;
-	u8_l ofdm256qam_5g;
-	u8_l ofdm1024qam_5g;
+typedef struct
+{
+    u8_l enable;
+    u8_l dsss;
+    u8_l ofdmlowrate_2g4;
+    u8_l ofdm64qam_2g4;
+    u8_l ofdm256qam_2g4;
+    u8_l ofdm1024qam_2g4;
+    u8_l ofdmlowrate_5g;
+    u8_l ofdm64qam_5g;
+    u8_l ofdm256qam_5g;
+    u8_l ofdm1024qam_5g;
 } aic_txpwr_idx_conf_t;
 
-typedef struct {
-	u8_l enable;
-	s8_l chan_1_4;
-	s8_l chan_5_9;
-	s8_l chan_10_13;
-	s8_l chan_36_64;
-	s8_l chan_100_120;
-	s8_l chan_122_140;
-	s8_l chan_142_165;
+typedef struct
+{
+    u8_l enable;
+    s8_l chan_1_4;
+    s8_l chan_5_9;
+    s8_l chan_10_13;
+    s8_l chan_36_64;
+    s8_l chan_100_120;
+    s8_l chan_122_140;
+    s8_l chan_142_165;
 } aic_txpwr_ofst_conf_t;
 
 typedef struct

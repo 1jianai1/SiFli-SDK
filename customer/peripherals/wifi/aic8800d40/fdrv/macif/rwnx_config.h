@@ -1,5 +1,5 @@
 /*
- * SPDX-FileCopyrightText: 2019-2026 SiFli Technologies(Nanjing) Co., Ltd
+ * SPDX-FileCopyrightText: 2026 AICSemi Ltd
  *
  * SPDX-License-Identifier: Apache-2.0
  */
@@ -17,16 +17,16 @@
 
 
 #ifdef CFG_SOFTAP
-#define NX_BEACONING 1
+    #define NX_BEACONING 1
 #else  /* CFG_SOFTAP */
-#define NX_BEACONING 0
+    #define NX_BEACONING 0
 #endif /* CFG_SOFTAP */
 
 //#ifdef CFG_WPS
 #if 1
-#define NX_WPS 1
+    #define NX_WPS 1
 #else  /* CFG_WPS */
-#define NX_WPS 0
+    #define NX_WPS 0
 #endif /* CFG_WPS */
 
 /// Maximum size of a beacon frame
@@ -41,19 +41,19 @@
 #define RX_MAX_AMSDU_SUBFRAME_LEN 1600
 
 #ifdef CFG_HS_IPERF
-#define NX_REORD_BUF_SIZE 32
-#define NX_TXDESC_CNT0 8
-#define NX_TXDESC_CNT1 32
-#define NX_TXDESC_CNT2 32
-#define NX_TXDESC_CNT3 16
-#define NX_TXDESC_CNT4 0
+    #define NX_REORD_BUF_SIZE 32
+    #define NX_TXDESC_CNT0 8
+    #define NX_TXDESC_CNT1 32
+    #define NX_TXDESC_CNT2 32
+    #define NX_TXDESC_CNT3 16
+    #define NX_TXDESC_CNT4 0
 #else
-#define NX_REORD_BUF_SIZE 8
-#define NX_TXDESC_CNT0 8
-#define NX_TXDESC_CNT1 16
-#define NX_TXDESC_CNT2 16
-#define NX_TXDESC_CNT3 16
-#define NX_TXDESC_CNT4 0
+    #define NX_REORD_BUF_SIZE 8
+    #define NX_TXDESC_CNT0 8
+    #define NX_TXDESC_CNT1 16
+    #define NX_TXDESC_CNT2 16
+    #define NX_TXDESC_CNT3 16
+    #define NX_TXDESC_CNT4 0
 #endif
 
 #define RW_USER_MAX 1
@@ -94,13 +94,13 @@
 #define NX_MULTI_ROLE 0
 
 #if 1//defined(CFG_P2P)
-#define NX_P2P 1
-#define NX_P2P_VIF_MAX     2
-#define NX_P2P_GO 1
+    #define NX_P2P 1
+    #define NX_P2P_VIF_MAX     2
+    #define NX_P2P_GO 1
 #else
-#define NX_P2P 0
-#define NX_P2P_VIF_MAX     2
-#define NX_P2P_GO 0
+    #define NX_P2P 0
+    #define NX_P2P_VIF_MAX     2
+    #define NX_P2P_GO 0
 #endif
 #define NX_CHNL_CTXT 0
 #define NX_TDLS 0
@@ -118,9 +118,9 @@
 #define NX_AMSDU_TX 0
 // Force MFP support if HE is enabled, as it is mandatory for WiFi certification
 #if NX_HE
-#define NX_MFP 1
+    #define NX_MFP 1
 #else
-#define NX_MFP 0
+    #define NX_MFP 0
 #endif
 #define RW_MUMIMO_TX_EN 0
 #define NX_BW_LEN_ADAPT 0

@@ -1,5 +1,5 @@
 /*
- * SPDX-FileCopyrightText: 2019-2026 SiFli Technologies(Nanjing) Co., Ltd
+ * SPDX-FileCopyrightText: 2026 AICSemi Ltd
  *
  * SPDX-License-Identifier: Apache-2.0
  */
@@ -9,7 +9,8 @@
 
 #include <stdint.h>
 
-static const uint32_t fw_patch_u03[] = {
+static const uint32_t fw_patch_u03[] =
+{
     0x4b15b510,
     0x2b02681b,
     0x4b14d002,

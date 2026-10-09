@@ -15,7 +15,7 @@
 //extern int dbg_message(uint8_t debug_level, const char *fmt, ...);
 //#define DRIVER_NAME "sdhci"
 
-//#define DRV_DEBUG
+// #define DRV_DEBUG
 #define LOG_TAG                "drv.sdhci"
 #include <drv_log.h>
 #include <stdlib.h>
@@ -916,6 +916,20 @@ static void sdhci_set_ios(struct rt_mmcsd_host *mmc, struct rt_mmcsd_io_cfg *ios
     //ctrl &= ~SDHCI_CTRL_HISPD;
     //printk("a HOST CONTROL 1 REGISTER = %x\n",ctrl);
     //sdhci_writeb(host, ctrl, SDHCI_HOST_CONTROL);
+
+    /* [40MHz] SDIO 采样时钟(SCR, 55x 在 0xF4, bit[5:0]=采样延迟线级数) 随 SDCLK 缩放:
+     * 出厂 0x15(21 级)是绝对延迟, 40MHz(25ns/bit) 下采样点压到跳变沿 -> 首条 CMD52 即 CMD CRC;
+     * 保持"延迟/位周期"比例即可; <=25MHz 不碰, 24MHz 行为与原来完全一致。 */
+    if (host->clock > 25000000)
+    {
+        uint32_t dly = (0x15u * 24000000u) / host->clock;
+        if (dly < 1)
+            dly = 1;
+        if (dly > 0x3F)
+            dly = 0x3F;
+        *(volatile uint8_t *)(host->handle.Instance + SDHCI_CLK_TUNE) = (uint8_t)dly;
+    }
+
     hal_sdhci_set_bus_width(&host->handle, ctrl);
     LOG_D("BITWIDTH 4bit mode %d\n", ctrl);
 }
@@ -1353,7 +1367,8 @@ static int sdhci_wait_completed(struct sdhci_host *sdio, int flag)
         }
         else
         {
-            LOG_D("Wait sdhci error 0x%x\n", status);
+            /* 出错分支(诊断, 只打错误位): 便于分辨 DATA_CRC/DATA_END_BIT/DATA_TIMEOUT/ADMA 等 */
+            LOG_E("Wait sdhci error 0x%x (cmd %d, arg 0x%x, flag 0x%x)\n", status, cmd->cmd_code, cmd->arg, flag);
             cmd->err = -RT_ERROR;
             res = -2;
         }

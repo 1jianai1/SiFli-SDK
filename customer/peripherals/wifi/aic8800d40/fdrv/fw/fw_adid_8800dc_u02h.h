@@ -1,5 +1,5 @@
 /*
- * SPDX-FileCopyrightText: 2019-2026 SiFli Technologies(Nanjing) Co., Ltd
+ * SPDX-FileCopyrightText: 2026 AICSemi Ltd
  *
  * SPDX-License-Identifier: Apache-2.0
  */
@@ -9,7 +9,8 @@
 
 #include <stdint.h>
 
-static const uint32_t fw_adid_8800dc_u02h[] = {
+static const uint32_t fw_adid_8800dc_u02h[] =
+{
     0x0005cec1,
     0x00059945,
     0x00000000,

@@ -1,5 +1,5 @@
 /*
- * SPDX-FileCopyrightText: 2019-2026 SiFli Technologies(Nanjing) Co., Ltd
+ * SPDX-FileCopyrightText: 2026 AICSemi Ltd
  *
  * SPDX-License-Identifier: Apache-2.0
  */
@@ -31,7 +31,8 @@
 #include "cfgrwnx.h"
 #include "mac.h"
 
-enum lowpower_level {
+enum lowpower_level
+{
     LP_LEVEL_NONE       = 0,
     LP_LEVEL_CLOCK_GATE = 1,
     LP_LEVEL_POWER_OFF  = 2,
@@ -50,7 +51,8 @@ struct fhost_cntrl_link
     int sock_recv;
 };
 
-typedef struct {
+typedef struct
+{
     cb_fhost_tx cb_func;
     uint32_t frame_id;
     bool acknowledged;
@@ -64,16 +66,16 @@ typedef struct {
 
 /// Number of supported Default+Pairwise keys
 #if 0 //NX_KEY_RAM_CONFIG
-#define MM_SEC_MAX_KEY_NBR      (nxmac_sta_key_max_index_getf() + 1)
+    #define MM_SEC_MAX_KEY_NBR      (nxmac_sta_key_max_index_getf() + 1)
 #else
-#define MM_SEC_MAX_KEY_NBR      64
+    #define MM_SEC_MAX_KEY_NBR      64
 #endif
 
 /// Number of VLAN Id
 #if 0 //NX_KEY_RAM_CONFIG
-#define MM_SEC_VLAN_COUNT (NX_VIRT_DEV_MAX + RW_MESH_LINK_NB)
+    #define MM_SEC_VLAN_COUNT (NX_VIRT_DEV_MAX + RW_MESH_LINK_NB)
 #else
-#define MM_SEC_VLAN_COUNT NX_VIRT_DEV_MAX
+    #define MM_SEC_VLAN_COUNT NX_VIRT_DEV_MAX
 #endif
 
 /// Number of default keys
@@ -85,12 +87,12 @@ typedef struct {
 #define MM_STA_TO_KEY(sta_idx)              ((sta_idx) + MM_SEC_DEFAULT_KEY_COUNT)
 
 #if NX_MFP
-/// Number of MFP keys per VIF
-#define MM_SEC_MFP_KEY_COUNT (MAC_DEFAULT_MFP_KEY_COUNT - MAC_DEFAULT_KEY_COUNT)
-/// Macro converting mfp key (0/1) and vif index to HW key index
-#define MM_VIF_TO_MFP_KEY(key_idx, vif_idx) ((((key_idx) - MAC_DEFAULT_KEY_COUNT) + ((vif_idx) * MM_SEC_MFP_KEY_COUNT)) + MM_SEC_MAX_KEY_NBR)
-/// Macro converting a hw_key_idx, in range [@ref MM_SEC_MAX_KEY_NBR @ref MM_SEC_MAX_MFP_KEY_NBR], to the Vif Index it corresponds
-#define MM_MFP_KEY_TO_VIF(hw_key_idx) (((hw_key_idx) - MM_SEC_MAX_KEY_NBR) / MM_SEC_MFP_KEY_COUNT)
+    /// Number of MFP keys per VIF
+    #define MM_SEC_MFP_KEY_COUNT (MAC_DEFAULT_MFP_KEY_COUNT - MAC_DEFAULT_KEY_COUNT)
+    /// Macro converting mfp key (0/1) and vif index to HW key index
+    #define MM_VIF_TO_MFP_KEY(key_idx, vif_idx) ((((key_idx) - MAC_DEFAULT_KEY_COUNT) + ((vif_idx) * MM_SEC_MFP_KEY_COUNT)) + MM_SEC_MAX_KEY_NBR)
+    /// Macro converting a hw_key_idx, in range [@ref MM_SEC_MAX_KEY_NBR @ref MM_SEC_MAX_MFP_KEY_NBR], to the Vif Index it corresponds
+    #define MM_MFP_KEY_TO_VIF(hw_key_idx) (((hw_key_idx) - MM_SEC_MAX_KEY_NBR) / MM_SEC_MFP_KEY_COUNT)
 #endif //(NX_MFP)
 
 /**
@@ -170,7 +172,7 @@ int fhost_cntrl_cfgrwnx_event_send(struct cfgrwnx_msg_hdr *msg_hdr, int sock);
  ****************************************************************************************
  */
 int fhost_cntrl_cfgrwnx_event_peek_header(struct fhost_cntrl_link *link,
-                                          struct cfgrwnx_msg_hdr *msg_hdr);
+        struct cfgrwnx_msg_hdr *msg_hdr);
 
 /**
  ****************************************************************************************

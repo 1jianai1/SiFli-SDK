@@ -1,5 +1,5 @@
 /*
- * SPDX-FileCopyrightText: 2019-2026 SiFli Technologies(Nanjing) Co., Ltd
+ * SPDX-FileCopyrightText: 2026 AICSemi Ltd
  *
  * SPDX-License-Identifier: Apache-2.0
  */
@@ -33,21 +33,23 @@
  *  Supported country codes: "00", "CA", "CN", "US" default
  */
 #ifndef CONFIG_WIFI_COUNTRY_CODE
-#define CONFIG_WIFI_COUNTRY_CODE            "00"
+    #define CONFIG_WIFI_COUNTRY_CODE            "00"
 #endif
 
 #ifndef DEFAULT_CHANNEL_TXPOWER
-#define DEFAULT_CHANNEL_TXPOWER             20
+    #define DEFAULT_CHANNEL_TXPOWER             20
 #endif
 
-typedef struct {
+typedef struct
+{
     uint8_t first_chan;
     uint8_t chan_cnt;
     int8_t power;
     uint8_t flags;
 } wifi_regrule_t;
 
-typedef struct {
+typedef struct
+{
     char cc[3]; // country code string
     uint8_t reg_rules_cnt;
     wifi_regrule_t reg_rules_arr[6];
@@ -100,13 +102,13 @@ void fhost_config_prepare(struct me_config_req *me_config, struct mm_start_req *
 struct mac_chan_def *fhost_chan_get(int freq);
 uint16_t fhost_chan_bw_flags_get_by_freq(uint16_t ch_freq);
 void fhost_chan_clean(void);
-int fhost_chan_update(const char * country_code);
+int fhost_chan_update(const char *country_code);
 int aicwf_channel_set(aicwf_config_scan_chan *config_scan_chan);
 
 extern void set_mac_address(uint8_t *addr);
-extern uint8_t* get_mac_address(void);
+extern uint8_t *get_mac_address(void);
 
-const char * fhost_config_name_get(enum fhost_config_id id);
+const char *fhost_config_name_get(enum fhost_config_id id);
 uint32_t fhost_config_value_get(enum fhost_config_id id);
 void fhost_config_value_set(enum fhost_config_id id, uint32_t val);
 

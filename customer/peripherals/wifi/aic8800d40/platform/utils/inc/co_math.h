@@ -1,5 +1,5 @@
 /*
- * SPDX-FileCopyrightText: 2019-2026 SiFli Technologies(Nanjing) Co., Ltd
+ * SPDX-FileCopyrightText: 2026 AICSemi Ltd
  *
  * SPDX-License-Identifier: Apache-2.0
  */
@@ -195,7 +195,7 @@ __STATIC_INLINE uint32_t co_max(uint32_t a, uint32_t b)
  */
 __STATIC_INLINE int co_abs(int val)
 {
-    return val < 0 ? val*(-1) : val;
+    return val < 0 ? val * (-1) : val;
 }
 
 /**

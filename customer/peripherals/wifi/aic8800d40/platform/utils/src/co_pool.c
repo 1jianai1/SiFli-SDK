@@ -1,5 +1,5 @@
 /*
- * SPDX-FileCopyrightText: 2019-2026 SiFli Technologies(Nanjing) Co., Ltd
+ * SPDX-FileCopyrightText: 2026 AICSemi Ltd
  *
  * SPDX-License-Identifier: Apache-2.0
  */
@@ -57,7 +57,7 @@ void co_pool_init(struct co_pool *pool,
         pool_hdr[i].next = &(pool_hdr[i + 1]);
 
         // initialize the pointer to the element
-        pool_hdr[i].element = (void*)((long)elements + (i * elem_size));
+        pool_hdr[i].element = (void *)((long)elements + (i * elem_size));
     }
 
     // the last element in the list points to NULL

@@ -1,5 +1,5 @@
 /*
- * SPDX-FileCopyrightText: 2019-2026 SiFli Technologies(Nanjing) Co., Ltd
+ * SPDX-FileCopyrightText: 2026 AICSemi Ltd
  *
  * SPDX-License-Identifier: Apache-2.0
  */
@@ -166,16 +166,19 @@ uint8_t co_crc8(uint8_t *pdata, uint32_t len, uint8_t crc)
 
 uint32_t co_clz(uint32_t val)
 {
-	if (val == 0U) {return 32U; }
+    if (val == 0U)
+    {
+        return 32U;
+    }
 
-	uint32_t count = 0U;
-	uint32_t mask  = 0x80000000U;
+    uint32_t count = 0U;
+    uint32_t mask  = 0x80000000U;
 
-	while ((val & mask) == 0U)
-	{
-		count += 1U;
-		mask = mask >> 1U;
-	}
+    while ((val & mask) == 0U)
+    {
+        count += 1U;
+        mask = mask >> 1U;
+    }
     return count;
 }
 

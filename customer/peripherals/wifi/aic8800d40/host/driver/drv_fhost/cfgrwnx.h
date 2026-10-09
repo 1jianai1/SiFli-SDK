@@ -1,5 +1,5 @@
 /*
- * SPDX-FileCopyrightText: 2019-2026 SiFli Technologies(Nanjing) Co., Ltd
+ * SPDX-FileCopyrightText: 2026 AICSemi Ltd
  *
  * SPDX-License-Identifier: Apache-2.0
  */
@@ -39,7 +39,8 @@
 #define CFGRWNX_LAST_BUF 0x1a51b0ff
 
 /// CFGRWNX index message
-enum cfgrwnx_msg_index {
+enum cfgrwnx_msg_index
+{
     /// Sent by supplicant to retrieve HW capability (param: none)
     CFGRWNX_HW_FEATURE_CMD = 1,
     /// Response to CFGRWNX_HW_FEATURE_CMD (param: @ref cfgrwnx_hw_feature)
@@ -173,16 +174,17 @@ enum cfgrwnx_msg_index {
     /// Notified by supplicant to indicate P2P Provision Discovery Request received (param: @ref cfgrwnx_p2p_prov_disc_req_note)
     CFGRWNX_P2P_PROV_DISC_REQ_NOTE,
 
-    #ifdef CFG_SOFTAP
+#ifdef CFG_SOFTAP
     /// Sent by Supplicant to update the beacon (param: @ref cfgrwnx_bcn_update)
     CFGRWNX_AP_UPDATE_BASICRATE_CMD,
     /// Response to CFGRWNX_BCN_UPDATE (param: @ref cfgrwnx_resp)
     CFGRWNX_AP_UPDATE_BASICRATE_RESP,
-    #endif
+#endif
 };
 
 /// CFGRWNX status
-enum cfgrwnx_status {
+enum cfgrwnx_status
+{
     /// Success status
     CFGRWNX_SUCCESS = 0,
     /// Generic error status
@@ -196,7 +198,8 @@ enum cfgrwnx_status {
 };
 
 /// CFGRWNX message header
-struct cfgrwnx_msg_hdr {
+struct cfgrwnx_msg_hdr
+{
     /// For CFGRWNX commands, queue handle to use to push the response
     rtos_queue resp_queue;
     /// Length, in bytes, of the message (including this header)
@@ -206,13 +209,15 @@ struct cfgrwnx_msg_hdr {
 };
 
 /// CFGRWNX generic message structure
-struct cfgrwnx_msg {
+struct cfgrwnx_msg
+{
     /// header
     struct cfgrwnx_msg_hdr hdr;
 };
 
 /// CFGRWNX generic response structure
-struct cfgrwnx_resp {
+struct cfgrwnx_resp
+{
     /// header
     struct cfgrwnx_msg_hdr hdr;
     /// Status
@@ -220,7 +225,8 @@ struct cfgrwnx_resp {
 };
 
 /// structure for CFGRWNX_HW_FEATURE_RESP
-struct cfgrwnx_hw_feature {
+struct cfgrwnx_hw_feature
+{
     /// header
     struct cfgrwnx_msg_hdr hdr;
     /// ME configuration
@@ -230,7 +236,8 @@ struct cfgrwnx_hw_feature {
 };
 
 /// structure for CFGRWNX_SET_KEY_CMD
-struct cfgrwnx_set_key {
+struct cfgrwnx_set_key
+{
     /// header
     struct cfgrwnx_msg_hdr hdr;
     /// Vif idx
@@ -253,7 +260,8 @@ struct cfgrwnx_set_key {
 
 #ifdef CFG_SOFTAP
 /// structure for CFGRWNX_AP_TX_MGMT
-struct cfgrwnx_ap_tx_mgmt {
+struct cfgrwnx_ap_tx_mgmt
+{
     /// header
     struct cfgrwnx_msg_hdr hdr;
 
@@ -267,7 +275,8 @@ struct cfgrwnx_ap_tx_mgmt {
     int sock;
 };
 /// structure for CFGRWNX_AP_STA_ADD
-struct cfgrwnx_ap_sta_add {
+struct cfgrwnx_ap_sta_add
+{
     /// header
     struct cfgrwnx_msg_hdr hdr;
     // Idx, at wifi task level, of the AP
@@ -305,7 +314,8 @@ struct cfgrwnx_ap_sta_add {
     int sock;
 };
 /// structure for CFGRWNX_AP_STA_REMOVE
-struct cfgrwnx_ap_sta_del {
+struct cfgrwnx_ap_sta_del
+{
     /// header
     struct cfgrwnx_msg_hdr hdr;
     // Idx, at wifi task level, of the AP
@@ -317,7 +327,8 @@ struct cfgrwnx_ap_sta_del {
 #endif /* CFG_SOFTAP */
 
 /// SSID representation used by CFGRWNX_SCAN_CMD and CFGRWNX_CONNECT_CMD
-struct cfgrwnx_scan_ssid {
+struct cfgrwnx_scan_ssid
+{
     /// SSID string
     const uint8_t *ssid;
     /// Length of the SSID string
@@ -325,7 +336,8 @@ struct cfgrwnx_scan_ssid {
 };
 
 /// structure for CFGRWNX_SCAN_CMD
-struct cfgrwnx_scan {
+struct cfgrwnx_scan
+{
     /// header
     struct cfgrwnx_msg_hdr hdr;
     /// Vif idx
@@ -350,7 +362,8 @@ struct cfgrwnx_scan {
 };
 
 /// structure for CFGRWNX_SCAN_DONE_EVENT
-struct cfgrwnx_scan_completed {
+struct cfgrwnx_scan_completed
+{
     /// header
     struct cfgrwnx_msg_hdr hdr;
     /// Status
@@ -360,7 +373,8 @@ struct cfgrwnx_scan_completed {
 };
 
 /// structure for CFGRWNX_SCAN_RESULT_EVENT
-struct cfgrwnx_scan_result {
+struct cfgrwnx_scan_result
+{
     /// header
     struct cfgrwnx_msg_hdr hdr;
     /// Vif idx
@@ -376,7 +390,8 @@ struct cfgrwnx_scan_result {
 };
 
 /// structure for CFGRWNX_CONNECT_CMD
-struct cfgrwnx_connect {
+struct cfgrwnx_connect
+{
     /// header
     struct cfgrwnx_msg_hdr hdr;
     /// BSSID tO connect to
@@ -404,7 +419,8 @@ struct cfgrwnx_connect {
 };
 
 /// structure for CFGRWNX_CONNECT_EVENT
-struct cfgrwnx_connect_event {
+struct cfgrwnx_connect_event
+{
     /// header
     struct cfgrwnx_msg_hdr hdr;
     /// BSSID
@@ -425,7 +441,8 @@ struct cfgrwnx_connect_event {
 };
 
 /// structure for CFGRWNX_DISCONNECT_CMD
-struct cfgrwnx_disconnect {
+struct cfgrwnx_disconnect
+{
     /// header
     struct cfgrwnx_msg_hdr hdr;
     /// Reason of the disconnection
@@ -435,7 +452,8 @@ struct cfgrwnx_disconnect {
 };
 
 /// structure for CFGRWNX_DISCONNECT_EVENT
-struct cfgrwnx_disconnect_event {
+struct cfgrwnx_disconnect_event
+{
     /// header
     struct cfgrwnx_msg_hdr hdr;
     /// Reason of the disconnection
@@ -445,7 +463,8 @@ struct cfgrwnx_disconnect_event {
 };
 
 /// structure for CFGRWNX_CTRL_PORT_CMD
-struct cfgrwnx_ctrl_port {
+struct cfgrwnx_ctrl_port
+{
     /// header
     struct cfgrwnx_msg_hdr hdr;
     /// VIF index
@@ -457,7 +476,8 @@ struct cfgrwnx_ctrl_port {
 };
 
 /// structure for CFGRWNX_MIC_FAILURE_EVENT
-struct cfgrwnx_mic_failure_event {
+struct cfgrwnx_mic_failure_event
+{
     /// header
     struct cfgrwnx_msg_hdr hdr;
     /// Address of the sending STA
@@ -470,7 +490,8 @@ struct cfgrwnx_mic_failure_event {
 
 #ifdef CFG_SOFTAP
 /// structure for CFGRWNX_AP_RX_MGMT
-struct cfgrwnx_ap_rx_mgmt {
+struct cfgrwnx_ap_rx_mgmt
+{
     /// header
     struct cfgrwnx_msg_hdr hdr;
 
@@ -485,7 +506,8 @@ struct cfgrwnx_ap_rx_mgmt {
 };
 
 /// structure for CFGRWNX_AP_TX_STATUS
-struct cfgrwnx_ap_tx_status {
+struct cfgrwnx_ap_tx_status
+{
     /// header
     struct cfgrwnx_msg_hdr hdr;
     /// Vif idx
@@ -501,7 +523,8 @@ struct cfgrwnx_ap_tx_status {
 #endif /* CFG_SOFTAP */
 
 /// Structure for @ref CFGRWNX_SYS_STATS_RESP
-struct cfgrwnx_sys_stats_resp {
+struct cfgrwnx_sys_stats_resp
+{
     /// header
     struct cfgrwnx_msg_hdr hdr;
     /// Statistics
@@ -509,7 +532,8 @@ struct cfgrwnx_sys_stats_resp {
 };
 
 /// Structure for CFGRWNX_SCAN_RESULTS_CMD
-struct cfgrwnx_scan_results {
+struct cfgrwnx_scan_results
+{
     /// header
     struct cfgrwnx_msg_hdr hdr;
     /// index of the scan result element
@@ -517,7 +541,8 @@ struct cfgrwnx_scan_results {
 };
 
 /// Structure for CFGRWNX_SCAN_RESULTS_RESP
-struct cfgrwnx_scan_results_resp {
+struct cfgrwnx_scan_results_resp
+{
     /// header
     struct cfgrwnx_msg_hdr hdr;
     /// scan results
@@ -527,7 +552,8 @@ struct cfgrwnx_scan_results_resp {
 };
 
 /// Structure for @ref CFGRWNX_LIST_FEATURES_RESP
-struct cfgrwnx_list_features_resp {
+struct cfgrwnx_list_features_resp
+{
     /// header
     struct cfgrwnx_msg_hdr hdr;
     /// structure containing FW/PHY features
@@ -535,7 +561,8 @@ struct cfgrwnx_list_features_resp {
 };
 
 /// Structure for @ref CFGRWNX_SET_VIF_TYPE_CMD
-struct cfgrwnx_set_vif_type {
+struct cfgrwnx_set_vif_type
+{
     /// header
     struct cfgrwnx_msg_hdr hdr;
     /// Index of the FHOST vif
@@ -547,7 +574,8 @@ struct cfgrwnx_set_vif_type {
 };
 
 /// Structure for CFGRWNX_MONITOR_CFG_CMD
-struct cfgrwnx_monitor_cfg {
+struct cfgrwnx_monitor_cfg
+{
     /// header
     struct cfgrwnx_msg_hdr hdr;
     /// Vif idx
@@ -557,7 +585,8 @@ struct cfgrwnx_monitor_cfg {
 };
 
 /// Structure for CFGRWNX_RX_MGMT_EVENT
-struct cfgrwnx_rx_mgmt_event {
+struct cfgrwnx_rx_mgmt_event
+{
     /// header
     struct cfgrwnx_msg_hdr hdr;
     /// Vif idx
@@ -573,7 +602,8 @@ struct cfgrwnx_rx_mgmt_event {
 };
 
 /// Structure for CFGRWNX_TX_STATUS_EVENT
-struct cfgrwnx_tx_status_event {
+struct cfgrwnx_tx_status_event
+{
     /// header
     struct cfgrwnx_msg_hdr hdr;
     /// Frame data
@@ -585,7 +615,8 @@ struct cfgrwnx_tx_status_event {
 };
 
 /// Structure for CFGRWNX_EXTERNAL_AUTH_EVENT
-struct cfgrwnx_external_auth_event {
+struct cfgrwnx_external_auth_event
+{
     /// header
     struct cfgrwnx_msg_hdr hdr;
     /// Vif idx
@@ -599,7 +630,8 @@ struct cfgrwnx_external_auth_event {
 };
 
 /// Structure for CFGRWNX_EXTERNAL_AUTH_STATUS_RESP
-struct cfgrwnx_external_auth_status {
+struct cfgrwnx_external_auth_status
+{
     /// header
     struct cfgrwnx_msg_hdr hdr;
     /// Vif idx
@@ -609,7 +641,8 @@ struct cfgrwnx_external_auth_status {
 };
 
 /// Structure for CFGRWNX_START_AP_CMD
-struct cfgrwnx_start_ap {
+struct cfgrwnx_start_ap
+{
     /// header
     struct cfgrwnx_msg_hdr hdr;
     /// Vif idx
@@ -637,7 +670,8 @@ struct cfgrwnx_start_ap {
 };
 
 /// Structure for CFGRWNX_STOP_AP_CMD
-struct cfgrwnx_stop_ap {
+struct cfgrwnx_stop_ap
+{
     /// header
     struct cfgrwnx_msg_hdr hdr;
     /// Vif idx
@@ -645,7 +679,8 @@ struct cfgrwnx_stop_ap {
 };
 
 /// Structure for CFGRWNX_CH_SWITCH_EVENT
-struct cfgrwnx_ch_switch_event {
+struct cfgrwnx_ch_switch_event
+{
     /// header
     struct cfgrwnx_msg_hdr hdr;
     int freq;
@@ -658,7 +693,8 @@ struct cfgrwnx_ch_switch_event {
 };
 
 /// Structure for CFGRWNX_SET_EDCA_CMD
-struct cfgrwnx_set_edca {
+struct cfgrwnx_set_edca
+{
     /// header
     struct cfgrwnx_msg_hdr hdr;
     /// Vif idx
@@ -676,7 +712,8 @@ struct cfgrwnx_set_edca {
 };
 
 /// Structure for CFGRWNX_BCN_UPDATE_CMD
-struct cfgrwnx_bcn_update {
+struct cfgrwnx_bcn_update
+{
     /// header
     struct cfgrwnx_msg_hdr hdr;
     /// Vif idx
@@ -694,7 +731,8 @@ struct cfgrwnx_bcn_update {
 };
 
 /// Structure for CFGRWNX_STA_ADD_CMD
-struct cfgrwnx_sta_add {
+struct cfgrwnx_sta_add
+{
     /// header
     struct cfgrwnx_msg_hdr hdr;
     /// Vif idx
@@ -723,7 +761,8 @@ struct cfgrwnx_sta_add {
 };
 
 /// Structure for CFGRWNX_STA_REMOVE_CMD
-struct cfgrwnx_sta_remove {
+struct cfgrwnx_sta_remove
+{
     /// header
     struct cfgrwnx_msg_hdr hdr;
     /// Vif idx
@@ -733,7 +772,8 @@ struct cfgrwnx_sta_remove {
 };
 
 /// structure for CFGRWNX_KEY_SEQNUM_CMD
-struct cfgrwnx_key_seqnum {
+struct cfgrwnx_key_seqnum
+{
     /// header
     struct cfgrwnx_msg_hdr hdr;
     /// Vif idx
@@ -745,7 +785,8 @@ struct cfgrwnx_key_seqnum {
 };
 
 /// structure for CFGRWNX_KEY_SEQNUM_RESP
-struct cfgrwnx_key_seqnum_resp {
+struct cfgrwnx_key_seqnum_resp
+{
     /// header
     struct cfgrwnx_msg_hdr hdr;
     /// Status
@@ -755,7 +796,8 @@ struct cfgrwnx_key_seqnum_resp {
 };
 
 /// structure for CFGRWNX_SET_PS_MODE_CMD
-struct cfgrwnx_set_ps_mode {
+struct cfgrwnx_set_ps_mode
+{
     /// header
     struct cfgrwnx_msg_hdr hdr;
     /// Vif idx
@@ -765,7 +807,8 @@ struct cfgrwnx_set_ps_mode {
 };
 
 /// structure for CFGRWNX_REMAIN_ON_CHANNEL_CMD
-struct cfgrwnx_roc_cmd {
+struct cfgrwnx_roc_cmd
+{
     /// header
     struct cfgrwnx_msg_hdr hdr;
     /// freq
@@ -779,7 +822,8 @@ struct cfgrwnx_roc_cmd {
 };
 
 /// structure for CFGRWNX_CANCEL_REMAIN_ON_CHANNEL_CMD
-struct cfgrwnx_cancel_roc_cmd {
+struct cfgrwnx_cancel_roc_cmd
+{
     /// header
     struct cfgrwnx_msg_hdr hdr;
     /// Index of the FHOST
@@ -787,7 +831,8 @@ struct cfgrwnx_cancel_roc_cmd {
 };
 
 /// structcure for CFGRWNX_ROC_EVENT
-struct cfgrwnx_roc_event {
+struct cfgrwnx_roc_event
+{
     /// header
     struct cfgrwnx_msg_hdr hdr;
     /// ieee80211_channel center_freq
@@ -814,7 +859,8 @@ struct cfgrwnx_p2p_noa_cmd
 };
 
 /// Structure for CFGRWNX_P2P_PROV_DISC_REQ_NOTE
-struct cfgrwnx_p2p_prov_disc_req_note {
+struct cfgrwnx_p2p_prov_disc_req_note
+{
     /// header
     struct cfgrwnx_msg_hdr hdr;
     /// Vif idx
@@ -826,7 +872,8 @@ struct cfgrwnx_p2p_prov_disc_req_note {
 };
 
 /// Structure for CFGRWNX_AP_UPDATE_BASICRATE
-struct cfgrwnx_ap_update_basicrate {
+struct cfgrwnx_ap_update_basicrate
+{
     /// header
     struct cfgrwnx_msg_hdr hdr;
     /// Vif idx

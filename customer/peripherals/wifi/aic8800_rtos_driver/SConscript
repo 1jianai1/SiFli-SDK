@@ -1,0 +1,112 @@
+import os
+from building import *
+
+cwd = GetCurrentDir()
+
+# ============================================================================
+# platform 适配层源文件 —— 严格对应顶层 Makefile 的 SRC_PLATFORM 收集结果
+#   配置: AIC_BUS_TYPE=SDIO / AIC_RTOS=rtthread / AIC_FEATURE_PLT=1
+#         AIC_FEATURE_P2P=0 / AIC_FEATURE_BT=0 / AIC_FEATURE_NIMBLE=0
+#         USE_BUILTIN_MBEDTLS=1 (链 lib/libaic_mbedtls.a, 不编 crypto 转发示例)
+#   共 14 个文件, 与 `make info` 的 "Platform sources = 14 files" 一致。
+#   注: 基准 d4509b7 的 1d16913 "P2P 编译开关安全化" 已修复根因: wifi_def.h 的
+#       aic_wifi_event_data 去掉 #ifdef 使 sizeof 恒 72(不再随 P2P 开关 ABI 错位);
+#       fhost_wpa.c/wpa_supplicant.c 的 P2P 成员引用已补 #ifdef 守卫。
+#       故 P2P 回归 SPEC 的 =0 (WiFi-only 场景不需要), host/platform 同步编 P2P=0。
+#   排除: hal/usb_port.c(USB) / bt/*(BT) /
+#         crypto/aic_mbedtls_port_example.c(仅 MBEDTLS=0) / rtos/rtos_freertos.c
+# ============================================================================
+src = [
+    cwd + '/platform/platform_init.c',            # Makefile:138
+    cwd + '/platform/hal/sdio_port.c',            # Makefile:185 (SDIO 分支)
+    cwd + '/platform/hal/plat_port.c',            # platform_config 手动追加(spec #88), 勿漏
+    cwd + '/platform/netif/netif_port.c',         # Makefile:200
+    cwd + '/platform/rtos/rtos_rtt.c',            # Makefile:220 (AIC_RTOS=rtthread)
+    cwd + '/platform/wifi/wifi_port_sta.c',       # Makefile:228
+    cwd + '/platform/wifi/wifi_port_ap.c',        # Makefile:229
+    cwd + '/platform/wifi/wifi_port.c',           # Makefile:230
+    cwd + '/platform/wifi/wifi_port_wps.c',       # Makefile:231
+    cwd + '/platform/wifi/wifi_port_cmd.c',       # Makefile:232
+    cwd + '/platform/fmac/aic_fw_port.c',         # Makefile:233
+    cwd + '/platform/fmac/aic_chip_desc_port.c',  # Makefile:234
+    cwd + '/platform/fmac/userconfig.c',          # Makefile:235
+    cwd + '/platform/wifi/wifi_port_plt.c',       # Makefile:237 (AIC_FEATURE_PLT=1)
+]
+
+# ============================================================================
+# 头文件搜索路径
+#   A) port/inc            移植接口头 (host+platform 共用)
+#   B) lib/include/*        host 预编译库公开头
+#   C) platform/*           platform 内部私有头 (对应 Makefile INC_PLATFORM L167-175)
+#   注: lwIP / rtthread / drivers 头由 SDK 各组件 DefineGroup 全局注入, 无需在此重复。
+# ============================================================================
+CPPPATH = [
+    cwd + '/port/inc',
+    cwd + '/lib/include',
+    cwd + '/lib/include/drv_api/inc',
+    cwd + '/lib/include/drv_wifi',
+    cwd + '/lib/include/utils/inc',
+    cwd + '/platform/fmac',
+    cwd + '/platform/fmac/fw',
+    cwd + '/platform/hal',
+    cwd + '/platform/netif',
+    cwd + '/platform/rtos',
+    cwd + '/platform/wifi',
+    cwd + '/platform/uapapi/inc',
+    # RT-Thread Wi-Fi 管理框架头文件 (AIC8800_USE_RT_WLAN 时需要)
+    cwd + '/../../rtos/rtthread/components/drivers/wlan',
+]
+
+# ============================================================================
+# 编译宏 —— 与 host 库 (lib/libaic8800_driver.a) 编译时保持一致 (去掉 -D 前缀)
+#   AIC_BUILD_HOST_FROM_SOURCE 为 host 专用, platform 侧不需要。
+#
+# 芯片型号: 本板实测为 **D80N** (卡级 PID=0x9082, chip_id=3/sub_id=1/rev=U03),
+#   故用 CONFIG_AIC8800D80N —— 该宏决定 platform 层固件表 (platform/fmac/aic_fw_port.c):
+#   D80N 的 CINIT/PATCH/CALIB 固件 (FMACFW_CINIT_8800D80N_U02 = id 60 等)
+#   **只在 CONFIG_AIC8800D80N 下编译**。若按 D80 编译, bootrom 阶段
+#   aic_fw_ptr_get(id=60) 返回 "unknown id" → CINIT 上传 size=0
+#   → "D80N CINIT upload fail: -1" → aic_wifi_open:fdrv fail (实测日志)。
+#   >>> 若某板实测为 D80, 只需把本宏改回 'CONFIG_AIC8800D80' 并同步
+#       aic_cfg.mk / platform_config*.mk 的 AIC_CHIP_MODEL。
+# ============================================================================
+CPPDEFINES = [
+    'CONFIG_AIC8800D80N',
+    'USE_5G',
+    'CONFIG_SDIO_SUPPORT',
+    'AIC_HCI_OVER_SDIO',
+    'CONFIG_NO_WPA_MSG',
+    'CONFIG_RX_NOCOPY',
+    'SYS_SOCK_DEFINE',
+    'PLATFORM_NO_FILE',
+    'CONFIG_LOAD_FW=2',
+    'CONFIG_IRQ_SUS_DEFAULT=0',
+    'RT_THREAD',
+]
+
+# ============================================================================
+# [AIC8800-PORT][SiFli] 平台保留项: 板级上电引脚 Kconfig 注入
+#   Kconfig AIC8800_RTOS_WIRELESS_PWR_GPIO -> AIC_WIRELESS_PWR_GPIO,
+#   供 platform/hal/plat_port.c 与 platform/platform_init.c 的 WiFi 上电时序使用。
+#   厂家包 SConscript 无此段, 覆盖后必须补回, 否则上电功能失效。
+# ============================================================================
+pwr_gpio = GetConfigValue('AIC8800_RTOS_WIRELESS_PWR_GPIO')
+if pwr_gpio != '':
+    CPPDEFINES += ['AIC_WIRELESS_PWR_GPIO=' + str(pwr_gpio)]
+
+# ============================================================================
+# 条件纳入: RT-Thread Wi-Fi 管理框架对接层 (CONFIG_AIC8800_USE_RT_WLAN=y)
+#   wlan_dev.h 等框架头由 components/drivers/wlan/SConscript DefineGroup 全局注入 CPPPATH
+# ============================================================================
+if GetDepend('AIC8800_USE_RT_WLAN'):
+    src.append(cwd + '/platform/wlan/aic8800_wlan_dev.c')
+    CPPDEFINES.append('AIC8800_USE_RT_WLAN')
+
+group = DefineGroup('aic8800_rtos', src,
+    depend      = ['WIFI_USING_AIC8800_RTOS'],
+    CPPPATH     = CPPPATH,
+    CPPDEFINES  = CPPDEFINES,
+    LIBPATH     = [cwd + '/lib'],
+    LIBS        = ['aic8800_driver', 'aic_mbedtls'])   # 两库分开, 避免 utils.c 同名冲突
+
+Return('group')

@@ -784,6 +784,15 @@ static rt_int32_t sdio_register_card(struct rt_mmcsd_card *card)
     struct sdio_driver *sd;
     rt_list_t *l;
 
+    /* [TEMP-DIAG] 定位 sdio_register_driver() 返回 -RT_EEMPTY(-4) 的成因:
+     * 打印本行 => 卡已注册进 sdio_cards (匹配失败属 VID/PID 不符);
+     * 不打印     => sdio_init_card() 中途失败, 卡根本没注册。 */
+    LOG_I("card registered: man=0x%04x prod=0x%04x f1prod=0x%04x funcs=%d",
+          card->cis.manufacturer, card->cis.product,
+          (card->sdio_function_num >= 1 && card->sdio_function[1]) ?
+          card->sdio_function[1]->product : 0xFFFF,
+          card->sdio_function_num);
+
     sc = rt_malloc(sizeof(struct sdio_card));
     if (sc == RT_NULL)
     {
@@ -1319,21 +1328,31 @@ rt_int32_t sdio_set_block_size(struct rt_sdio_function *func,
 rt_inline rt_int32_t sdio_match_card(struct rt_mmcsd_card           *card,
                                      const struct rt_sdio_device_id *id)
 {
-    rt_uint8_t num = 1;
+    rt_uint8_t  num = 1;
+    /* 产品号默认取卡级(公共 CIS, 由 func 0 的 CISTPL_MANFID 解析而来);
+     * 部分卡的 function CIS 中不含 CISTPL_MANFID, 其 product 恒为 0, 不能作为匹配依据 */
+    rt_uint16_t product = card->cis.product;
 
     if ((id->manufacturer != SDIO_ANY_MAN_ID) &&
             (id->manufacturer != card->cis.manufacturer))
         return 0;
 
+    /* product 为 SDIO_ANY_PROD_ID 表示不限定型号 */
+    if (id->product == SDIO_ANY_PROD_ID)
+        return 1;
+
+    /* function CIS 中确实填了 MANFID 的, 仍以 function 级为准 */
     while (num <= card->sdio_function_num)
     {
-        if ((id->product != SDIO_ANY_PROD_ID) &&
-                (id->product == card->sdio_function[num]->product))
-            return 1;
+        if (card->sdio_function[num]->product != 0)
+        {
+            product = card->sdio_function[num]->product;
+            break;
+        }
         num++;
     }
 
-    return 0;
+    return (id->product == product) ? 1 : 0;
 }
 
 

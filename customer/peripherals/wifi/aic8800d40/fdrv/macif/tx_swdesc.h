@@ -1,5 +1,5 @@
 /*
- * SPDX-FileCopyrightText: 2019-2026 SiFli Technologies(Nanjing) Co., Ltd
+ * SPDX-FileCopyrightText: 2026 AICSemi Ltd
  *
  * SPDX-License-Identifier: Apache-2.0
  */
@@ -53,8 +53,8 @@
  */
 
 #if NX_AMPDU_TX
-///AMDPU delimiter length in bytes
-#define DELIMITER_LEN             4
+    ///AMDPU delimiter length in bytes
+    #define DELIMITER_LEN             4
 #endif //(NX_AMPDU_TX)
 
 #define RATE_CONTROL_STEPS 4
@@ -74,23 +74,23 @@
 /// Structure indicating the status and other information about the transmission
 struct tx_cfm_tag
 {
-/*
-    /// PN that was used for the transmission
-    uint16_t pn[4];
-    /// Sequence number of the packet
-    uint16_t sn;
-    /// Timestamp of first transmission of this MPDU
-    uint16_t timestamp;
-*/
+    /*
+        /// PN that was used for the transmission
+        uint16_t pn[4];
+        /// Sequence number of the packet
+        uint16_t sn;
+        /// Timestamp of first transmission of this MPDU
+        uint16_t timestamp;
+    */
     /// Number of flow control credits allocated
     int8_t credits;
     /// Size (in mdpu) of the A-MPDU in which this frame as been transmitted.
     /// Valid only for singleton (=1) or last frame of the A-MPDU
     uint8_t ampdu_size;
-    #if NX_AMSDU_TX
+#if NX_AMSDU_TX
     /// Size allowed for AMSDU
     uint16_t amsdu_size;
-    #endif
+#endif
 
     /// TX status
     uint32_t status;
@@ -198,14 +198,14 @@ struct txl_buffer_control
 /// Descriptor filled by the UMAC
 struct umacdesc
 {
-    #if NX_AMPDU_TX
+#if NX_AMPDU_TX
     ///First Sequence Number of the BlockAck window
     uint16_t sn_win;
     /// Flags from UMAC (match tx_hd.macctrlinfo2 format)
     uint32_t flags;
     /// PHY related flags field - nss, rate, GI type, BW type - filled by driver
     uint32_t phy_flags;
-    #endif //(NX_AMPDU_TX)
+#endif //(NX_AMPDU_TX)
     /// Pointer to the buffer control to use
     struct txl_buffer_control *buf_control;
     /// Length of the payload
@@ -216,7 +216,7 @@ struct umacdesc
     uint8_t hdr_len_802_2;
     /// Tail length (MIC + ICV)
     uint8_t tail_len;
-    #if (RW_MESH_EN)
+#if (RW_MESH_EN)
     /// Indicate if Mesh Control field is present in the sent frame
     bool has_mesh_ctrl;
     /// Number of External Addresses to be inserted in the Mesh Control field
@@ -225,7 +225,7 @@ struct umacdesc
     uint8_t path_idx;
     /// Index of the proxy information to be used
     uint8_t proxy_idx;
-    #endif //(RW_MESH_EN)
+#endif //(RW_MESH_EN)
 };
 
 /// Definition of a TX header descriptor.
@@ -238,21 +238,24 @@ struct tx_hd
     /// Next MPDU in the frame exchange.
     uint32_t             nextmpdudesc_ptr;
     /// First payload buffer descriptor/Secondary user 1 THD address
-    union {
+    union
+    {
         /// First payload buffer descriptor
         uint32_t             first_pbd_ptr;
         /// Secondary user 1 THD address
         uint32_t             sec_user1_ptr;
     };
     /// Data buffer start/Secondary user 2 THD address.
-    union {
+    union
+    {
         /// Data buffer start
         uint32_t             datastartptr;
         /// Secondary user 2 THD address
         uint32_t             sec_user2_ptr;
     };
     /// Data buffer end /Secondary user 3 THD address.
-    union {
+    union
+    {
         /// Data buffer end
         uint32_t             dataendptr;
         /// Secondary user 3 THD address
@@ -324,17 +327,17 @@ struct tx_agg_desc
     struct ba_ssc_bitmap *ssc_bitmap;
     /// Pointer to the BA SSC + bitmap
     struct ba_ssc_bitmap_256 ssc_bitmap_tab;
-    #if NX_MAC_HE
+#if NX_MAC_HE
     /// Policy table for A-MPDU
     struct tx_policy_tbl pol_tbl;
     /// Pointer to last TX descriptor of the A-MPDU
     struct txdesc *txdesc_last;
-    #endif
-    #if NX_BW_LEN_ADAPT
+#endif
+#if NX_BW_LEN_ADAPT
     /// Pointer to TX descriptors finishing a BW step
     struct txdesc *txdesc[NX_BW_LEN_STEPS - 1];
-    #endif
-    #if RW_MUMIMO_TX_EN
+#endif
+#if RW_MUMIMO_TX_EN
     /// List containing the descriptors to be confirmed once BA is received for this
     /// secondary user
     struct co_list cfm;
@@ -345,7 +348,7 @@ struct tx_agg_desc
     /// Bitfield indicating which user indexes have still data to download before being
     /// able to be chained to HW
     uint8_t download;
-    #endif
+#endif
     /// List in which the A-MPDU descriptor has to be pushed back after transmission
     struct co_list *free_list;
 };

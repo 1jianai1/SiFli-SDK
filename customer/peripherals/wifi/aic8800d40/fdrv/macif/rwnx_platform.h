@@ -1,5 +1,5 @@
 /*
- * SPDX-FileCopyrightText: 2019-2026 SiFli Technologies(Nanjing) Co., Ltd
+ * SPDX-FileCopyrightText: 2026 AICSemi Ltd
  *
  * SPDX-License-Identifier: Apache-2.0
  */
@@ -39,18 +39,19 @@ struct rwnx_hw;
  *
  * @priv Private data for the link driver
  */
-struct rwnx_plat {
-    #if 0
+struct rwnx_plat
+{
+#if 0
     struct pci_dev *pci_dev;
 
 #ifdef AICWF_SDIO_SUPPORT
-	struct aic_sdio_dev *sdiodev;
+    struct aic_sdio_dev *sdiodev;
 #endif
 
 #ifdef AICWF_USB_SUPPORT
     struct aic_usb_dev *usbdev;
 #endif
-    #endif
+#endif
     bool enabled;
 };
 
@@ -73,7 +74,8 @@ int aicwf_patch_table_load(struct rwnx_hw *rwnx_hw);
 #define ROM_FMAC_CALIB_ADDR            0x00130000
 #define FW_PATH_MAX_LEN 200
 
-typedef struct {
+typedef struct
+{
     uint32_t bit_mask[3];
     uint32_t reserved;
     uint32_t dpd_high[96];
@@ -86,7 +88,8 @@ typedef struct {
     uint32_t rx_iqim_res[16];
 } rf_misc_ram_t;
 
-typedef struct {
+typedef struct
+{
     uint32_t bit_mask[4];
     uint32_t dpd_high[96];
     uint32_t loft_res[18];
@@ -105,19 +108,19 @@ uint32_t aicwf_dpd_get_result(void);
 
 
 #ifdef CONFIG_LOAD_USERCONFIG
-void aicwf_userconfig_init(void);
-void get_nvram_txpwr_idx(txpwr_idx_conf_t *txpwr_idx);
-void get_nvram_txpwr_ofst(txpwr_ofst_conf_t *txpwr_ofst);
-void get_nvram_xtal_cap(xtal_cap_conf_t *xtal_cap);
-void get_userconfig_txpwr_lvl(txpwr_lvl_conf_t *txpwr_lvl);
-void get_userconfig_txpwr_lvl_v2(txpwr_lvl_conf_v2_t *txpwr_lvl_v2);
-void get_userconfig_txpwr_lvl_v3(txpwr_lvl_conf_v3_t *txpwr_lvl_v3);
-void get_userconfig_txpwr_ofst(txpwr_ofst_conf_t *txpwr_ofst);
-void get_userconfig_txpwr_ofst2x(txpwr_ofst2x_conf_t *txpwr_ofst2x);
-void get_userconfig_xtal_cap(xtal_cap_conf_t *xtal_cap);
+    void aicwf_userconfig_init(void);
+    void get_nvram_txpwr_idx(txpwr_idx_conf_t *txpwr_idx);
+    void get_nvram_txpwr_ofst(txpwr_ofst_conf_t *txpwr_ofst);
+    void get_nvram_xtal_cap(xtal_cap_conf_t *xtal_cap);
+    void get_userconfig_txpwr_lvl(txpwr_lvl_conf_t *txpwr_lvl);
+    void get_userconfig_txpwr_lvl_v2(txpwr_lvl_conf_v2_t *txpwr_lvl_v2);
+    void get_userconfig_txpwr_lvl_v3(txpwr_lvl_conf_v3_t *txpwr_lvl_v3);
+    void get_userconfig_txpwr_ofst(txpwr_ofst_conf_t *txpwr_ofst);
+    void get_userconfig_txpwr_ofst2x(txpwr_ofst2x_conf_t *txpwr_ofst2x);
+    void get_userconfig_xtal_cap(xtal_cap_conf_t *xtal_cap);
 #endif /* CONFIG_LOAD_USERCONFIG */
 
-void rwnx_get_chip_info(uint8* info);
+void rwnx_get_chip_info(uint8 *info);
 uint8_t *rwnx_get_fw_ver(void);
 
 

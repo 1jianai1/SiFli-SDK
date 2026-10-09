@@ -1,5 +1,5 @@
 /*
- * SPDX-FileCopyrightText: 2019-2026 SiFli Technologies(Nanjing) Co., Ltd
+ * SPDX-FileCopyrightText: 2026 AICSemi Ltd
  *
  * SPDX-License-Identifier: Apache-2.0
  */
@@ -11,7 +11,7 @@
 
 typedef void (*CliCb)(char *rsp);
 
-static int parse_line (char *line, char *argv[]);
+static int parse_line(char *line, char *argv[]);
 int handle_private_cmd(struct rwnx_hw *rwnx_hw, char *command);
 unsigned int command_strtoul(const char *cp, char **endp, unsigned int base);
 

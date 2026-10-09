@@ -667,7 +667,10 @@ static rt_int32_t mmcsd_detect_mode(struct rt_mmcsd_host *host, mmcsd_host_detec
         err = sdio_io_send_op_cond(host, 0, &ocr);
         if (!err)
         {
-            if (init_sdio(host, ocr))
+            /* [TEMP-DIAG] init_sdio 返回值: 非 0 表示 SDIO 卡初始化中途失败 */
+            rt_int32_t ret = init_sdio(host, ocr);
+            LOG_I("init_sdio ret=%d", ret);
+            if (ret)
                 mmcsd_power_off(host);
         }
         break;

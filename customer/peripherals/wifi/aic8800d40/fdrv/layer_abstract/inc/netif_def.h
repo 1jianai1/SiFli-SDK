@@ -1,14 +1,9 @@
 /*
- * SPDX-FileCopyrightText: 2019-2026 SiFli Technologies(Nanjing) Co., Ltd
+ * SPDX-FileCopyrightText: 2026 AICSemi Ltd
  *
  * SPDX-License-Identifier: Apache-2.0
  */
 
-/*
- * Copyright (C) 2018-2024 AICSemi Ltd.
- *
- * All Rights Reserved
- */
 
 #ifndef _NETIF_DEF_H_
 #define _NETIF_DEF_H_
@@ -38,10 +33,10 @@ typedef enum
 typedef uint32_t                        TCPIP_NETID_T;
 typedef struct packet_info_tag
 {
-    #ifdef CONFIG_SDIO_ADMA
-    uint8_t*                data_oprt;
-    #endif
-    uint8_t*                data_ptr;       /* data pointer */
+#ifdef CONFIG_SDIO_ADMA
+    uint8_t                *data_oprt;
+#endif
+    uint8_t                *data_ptr;       /* data pointer */
     uint32_t                data_len;       /* data length - full packet encapsulation length */
     TCPIP_PACKET_TYPE_E     pkt_type;       /* packet type */
     TCPIP_NETID_T           net_id;         /* net interface ID */
@@ -63,12 +58,12 @@ struct net_tx_buf_tag
     /// Chained list element
     struct co_list_hdr  hdr;
     TCPIP_PACKET_INFO_T pkt_hdr;
-    #if NET_IF_UAP_NCPYBUF
+#if NET_IF_UAP_NCPYBUF
     uint8_t *buf;
     void    *pmsg;
-    #else
+#else
     uint8_t  buf[1600];
-    #endif
+#endif
 };
 
 struct aic_netif_dev
@@ -86,9 +81,9 @@ struct aic_netif_dev
     rtos_semaphore       net_tx_buf_sema;
     struct l2_filter_tag l2_filter[NX_NB_L2_FILTER];
 
-    #ifdef CONFIG_RX_WAIT_LWIP
+#ifdef CONFIG_RX_WAIT_LWIP
     rtos_semaphore       fhost_rx_lwip_sema;
-    #endif
+#endif
 };
 
 /* ASR Platform ADMA Struct */

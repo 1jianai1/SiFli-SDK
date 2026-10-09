@@ -1,14 +1,9 @@
 /*
- * SPDX-FileCopyrightText: 2019-2026 SiFli Technologies(Nanjing) Co., Ltd
+ * SPDX-FileCopyrightText: 2026 AICSemi Ltd
  *
  * SPDX-License-Identifier: Apache-2.0
  */
 
-/*
- * Copyright (C) 2018-2024 AICSemi Ltd.
- *
- * All Rights Reserved
- */
 
 #ifndef _NETIF_CO_H_
 #define _NETIF_CO_H_
@@ -18,7 +13,7 @@
 #include "aic_plat_types.h"
 
 #ifndef ETH_ALEN
-#define ETH_ALEN                (6)
+    #define ETH_ALEN                (6)
 #endif
 #define NET_AL_MAX_IFNAME       (4)
 
@@ -44,6 +39,6 @@ int net_l2_socket_delete(int sock);
 //-------------------------------------------------------------------
 // Driver other API define
 //-------------------------------------------------------------------
-char* aic_inet_ntoa(struct in_addr addr);
+char *aic_inet_ntoa(struct in_addr addr);
 
 #endif /* _NETIF_CO_H_ */

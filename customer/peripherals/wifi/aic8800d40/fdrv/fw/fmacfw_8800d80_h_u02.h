@@ -1,5 +1,5 @@
 /*
- * SPDX-FileCopyrightText: 2019-2026 SiFli Technologies(Nanjing) Co., Ltd
+ * SPDX-FileCopyrightText: 2026 AICSemi Ltd
  *
  * SPDX-License-Identifier: Apache-2.0
  */
@@ -9,7 +9,8 @@
 
 #include <stdint.h>
 
-static const uint32_t fmacfw_8800d80_h_u02[] = {//fmacfw_8800d80_sdio_2025_0512_1237_h_u01
+static const uint32_t fmacfw_8800d80_h_u02[] =  //fmacfw_8800d80_sdio_2025_0512_1237_h_u01
+{
     0x001a0000,
     0x001201ad,
     0x00134d89,

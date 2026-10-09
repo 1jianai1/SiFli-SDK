@@ -1,5 +1,5 @@
 /*
- * SPDX-FileCopyrightText: 2019-2026 SiFli Technologies(Nanjing) Co., Ltd
+ * SPDX-FileCopyrightText: 2026 AICSemi Ltd
  *
  * SPDX-License-Identifier: Apache-2.0
  */
@@ -41,16 +41,16 @@
 // for __STATIC_INLINE
 #include "compiler.h"
 
-    #define co_list_init            aicwf_co_list_init
-    #define co_list_pool_init       aicwf_co_list_pool_init
-    #define co_list_push_back       aicwf_co_list_push_back
-    #define co_list_push_front      aicwf_co_list_push_front
-    #define co_list_pop_front       aicwf_co_list_pop_front
-    #define co_list_extract         aicwf_co_list_extract
-    #define co_list_find            aicwf_co_list_find
-    #define co_list_insert_after    aicwf_co_list_insert_after
-    #define co_list_insert_before   aicwf_co_list_insert_before
-    #define co_list_size            aicwf_co_list_size
+#define co_list_init            aicwf_co_list_init
+#define co_list_pool_init       aicwf_co_list_pool_init
+#define co_list_push_back       aicwf_co_list_push_back
+#define co_list_push_front      aicwf_co_list_push_front
+#define co_list_pop_front       aicwf_co_list_pop_front
+#define co_list_extract         aicwf_co_list_extract
+#define co_list_find            aicwf_co_list_find
+#define co_list_insert_after    aicwf_co_list_insert_after
+#define co_list_insert_before   aicwf_co_list_insert_before
+#define co_list_size            aicwf_co_list_size
 /*
  * STRUCTURE DECLARATIONS
  ****************************************************************************************
@@ -73,10 +73,11 @@ struct co_list
 
 ///co Doubly-linked list node
 
-typedef struct list_node_t {
-  struct list_node_t *prev;
-  struct list_node_t *next;
-  void *data;
+typedef struct list_node_t
+{
+    struct list_node_t *prev;
+    struct list_node_t *next;
+    void *data;
 } list_node_t;
 
 /*
@@ -182,8 +183,8 @@ bool co_list_find(struct co_list *list,
  * @return              Pointer to the element found and removed (NULL otherwise).
  ****************************************************************************************
  */
-void co_list_insert(struct co_list * const list,
-                    struct co_list_hdr * const element,
+void co_list_insert(struct co_list *const list,
+                    struct co_list_hdr *const element,
                     bool (*cmp)(struct co_list_hdr const *elementA,
                                 struct co_list_hdr const *elementB));
 
@@ -201,9 +202,9 @@ void co_list_insert(struct co_list * const list,
  * If prev_element is not found, the provided element is not inserted
  ****************************************************************************************
  */
-void co_list_insert_after(struct co_list * const list,
-                          struct co_list_hdr * const prev_element,
-                          struct co_list_hdr * const element);
+void co_list_insert_after(struct co_list *const list,
+                          struct co_list_hdr *const prev_element,
+                          struct co_list_hdr *const element);
 
 /**
  ****************************************************************************************
@@ -219,9 +220,9 @@ void co_list_insert_after(struct co_list * const list,
  * If next_element is not found, the provided element is not inserted
  ****************************************************************************************
  */
-void co_list_insert_before(struct co_list * const list,
-                           struct co_list_hdr * const next_element,
-                           struct co_list_hdr * const element);
+void co_list_insert_before(struct co_list *const list,
+                           struct co_list_hdr *const next_element,
+                           struct co_list_hdr *const element);
 
 /**
  ****************************************************************************************
@@ -302,7 +303,7 @@ uint32_t co_list_cnt(const struct co_list *const list);
  */
 __STATIC_INLINE struct co_list_hdr *co_list_pick(const struct co_list *const list)
 {
-    return(list->first);
+    return (list->first);
 }
 
 /**
@@ -316,7 +317,7 @@ __STATIC_INLINE struct co_list_hdr *co_list_pick(const struct co_list *const lis
  */
 __STATIC_INLINE struct co_list_hdr *co_list_pick_last(const struct co_list *const list)
 {
-    return(list->last);
+    return (list->last);
 }
 
 /**
@@ -330,7 +331,7 @@ __STATIC_INLINE struct co_list_hdr *co_list_pick_last(const struct co_list *cons
  */
 __STATIC_INLINE struct co_list_hdr *co_list_next(const struct co_list_hdr *const list_hdr)
 {
-    return(list_hdr->next);
+    return (list_hdr->next);
 }
 
 
@@ -344,7 +345,7 @@ __STATIC_INLINE struct co_list_hdr *co_list_next(const struct co_list_hdr *const
  *
  ****************************************************************************************
  */
-void co_dl_list_init(list_node_t* list);
+void co_dl_list_init(list_node_t *list);
 /**
  ****************************************************************************************
  * @brief * Doubly-linked list insert node in Tail .
@@ -353,7 +354,7 @@ void co_dl_list_init(list_node_t* list);
  *
  ****************************************************************************************
  */
-void co_dl_list_insert_tail(list_node_t* list, list_node_t* node);
+void co_dl_list_insert_tail(list_node_t *list, list_node_t *node);
 /**
  ****************************************************************************************
  * @brief * Doubly-linked list insert node in Head .
@@ -362,7 +363,7 @@ void co_dl_list_insert_tail(list_node_t* list, list_node_t* node);
  *
  ****************************************************************************************
  */
-void co_dl_list_insert_head(list_node_t* list, list_node_t* node);
+void co_dl_list_insert_head(list_node_t *list, list_node_t *node);
 /**
  ****************************************************************************************
  * @brief * remove current Node form a Doubly-linked list .
@@ -371,7 +372,7 @@ void co_dl_list_insert_head(list_node_t* list, list_node_t* node);
  *
  ****************************************************************************************
  */
-void co_dl_list_remove_node(list_node_t* node);
+void co_dl_list_remove_node(list_node_t *node);
 /**
  ****************************************************************************************
  * @brief * remove current Node form a Doubly-linked list ,and return next Node's ptr .
@@ -381,7 +382,7 @@ void co_dl_list_remove_node(list_node_t* node);
  * @return  Node which is next after removed Node.
  ****************************************************************************************
  */
-list_node_t* co_dl_list_remove_node_and_get_next(list_node_t* node);
+list_node_t *co_dl_list_remove_node_and_get_next(list_node_t *node);
 /**
  ****************************************************************************************
  * @brief * Get and remove Node form the Head of a Doubly-linked list .
@@ -391,7 +392,7 @@ list_node_t* co_dl_list_remove_node_and_get_next(list_node_t* node);
  * @return Head of a Doubly-linked list
  ****************************************************************************************
  */
-list_node_t* co_dl_list_remove_list_head(list_node_t* list);
+list_node_t *co_dl_list_remove_list_head(list_node_t *list);
 /**
  ****************************************************************************************
  * @brief * Doubly-linked list is Empty .
@@ -401,6 +402,6 @@ list_node_t* co_dl_list_remove_list_head(list_node_t* list);
  * @return true: empty  false: not empty
  ****************************************************************************************
  */
-bool co_dl_list_is_empty(list_node_t* list);
+bool co_dl_list_is_empty(list_node_t *list);
 
 #endif // _CO_LIST_H_

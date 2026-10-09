@@ -1,5 +1,5 @@
 /*
- * SPDX-FileCopyrightText: 2019-2026 SiFli Technologies(Nanjing) Co., Ltd
+ * SPDX-FileCopyrightText: 2026 AICSemi Ltd
  *
  * SPDX-License-Identifier: Apache-2.0
  */
@@ -32,7 +32,8 @@ enum AIC_WIFI_AP_STATUS
 };
 
 #define MAX_AP_COUNT 32
-typedef struct wifi_ap_info {
+typedef struct wifi_ap_info
+{
     unsigned char   ssid[32];
     unsigned char   bssid[6];
     unsigned int    channel;
@@ -41,21 +42,23 @@ typedef struct wifi_ap_info {
 
 typedef struct _wifi_ap_list
 {
-	unsigned short  ap_count;
-	wifi_ap_info_t ap_info[MAX_AP_COUNT];
-}wifi_ap_list_t;
+    unsigned short  ap_count;
+    wifi_ap_info_t ap_info[MAX_AP_COUNT];
+} wifi_ap_list_t;
 
 typedef void (*aic_scan_cb_t)(struct mac_scan_result *);
 
-enum wifi_mac_acl_mode {
-	WIFI_MAC_ACL_DISABLED,
-	WIFI_MAC_ACL_BLACKLIST,
-	WIFI_MAC_ACL_WHITELIST
+enum wifi_mac_acl_mode
+{
+    WIFI_MAC_ACL_DISABLED,
+    WIFI_MAC_ACL_BLACKLIST,
+    WIFI_MAC_ACL_WHITELIST
 };
 #define WIFI_MAC_ADDR_LEN   6
-struct wifi_mac_node {
-	struct co_list_hdr node;
-	char mac[WIFI_MAC_ADDR_LEN];
+struct wifi_mac_node
+{
+    struct co_list_hdr node;
+    char mac[WIFI_MAC_ADDR_LEN];
 };
 
 /**
@@ -144,7 +147,7 @@ int wlan_ap_delete_blacklist(struct mac_addr *macaddr);
 int wlan_ap_add_whitelist(struct mac_addr *macaddr);
 int wlan_ap_delete_whitelist(struct mac_addr *macaddr);
 uint8_t wlan_ap_get_mac_acl_list_cnt(void);
-void * wlan_ap_get_mac_acl_list(void);
+void *wlan_ap_get_mac_acl_list(void);
 
 /*
  * Get the number of associated sta, max: 32

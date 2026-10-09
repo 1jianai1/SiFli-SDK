@@ -1,14 +1,9 @@
 /*
- * SPDX-FileCopyrightText: 2019-2026 SiFli Technologies(Nanjing) Co., Ltd
+ * SPDX-FileCopyrightText: 2026 AICSemi Ltd
  *
  * SPDX-License-Identifier: Apache-2.0
  */
 
-/*
- * Copyright (C) 2018-2024 AICSemi Ltd.
- *
- * All Rights Reserved
- */
 
 #ifndef _WIFI_IF_H_
 #define _WIFI_IF_H_
@@ -20,7 +15,8 @@
 #define MAC2STR(a) (a)[0], (a)[1], (a)[2], (a)[3], (a)[4], (a)[5]
 
 /// WIFI_API index message
-enum wifi_api_msg_index {
+enum wifi_api_msg_index
+{
     WIFI_API_SCAN_START,
     WIFI_API_SCAN_CANCEL,
     WIFI_API_STA_CONNECT,
@@ -37,28 +33,32 @@ enum wifi_api_msg_index {
 };
 
 /// WIFI_API handler description
-struct wifi_api_handler {
+struct wifi_api_handler
+{
     /// message index
     int index;
     /// handler function
-    void (*func) (void *msg);
+    void (*func)(void *msg);
 };
 
 /// WIFI_API message header
-struct wifi_api_msg_hdr {
+struct wifi_api_msg_hdr
+{
     /// Length, in bytes, of the message (including this header)
     uint16_t len;
     /// ID of the message.
     uint16_t id;
 };
 
-struct wifi_api_set_wps_pbc_tag {
+struct wifi_api_set_wps_pbc_tag
+{
     struct wifi_api_msg_hdr hdr;
     /// Vif idx
     int fhost_vif_idx;
 };
 
-struct wifi_api_monitor_start_tag {
+struct wifi_api_monitor_start_tag
+{
     struct wifi_api_msg_hdr hdr;
     /// Vif idx
     int fhost_vif_idx;
@@ -66,7 +66,8 @@ struct wifi_api_monitor_start_tag {
     struct fhost_vif_monitor_cfg cfg;
 };
 
-struct wifi_api_monitor_stop_tag {
+struct wifi_api_monitor_stop_tag
+{
     struct wifi_api_msg_hdr hdr;
     /// Vif idx
     int fhost_vif_idx;

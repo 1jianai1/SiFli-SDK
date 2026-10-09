@@ -1,14 +1,9 @@
 /*
- * SPDX-FileCopyrightText: 2019-2026 SiFli Technologies(Nanjing) Co., Ltd
+ * SPDX-FileCopyrightText: 2026 AICSemi Ltd
  *
  * SPDX-License-Identifier: Apache-2.0
  */
 
-/*
- * Copyright (C) 2018-2024 AICSemi Ltd.
- *
- * All Rights Reserved
- */
 
 #ifndef _SDIO_LAYER_H_
 #define _SDIO_LAYER_H_
@@ -32,21 +27,21 @@ void sdio_buf_init(void);
 void sdio_buf_free(struct sdio_buf_node_s *node);
 void aicwf_sdio_tx_init(void);
 #ifdef CONFIG_SDIO_ADMA
-void aicwf_sdio_adma_desc(void *desc,sdio_adma_free func,uint8_t needfree);
+    void aicwf_sdio_adma_desc(void *desc, sdio_adma_free func, uint8_t needfree);
 #endif /* CONFIG_SDIO_ADMA */
 
 #ifdef CONFIG_SDIO_BUS_PWRCTRL
-int aicwf_sdio_bus_pwrctrl_preinit(void);
-void aicwf_sdio_bus_pwrctl_timer_task_init(void);
-void aicwf_sdio_bus_pwrctl_timer_task_deinit(void);
-int aicwf_sdio_bus_pwr_stctl(uint target);
-void aicwf_sdio_rxcnt_increase(void);
-void aicwf_sdio_rxcnt_decrease(void);
-void aicwf_sdio_txpktcnt_increase(void);
-void aicfw_sdio_txpktcnt_decrease(void);
-void aicfw_sdio_txpktcnt_decrease_cnt(uint32_t cnt);
-void aicwf_sdio_cmdstatus_set(void);
-void aicwf_sdio_cmdstatus_clr(void);
+    int aicwf_sdio_bus_pwrctrl_preinit(void);
+    void aicwf_sdio_bus_pwrctl_timer_task_init(void);
+    void aicwf_sdio_bus_pwrctl_timer_task_deinit(void);
+    int aicwf_sdio_bus_pwr_stctl(uint target);
+    void aicwf_sdio_rxcnt_increase(void);
+    void aicwf_sdio_rxcnt_decrease(void);
+    void aicwf_sdio_txpktcnt_increase(void);
+    void aicfw_sdio_txpktcnt_decrease(void);
+    void aicfw_sdio_txpktcnt_decrease_cnt(uint32_t cnt);
+    void aicwf_sdio_cmdstatus_set(void);
+    void aicwf_sdio_cmdstatus_clr(void);
 #endif /* CONFIG_SDIO_BUS_PWRCTRL */
 
 

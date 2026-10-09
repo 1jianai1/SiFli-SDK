@@ -1,5 +1,5 @@
 /*
- * SPDX-FileCopyrightText: 2019-2026 SiFli Technologies(Nanjing) Co., Ltd
+ * SPDX-FileCopyrightText: 2026 AICSemi Ltd
  *
  * SPDX-License-Identifier: Apache-2.0
  */
@@ -312,11 +312,13 @@ struct fhost_vif_status
      * (e.g. non connected STA interface)
      */
     struct mac_chan_op chan;
-    union {
+    union
+    {
         /**
          * Fields specific to a STA interface
          */
-        struct {
+        struct
+        {
             /**
              * BSSID of the AP. (Set to 0 if interface is not connected)
              */
@@ -538,7 +540,8 @@ struct fhost_vif_cfg
      * Identify which part of the union has been updated
      */
     enum mac_vif_type cfg_type;
-    union {
+    union
+    {
         /**
          * Configuration if @p cfg_type == VIF_STA
          */
@@ -579,13 +582,15 @@ struct fhost_vif_ip_addr_cfg
      * (Unspecified when calling @ref fhost_get_vif_ip)
      */
     bool default_output;
-    union {
+    union
+    {
         /**
          * IPv4 config.
          * Must be set when calling @ref fhost_set_vif_ip with @p mode==IP_ADDR_STATIC_IPV4
          * Always set when updated by @ref fhost_get_vif_ip (whatever the value of @p mode)
          */
-        struct {
+        struct
+        {
             /**
              * IPv4 address
              */
@@ -607,7 +612,8 @@ struct fhost_vif_ip_addr_cfg
          * DHCP config.
          * Must be set when calling @ref fhost_set_vif_ip with @p addr_mode==IP_ADDR_DHCP_CLIENT
          */
-        struct {
+        struct
+        {
             /**
              * Timeout, in ms, to obtained an IP address
              */
@@ -616,7 +622,8 @@ struct fhost_vif_ip_addr_cfg
     };
 };
 
-typedef struct {
+typedef struct
+{
     uint32_t ipc_irq_prio;
 } fhost_user_cfg_t;
 

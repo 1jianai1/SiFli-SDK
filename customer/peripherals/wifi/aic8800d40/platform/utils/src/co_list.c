@@ -1,5 +1,5 @@
 /*
- * SPDX-FileCopyrightText: 2019-2026 SiFli Technologies(Nanjing) Co., Ltd
+ * SPDX-FileCopyrightText: 2026 AICSemi Ltd
  *
  * SPDX-License-Identifier: Apache-2.0
  */
@@ -181,7 +181,7 @@ bool co_list_find(struct co_list *list,
 
     // Go through the list to find the element
     tmp_list_hdr = list->first;
-    while((tmp_list_hdr != list_hdr) && (tmp_list_hdr != NULL))
+    while ((tmp_list_hdr != list_hdr) && (tmp_list_hdr != NULL))
     {
         tmp_list_hdr = tmp_list_hdr->next;
     }
@@ -201,7 +201,7 @@ uint32_t co_list_cnt(const struct co_list *const list)
         elt = co_list_next(elt);
     }
 
-    return(cnt);
+    return (cnt);
 }
 
 /**
@@ -219,15 +219,15 @@ uint32_t co_list_cnt(const struct co_list *const list)
  * @return              Pointer to the element found and removed (NULL otherwise).
  ****************************************************************************************
  */
-void co_list_insert(struct co_list * const list,
-                    struct co_list_hdr * const element,
+void co_list_insert(struct co_list *const list,
+                    struct co_list_hdr *const element,
                     bool (*cmp)(struct co_list_hdr const *elementA,
                                 struct co_list_hdr const *elementB))
 {
     struct co_list_hdr *prev = NULL;
     struct co_list_hdr *scan = list->first;
 
-    for(;;)
+    for (;;)
     {
         // scan the list until the end or cmp() returns true
         if (scan)
@@ -262,9 +262,9 @@ void co_list_insert(struct co_list * const list,
     }
 }
 
-void co_list_insert_after(struct co_list * const list,
-                          struct co_list_hdr * const prev_element,
-                          struct co_list_hdr * const element)
+void co_list_insert_after(struct co_list *const list,
+                          struct co_list_hdr *const prev_element,
+                          struct co_list_hdr *const element)
 {
     struct co_list_hdr *scan = list->first;
 
@@ -301,9 +301,9 @@ void co_list_insert_after(struct co_list * const list,
     }
 }
 
-void co_list_insert_before(struct co_list * const list,
-                           struct co_list_hdr * const next_element,
-                           struct co_list_hdr * const element)
+void co_list_insert_before(struct co_list *const list,
+                           struct co_list_hdr *const next_element,
+                           struct co_list_hdr *const element)
 {
     if (next_element == NULL)
     {
@@ -409,60 +409,60 @@ uint16_t co_list_size(struct co_list *list)
 
 /// Doubly-linked list
 
-void co_dl_list_init(list_node_t* list)
+void co_dl_list_init(list_node_t *list)
 {
     list->prev = list->next = list;
 }
 
-void co_dl_list_insert_tail(list_node_t* list, list_node_t* node)
+void co_dl_list_insert_tail(list_node_t *list, list_node_t *node)
 {
-  node->prev = list;
-  node->next = list->next;
-  list->next->prev = node;
-  list->next = node;
+    node->prev = list;
+    node->next = list->next;
+    list->next->prev = node;
+    list->next = node;
 }
 
-void co_dl_list_insert_head(list_node_t* list, list_node_t* node)
+void co_dl_list_insert_head(list_node_t *list, list_node_t *node)
 {
-  node->prev = list->prev;
-  node->next = list;
-  list->prev->next = node;
-  list->prev = node;
+    node->prev = list->prev;
+    node->next = list;
+    list->prev->next = node;
+    list->prev = node;
 }
 
-void co_dl_list_remove_node(list_node_t* node)
+void co_dl_list_remove_node(list_node_t *node)
 {
-  list_node_t* temp_node;
+    list_node_t *temp_node;
 
-  temp_node = node->next;
-  node->prev->next = temp_node;
-  temp_node->prev = node->prev;
+    temp_node = node->next;
+    node->prev->next = temp_node;
+    temp_node->prev = node->prev;
 
-  node->next = node->prev = NULL;
+    node->next = node->prev = NULL;
 }
 
-list_node_t* co_dl_list_remove_node_and_get_next(list_node_t* node)
+list_node_t *co_dl_list_remove_node_and_get_next(list_node_t *node)
 {
-  list_node_t* second;
+    list_node_t *second;
 
-  second = node->next;
-  node->prev->next = second;
-  second->prev = node->prev;
+    second = node->next;
+    node->prev->next = second;
+    second->prev = node->prev;
 
-  node->next = node->prev = NULL;
-  return(second);
+    node->next = node->prev = NULL;
+    return (second);
 }
 
-list_node_t* co_dl_list_remove_list_head(list_node_t* list)
+list_node_t *co_dl_list_remove_list_head(list_node_t *list)
 {
-  list_node_t* first;
+    list_node_t *first;
 
-  first = list->prev;
-  first->prev->next = list;
-  list->prev = first->prev;
+    first = list->prev;
+    first->prev->next = list;
+    list->prev = first->prev;
 
-  first->next = first->prev = NULL;
-  return(first);
+    first->next = first->prev = NULL;
+    return (first);
 }
 
 bool co_dl_list_is_empty(list_node_t *list)

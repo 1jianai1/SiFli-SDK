@@ -1,0 +1,146 @@
+scons: Reading SConscript files ...
+Board: dpi-hdk_lb575ybbn6_n16_epd_hcpu
+Adding ftab subproject for chip: SF32LB57X (ptab v1/v2)
+========
+Multi-Project Info
+--------
+full_name       main.bootloader
+parent          main
+bsp_root        D:\work_test\SiFli-SDK\example\boot_loader\project\sf32lb57x\ram_v2
+build_dir       build_dpi-hdk_lb575ybbn6_n16_epd_hcpu/bootloader
+link_script     D:/work_test/SiFli-SDK/example/boot_loader/project/sf32lb57x/ram_v2\link
+ptab            D:\work_test\SiFli-SDK\customer\boards\dpi-hdk_lb575ybbn6_n16_epd\ptab.json
+embedded:       False
+--------
+full_name       main
+parent          
+bsp_root        D:\work_test\SiFli-SDK\example\multimedia\lvgl\lvgl_tools_example\eez_studio\project
+build_dir       build_dpi-hdk_lb575ybbn6_n16_epd_hcpu/
+link_script     D:/work_test/SiFli-SDK/drivers/cmsis/sf32lb57x/Templates/gcc/hcpu/link
+ptab            D:\work_test\SiFli-SDK\customer\boards\dpi-hdk_lb575ybbn6_n16_epd\ptab.json
+--------
+full_name       main.ftab
+parent          main
+bsp_root        D:\work_test\SiFli-SDK\example\flash_table\sf32lb57x_common_v2
+build_dir       build_dpi-hdk_lb575ybbn6_n16_epd_hcpu/ftab
+link_script     D:/work_test/SiFli-SDK/drivers/cmsis/sf32lb57x/Templates/gcc/hcpu/link
+ptab            D:\work_test\SiFli-SDK\customer\boards\dpi-hdk_lb575ybbn6_n16_epd\ptab.json
+embedded:       False
+========
+scons: done reading SConscript files.
+scons: Building targets ...
+scons: building associated VariantDir targets: build_dpi-hdk_lb575ybbn6_n16_epd_hcpu . .
+Generating build_dpi-hdk_lb575ybbn6_n16_epd_hcpu\bootloader\link_copy.lds ...
+GenImgFile build_dpi-hdk_lb575ybbn6_n16_epd_hcpu\image\ezip\img_shanghai.tmp.c
+ImgFileBuilder= -rgb565 -cfile 2 -pal_support -winsize 2048 
+Building compilation database build_dpi-hdk_lb575ybbn6_n16_epd_hcpu\bootloader\compile_commands.json
+Building compilation database build_dpi-hdk_lb575ybbn6_n16_epd_hcpu\compile_commands.json
+CC build_dpi-hdk_lb575ybbn6_n16_epd_hcpu\sifli_sdk\rtos\kernel\src\idle.o
+CC build_dpi-hdk_lb575ybbn6_n16_epd_hcpu\sifli_sdk\rtos\kernel\src\ipc.o
+CC build_dpi-hdk_lb575ybbn6_n16_epd_hcpu\sifli_sdk\rtos\kernel\src\irq.o
+ezip version: 2.6.4_20260414_dyn_app_support_separate_dir build time: Apr 24 2026 17:18:55
+
+----- ezip convert begin: ezip -convert D:\work_test\SiFli-SDK\example\multimedia\lvgl\lvgl_tools_example\eez_studio\image\ezip\img_shanghai.c color RGB565 -------------
+
+  Found array: img_shanghai_map (480000 bytes)
+  Parsed image: img_shanghai_map (400x400px, CF: LV_IMG_CF_TRUE_COLOR_ALPHA -> 0x05)
+
+
+------  ezip convert success:  convert_num 0 error_num 0 run time 0.227 (s) ------
+
+CC build_dpi-hdk_lb575ybbn6_n16_epd_hcpu\sifli_sdk\rtos\kernel\src\kservice.o
+CC build_dpi-hdk_lb575ybbn6_n16_epd_hcpu\image\ezip\img_shanghai.tmp.o
+CC build_dpi-hdk_lb575ybbn6_n16_epd_hcpu\sifli_sdk\rtos\kernel\src\mem.o
+CC build_dpi-hdk_lb575ybbn6_n16_epd_hcpu\sifli_sdk\rtos\kernel\src\memheap.o
+CC build_dpi-hdk_lb575ybbn6_n16_epd_hcpu\sifli_sdk\rtos\kernel\src\memheap2.o
+CC build_dpi-hdk_lb575ybbn6_n16_epd_hcpu\sifli_sdk\rtos\kernel\src\mempool.o
+CC build_dpi-hdk_lb575ybbn6_n16_epd_hcpu\sifli_sdk\rtos\kernel\src\object.o
+CC build_dpi-hdk_lb575ybbn6_n16_epd_hcpu\sifli_sdk\rtos\kernel\src\scheduler.o
+CC build_dpi-hdk_lb575ybbn6_n16_epd_hcpu\sifli_sdk\rtos\kernel\src\signal.o
+CC build_dpi-hdk_lb575ybbn6_n16_epd_hcpu\sifli_sdk\rtos\kernel\src\thread.o
+CC build_dpi-hdk_lb575ybbn6_n16_epd_hcpu\sifli_sdk\rtos\kernel\src\timer.o
+CC build_dpi-hdk_lb575ybbn6_n16_epd_hcpu\sifli_sdk\rtos\kernel\libcpu\arm\cortex-m33\cpuport.o
+CC build_dpi-hdk_lb575ybbn6_n16_epd_hcpu\sifli_sdk\rtos\kernel\libcpu\arm\common\backtrace.o
+CC build_dpi-hdk_lb575ybbn6_n16_epd_hcpu\sifli_sdk\rtos\kernel\libcpu\arm\common\showmem.o
+CXX build_dpi-hdk_lb575ybbn6_n16_epd_hcpu\sifli_sdk\rtos\kernel\components\cplusplus\cxx_crt.o
+CXX build_dpi-hdk_lb575ybbn6_n16_epd_hcpu\sifli_sdk\rtos\kernel\components\cplusplus\cxx_mutex.o
+CXX build_dpi-hdk_lb575ybbn6_n16_epd_hcpu\sifli_sdk\rtos\kernel\components\cplusplus\cxx_semaphore.o
+CXX build_dpi-hdk_lb575ybbn6_n16_epd_hcpu\sifli_sdk\rtos\kernel\components\cplusplus\cxx_thread.o
+CC build_dpi-hdk_lb575ybbn6_n16_epd_hcpu\sifli_sdk\rtos\kernel\components\cplusplus\cxx_crt_init.o
+CC build_dpi-hdk_lb575ybbn6_n16_epd_hcpu\sifli_sdk\rtos\kernel\components\dfs\src\dfs.o
+CC build_dpi-hdk_lb575ybbn6_n16_epd_hcpu\sifli_sdk\rtos\kernel\components\dfs\src\dfs_file.o
+CC build_dpi-hdk_lb575ybbn6_n16_epd_hcpu\sifli_sdk\rtos\kernel\components\dfs\src\dfs_fs.o
+CC build_dpi-hdk_lb575ybbn6_n16_epd_hcpu\sifli_sdk\rtos\kernel\components\dfs\src\dfs_posix.o
+CC build_dpi-hdk_lb575ybbn6_n16_epd_hcpu\sifli_sdk\rtos\kernel\components\dfs\src\poll.o
+CC build_dpi-hdk_lb575ybbn6_n16_epd_hcpu\sifli_sdk\rtos\kernel\components\dfs\src\select.o
+CC build_dpi-hdk_lb575ybbn6_n16_epd_hcpu\sifli_sdk\rtos\kernel\components\dfs\filesystems\devfs\devfs.o
+CC build_dpi-hdk_lb575ybbn6_n16_epd_hcpu\sifli_sdk\rtos\kernel\components\drivers\sensors\sensor.o
+CC build_dpi-hdk_lb575ybbn6_n16_epd_hcpu\sifli_sdk\rtos\kernel\components\drivers\sensors\sensor_cmd.o
+CC build_dpi-hdk_lb575ybbn6_n16_epd_hcpu\sifli_sdk\rtos\kernel\components\finsh\shell.o
+CC build_dpi-hdk_lb575ybbn6_n16_epd_hcpu\sifli_sdk\rtos\kernel\components\finsh\symbol.o
+CC build_dpi-hdk_lb575ybbn6_n16_epd_hcpu\sifli_sdk\rtos\kernel\components\finsh\cmd.o
+CC build_dpi-hdk_lb575ybbn6_n16_epd_hcpu\sifli_sdk\rtos\kernel\components\finsh\msh.o
+CC build_dpi-hdk_lb575ybbn6_n16_epd_hcpu\sifli_sdk\rtos\kernel\components\finsh\msh_cmd.o
+CC build_dpi-hdk_lb575ybbn6_n16_epd_hcpu\sifli_sdk\rtos\kernel\components\finsh\msh_file.o
+CC build_dpi-hdk_lb575ybbn6_n16_epd_hcpu\sifli_sdk\rtos\kernel\components\libc\compilers\common\gmtime_r.o
+CC build_dpi-hdk_lb575ybbn6_n16_epd_hcpu\sifli_sdk\rtos\kernel\components\libc\compilers\common\unistd.o
+CC build_dpi-hdk_lb575ybbn6_n16_epd_hcpu\sifli_sdk\rtos\kernel\components\libc\compilers\newlib\libc.o
+CC build_dpi-hdk_lb575ybbn6_n16_epd_hcpu\sifli_sdk\rtos\kernel\components\libc\compilers\newlib\libc_syms.o
+CC build_dpi-hdk_lb575ybbn6_n16_epd_hcpu\sifli_sdk\rtos\kernel\components\libc\compilers\newlib\stdio.o
+CC build_dpi-hdk_lb575ybbn6_n16_epd_hcpu\sifli_sdk\rtos\kernel\components\libc\compilers\newlib\syscalls.o
+CC build_dpi-hdk_lb575ybbn6_n16_epd_hcpu\sifli_sdk\rtos\kernel\components\libc\compilers\newlib\time.o
+CC build_dpi-hdk_lb575ybbn6_n16_epd_hcpu\sifli_sdk\rtos\kernel\components\utilities\llt_mem\llt_mem.o
+CC build_dpi-hdk_lb575ybbn6_n16_epd_hcpu\sifli_sdk\rtos\kernel\components\utilities\ulog\ulog.o
+CC build_dpi-hdk_lb575ybbn6_n16_epd_hcpu\sifli_sdk\rtos\kernel\components\utilities\ulog\backend\console_be.o
+CC build_dpi-hdk_lb575ybbn6_n16_epd_hcpu\sifli_sdk\middleware\lvgl\lvsf\lv_ex_data.o
+CC build_dpi-hdk_lb575ybbn6_n16_epd_hcpu\sifli_sdk\middleware\lvgl\lvsf\lvsf_analogclk.o
+CC build_dpi-hdk_lb575ybbn6_n16_epd_hcpu\sifli_sdk\middleware\lvgl\lvsf\lvsf_barcode.o
+CC build_dpi-hdk_lb575ybbn6_n16_epd_hcpu\sifli_sdk\middleware\lvgl\lvsf\lvsf_comp.o
+CC build_dpi-hdk_lb575ybbn6_n16_epd_hcpu\sifli_sdk\middleware\lvgl\lvsf\lvsf_composite.o
+CC build_dpi-hdk_lb575ybbn6_n16_epd_hcpu\sifli_sdk\middleware\lvgl\lvsf\lvsf_corner.o
+CC build_dpi-hdk_lb575ybbn6_n16_epd_hcpu\sifli_sdk\middleware\lvgl\lvsf\lvsf_curvetext.o
+CC build_dpi-hdk_lb575ybbn6_n16_epd_hcpu\sifli_sdk\middleware\lvgl\lvsf\lvsf_emoji.o
+CC build_dpi-hdk_lb575ybbn6_n16_epd_hcpu\sifli_sdk\middleware\lvgl\lvsf\lvsf_ezipa.o
+CC build_dpi-hdk_lb575ybbn6_n16_epd_hcpu\sifli_sdk\middleware\lvgl\lvsf\lvsf_font.o
+CC build_dpi-hdk_lb575ybbn6_n16_epd_hcpu\sifli_sdk\middleware\lvgl\lvsf\lvsf_font_manager.o
+CC build_dpi-hdk_lb575ybbn6_n16_epd_hcpu\sifli_sdk\middleware\lvgl\lvsf\lvsf_gesture.o
+CC build_dpi-hdk_lb575ybbn6_n16_epd_hcpu\sifli_sdk\middleware\lvgl\lvsf\lvsf_header.o
+CC build_dpi-hdk_lb575ybbn6_n16_epd_hcpu\sifli_sdk\middleware\lvgl\lvsf\lvsf_idximg.o
+CC build_dpi-hdk_lb575ybbn6_n16_epd_hcpu\sifli_sdk\middleware\lvgl\lvsf\lvsf_input.o
+CC build_dpi-hdk_lb575ybbn6_n16_epd_hcpu\sifli_sdk\middleware\lvgl\lvsf\lvsf_popup.o
+CC build_dpi-hdk_lb575ybbn6_n16_epd_hcpu\sifli_sdk\middleware\lvgl\lvsf\lvsf_rlottie.o
+CC build_dpi-hdk_lb575ybbn6_n16_epd_hcpu\sifli_sdk\middleware\lvgl\lvsf\lvsf_theme_1.o
+CC build_dpi-hdk_lb575ybbn6_n16_epd_hcpu\sifli_sdk\middleware\lvgl\lvsf\lvsf_utils.o
+CC build_dpi-hdk_lb575ybbn6_n16_epd_hcpu\sifli_sdk\rtos\kernel\components\drivers\audio\audio.o
+CC build_dpi-hdk_lb575ybbn6_n16_epd_hcpu\sifli_sdk\rtos\kernel\components\drivers\audio\audio_pipe.o
+CC build_dpi-hdk_lb575ybbn6_n16_epd_hcpu\sifli_sdk\rtos\kernel\components\drivers\hwmailbox\hwmailbox.o
+CC build_dpi-hdk_lb575ybbn6_n16_epd_hcpu\sifli_sdk\rtos\kernel\components\drivers\hwtimer\hwtimer.o
+CC build_dpi-hdk_lb575ybbn6_n16_epd_hcpu\sifli_sdk\rtos\kernel\components\drivers\i2c\i2c_core.o
+CC build_dpi-hdk_lb575ybbn6_n16_epd_hcpu\sifli_sdk\rtos\kernel\components\drivers\i2c\i2c_dev.o
+CC build_dpi-hdk_lb575ybbn6_n16_epd_hcpu\sifli_sdk\rtos\kernel\components\drivers\i2c\i2c-bit-ops.o
+CC build_dpi-hdk_lb575ybbn6_n16_epd_hcpu\sifli_sdk\rtos\kernel\components\drivers\misc\pin.o
+CC build_dpi-hdk_lb575ybbn6_n16_epd_hcpu\sifli_sdk\rtos\kernel\components\drivers\misc\adc.o
+CC build_dpi-hdk_lb575ybbn6_n16_epd_hcpu\sifli_sdk\rtos\kernel\components\drivers\misc\rt_drv_pwm.o
+CC build_dpi-hdk_lb575ybbn6_n16_epd_hcpu\sifli_sdk\rtos\kernel\components\drivers\mtd\mtd_nor.o
+CC build_dpi-hdk_lb575ybbn6_n16_epd_hcpu\sifli_sdk\rtos\kernel\components\drivers\rtc\rtc.o
+CC build_dpi-hdk_lb575ybbn6_n16_epd_hcpu\sifli_sdk\rtos\kernel\components\drivers\serial\serial.o
+CC build_dpi-hdk_lb575ybbn6_n16_epd_hcpu\sifli_sdk\rtos\kernel\components\drivers\spi\spi_core.o
+CC build_dpi-hdk_lb575ybbn6_n16_epd_hcpu\sifli_sdk\rtos\kernel\components\drivers\spi\spi_dev.o
+CC build_dpi-hdk_lb575ybbn6_n16_epd_hcpu\sifli_sdk\rtos\kernel\components\drivers\src\completion.o
+CC build_dpi-hdk_lb575ybbn6_n16_epd_hcpu\sifli_sdk\rtos\kernel\components\drivers\src\dataqueue.o
+CC build_dpi-hdk_lb575ybbn6_n16_epd_hcpu\sifli_sdk\rtos\kernel\components\drivers\src\pipe.o
+CC build_dpi-hdk_lb575ybbn6_n16_epd_hcpu\sifli_sdk\rtos\kernel\components\drivers\src\ringblk_buf.o
+CC build_dpi-hdk_lb575ybbn6_n16_epd_hcpu\sifli_sdk\rtos\kernel\components\drivers\src\ringbuffer.o
+CC build_dpi-hdk_lb575ybbn6_n16_epd_hcpu\sifli_sdk\rtos\kernel\components\drivers\src\ringbuffer32.o
+CC build_dpi-hdk_lb575ybbn6_n16_epd_hcpu\sifli_sdk\rtos\kernel\components\drivers\src\waitqueue.o
+CC build_dpi-hdk_lb575ybbn6_n16_epd_hcpu\sifli_sdk\rtos\kernel\components\drivers\src\workqueue.o
+Generating build_dpi-hdk_lb575ybbn6_n16_epd_hcpu\link_copy.lds ...
+Generating build_dpi-hdk_lb575ybbn6_n16_epd_hcpu\ftab\link_copy.lds ...
+Building compilation database build_dpi-hdk_lb575ybbn6_n16_epd_hcpu\ftab\compile_commands.json
+LINK build_dpi-hdk_lb575ybbn6_n16_epd_hcpu\main.elf
+C:/env_1.1.2.1/tools/gnu_gcc/arm_gcc_14.2.1/bin/../lib/gcc/arm-none-eabi/14.2.1/../../../../arm-none-eabi/bin/ld.exe: build_dpi-hdk_lb575ybbn6_n16_epd_hcpu\main.elf section `.RW_PSRAM2' will not fit in region `PSRAM2'
+C:/env_1.1.2.1/tools/gnu_gcc/arm_gcc_14.2.1/bin/../lib/gcc/arm-none-eabi/14.2.1/../../../../arm-none-eabi/bin/ld.exe: region `PSRAM2' overflowed by 309248 bytes
+C:/env_1.1.2.1/tools/gnu_gcc/arm_gcc_14.2.1/bin/../lib/gcc/arm-none-eabi/14.2.1/../../../../arm-none-eabi/bin/ld.exe: warning: build_dpi-hdk_lb575ybbn6_n16_epd_hcpu\main.elf has a LOAD segment with RWX permissions
+collect2.exe: error: ld returned 1 exit status
+scons: *** [build_dpi-hdk_lb575ybbn6_n16_epd_hcpu\main.elf] Error 1
+scons: building terminated because of errors.

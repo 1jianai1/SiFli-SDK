@@ -1,5 +1,5 @@
 /*
- * SPDX-FileCopyrightText: 2019-2026 SiFli Technologies(Nanjing) Co., Ltd
+ * SPDX-FileCopyrightText: 2026 AICSemi Ltd
  *
  * SPDX-License-Identifier: Apache-2.0
  */
@@ -18,11 +18,11 @@
 #include <stdbool.h>
 
 #ifndef BIT
-#define BIT(x)      (1ul << (x))
+    #define BIT(x)      (1ul << (x))
 #endif
 
 #ifndef NULL
-#define NULL (void *)0
+    #define NULL (void *)0
 #endif
 
 #include <stdint.h>
@@ -44,7 +44,7 @@ typedef signed char         S8;
 typedef signed short        S16;
 //typedef signed int          S32;
 #if !SYSYINT_H
-typedef unsigned char       bool;
+    typedef unsigned char       bool;
 #endif
 typedef unsigned char       u8;
 typedef unsigned short      u16;
@@ -82,20 +82,20 @@ typedef signed int          int32;
 typedef signed long long    int64;
 
 #if 0
-typedef unsigned char       uint8_t;
-typedef unsigned short      uint16_t;
-typedef unsigned int        uint32_t;
+    typedef unsigned char       uint8_t;
+    typedef unsigned short      uint16_t;
+    typedef unsigned int        uint32_t;
 
-#if !SYSYINT_H
-typedef unsigned long long  uint64_t;
-#endif
+    #if !SYSYINT_H
+        typedef unsigned long long  uint64_t;
+    #endif
 
-typedef signed char         int8_t;
-typedef signed short        int16_t;
-typedef signed int          int32_t;
-#if !SYSYINT_H
-typedef signed long long    int64_t;
-#endif
+    typedef signed char         int8_t;
+    typedef signed short        int16_t;
+    typedef signed int          int32_t;
+    #if !SYSYINT_H
+        typedef signed long long    int64_t;
+    #endif
 #endif
 
 typedef unsigned char       byte;    /*  unsigned 8-bit data     */

@@ -1,5 +1,5 @@
 /*
- * SPDX-FileCopyrightText: 2019-2026 SiFli Technologies(Nanjing) Co., Ltd
+ * SPDX-FileCopyrightText: 2026 AICSemi Ltd
  *
  * SPDX-License-Identifier: Apache-2.0
  */
@@ -35,7 +35,7 @@
 /* Task identifiers for communication between LMAC and DRIVER */
 enum
 {
-    TASK_NONE = (u8_l) -1,
+    TASK_NONE = (u8_l) - 1,
 
     // MAC Management task.
     TASK_MM = 0,
@@ -376,8 +376,8 @@ enum mm_msg_tag
     MM_GET_MAC_ADDR_REQ,
     MM_GET_MAC_ADDR_CFM,
 
-	MM_GET_STA_INFO_REQ,
-	MM_GET_STA_INFO_CFM,
+    MM_GET_STA_INFO_REQ,
+    MM_GET_STA_INFO_CFM,
 
     MM_SET_TXPWR_IDX_LVL_REQ,
     MM_SET_TXPWR_IDX_LVL_CFM,
@@ -450,16 +450,16 @@ enum mm_features
 {
     /// Beaconing
     MM_FEAT_BCN_BIT         = 0,
-/*
-    /// Autonomous Beacon Transmission
-    MM_FEAT_AUTOBCN_BIT,
-    /// Scan in LMAC
-    MM_FEAT_HWSCAN_BIT,
-    /// Connection Monitoring
-    MM_FEAT_CMON_BIT,
-    /// Multi Role
-    MM_FEAT_MROLE_BIT,
-*/
+    /*
+        /// Autonomous Beacon Transmission
+        MM_FEAT_AUTOBCN_BIT,
+        /// Scan in LMAC
+        MM_FEAT_HWSCAN_BIT,
+        /// Connection Monitoring
+        MM_FEAT_CMON_BIT,
+        /// Multi Role
+        MM_FEAT_MROLE_BIT,
+    */
     /// Radar Detection
     MM_FEAT_RADAR_BIT,
     /// Power Save
@@ -1228,14 +1228,14 @@ struct mm_set_p2p_noa_req
 #ifdef AICWF_ARP_OFFLOAD
 struct mm_set_arpoffload_en_req
 {
-	u32_l ipaddr;
-	u8_l enable;
-	u8_l vif_idx;
+    u32_l ipaddr;
+    u8_l enable;
+    u8_l vif_idx;
 };
 
 struct mm_set_arpoffload_en_cfm
 {
-	u8_l status;
+    u8_l status;
 };
 #endif
 
@@ -1274,18 +1274,19 @@ struct mm_set_rf_config_req
     u8_l table_sel;
     u8_l table_ofst;
     u8_l table_num;
-	u8_l deft_page;
+    u8_l deft_page;
     u32_l data[64];
 };
 
-struct mm_set_rf_calib_req {
-	u32_l cal_cfg_24g;
-	u32_l cal_cfg_5g;
-	u32_l param_alpha;
-	u32_l bt_calib_en;
-	u32_l bt_calib_param;
-	u8_l xtal_cap;
-	u8_l xtal_cap_fine;
+struct mm_set_rf_calib_req
+{
+    u32_l cal_cfg_24g;
+    u32_l cal_cfg_5g;
+    u32_l param_alpha;
+    u32_l bt_calib_en;
+    u32_l bt_calib_param;
+    u8_l xtal_cap;
+    u8_l xtal_cap_fine;
 };
 
 struct mm_set_rf_calib_cfm
@@ -1306,14 +1307,16 @@ struct mm_get_mac_addr_cfm
     u8_l mac_addr[6];
 };
 
-struct mm_get_sta_info_req {
-	u8_l sta_idx;
+struct mm_get_sta_info_req
+{
+    u8_l sta_idx;
 };
 
-struct mm_get_sta_info_cfm {
-	u32_l rate_info;
-	u32_l txfailed;
-	u8    rssi;
+struct mm_get_sta_info_cfm
+{
+    u32_l rate_info;
+    u32_l txfailed;
+    u8    rssi;
 };
 
 
@@ -1337,7 +1340,8 @@ struct mm_set_ap_ps_level_req
 struct mm_set_vendor_hwconfig_cfm
 {
     u32_l hwconfig_id;
-    union {
+    union
+    {
         struct mm_get_chip_temp_cfm chip_temp_cfm;
     };
 };
@@ -1377,39 +1381,43 @@ typedef struct
 
 struct mm_set_txpwr_lvl_req
 {
-  union {
-    txpwr_lvl_conf_t txpwr_lvl;
-    txpwr_lvl_conf_v2_t txpwr_lvl_v2;
-    txpwr_lvl_conf_v3_t txpwr_lvl_v3;
-  };
+    union
+    {
+        txpwr_lvl_conf_t txpwr_lvl;
+        txpwr_lvl_conf_v2_t txpwr_lvl_v2;
+        txpwr_lvl_conf_v3_t txpwr_lvl_v3;
+    };
 };
 
-typedef struct {
-	u8_l enable;
-	u8_l dsss;
-	u8_l ofdmlowrate_2g4;
-	u8_l ofdm64qam_2g4;
-	u8_l ofdm256qam_2g4;
-	u8_l ofdm1024qam_2g4;
-	u8_l ofdmlowrate_5g;
-	u8_l ofdm64qam_5g;
-	u8_l ofdm256qam_5g;
-	u8_l ofdm1024qam_5g;
+typedef struct
+{
+    u8_l enable;
+    u8_l dsss;
+    u8_l ofdmlowrate_2g4;
+    u8_l ofdm64qam_2g4;
+    u8_l ofdm256qam_2g4;
+    u8_l ofdm1024qam_2g4;
+    u8_l ofdmlowrate_5g;
+    u8_l ofdm64qam_5g;
+    u8_l ofdm256qam_5g;
+    u8_l ofdm1024qam_5g;
 } txpwr_idx_conf_t;
 
-struct mm_set_txpwr_idx_req {
-	txpwr_idx_conf_t txpwr_idx;
+struct mm_set_txpwr_idx_req
+{
+    txpwr_idx_conf_t txpwr_idx;
 };
 
-typedef struct {
-	u8_l enable;
-	s8_l chan_1_4;
-	s8_l chan_5_9;
-	s8_l chan_10_13;
-	s8_l chan_36_64;
-	s8_l chan_100_120;
-	s8_l chan_122_140;
-	s8_l chan_142_165;
+typedef struct
+{
+    u8_l enable;
+    s8_l chan_1_4;
+    s8_l chan_5_9;
+    s8_l chan_10_13;
+    s8_l chan_36_64;
+    s8_l chan_100_120;
+    s8_l chan_122_140;
+    s8_l chan_142_165;
 } txpwr_ofst_conf_t;
 
 typedef struct
@@ -1428,22 +1436,25 @@ typedef struct
 
 struct mm_set_txpwr_ofst_req
 {
-    union {
+    union
+    {
         txpwr_ofst_conf_t txpwr_ofst;
         txpwr_ofst2x_conf_t txpwr_ofst2x;
     };
 };
 
-struct mm_set_stack_start_req {
-	u8_l is_stack_start;
-	u8_l efuse_valid;
-	u8_l set_vendor_info;
-	u8_l fwtrace_redir;
+struct mm_set_stack_start_req
+{
+    u8_l is_stack_start;
+    u8_l efuse_valid;
+    u8_l set_vendor_info;
+    u8_l fwtrace_redir;
 };
 
-struct mm_set_stack_start_cfm {
-	u8_l is_5g_support;
-	u8_l vendor_info;
+struct mm_set_stack_start_cfm
+{
+    u8_l is_5g_support;
+    u8_l vendor_info;
 };
 
 /// Structure containing the parameters of the @ref MM_SET_P2P_OPPPS_REQ message.
@@ -1697,9 +1708,9 @@ struct scanu_start_req
 
 struct scanu_vendor_ie_req
 {
-	u16_l add_ie_len;
-	u8_l vif_idx;
-	u8_l  ie[256];
+    u16_l add_ie_len;
+    u8_l vif_idx;
+    u8_l  ie[256];
 };
 
 struct scanu_scan_cancel_req
@@ -1961,7 +1972,8 @@ struct mm_apm_staloss_ind
     u8_l mac_addr[6];
 };
 
-enum vendor_hwconfig_tag{
+enum vendor_hwconfig_tag
+{
     ACS_TXOP_REQ = 0,
     CHANNEL_ACCESS_REQ,
     MAC_TIMESCALE_REQ,
@@ -2001,7 +2013,8 @@ struct rc_rate_stats
     u16_l rate_config;
     union
     {
-        struct {
+        struct
+        {
             /// Number of times the sample has been skipped (per sampling interval)
             u8_l  sample_skipped;
             /// Whether the old probability is available
@@ -2009,7 +2022,8 @@ struct rc_rate_stats
             /// Whether the rate can be used in the retry chain
             bool_l rate_allowed;
         };
-        struct {
+        struct
+        {
             /// RU size and UL length received in the latest HE trigger frame
             u16_l ru_and_length;
         };
@@ -2188,7 +2202,7 @@ struct sm_connect_ind
     /// Length of the AssocRsp IEs
     u16_l assoc_rsp_ie_len;
     /// IE buffer
-    u32_l assoc_ie_buf[SM_ASSOC_IE_LEN/4];
+    u32_l assoc_ie_buf[SM_ASSOC_IE_LEN / 4];
 
     u16_l aid;
     u8_l band;
@@ -2227,7 +2241,7 @@ struct sm_disconnect_ind
     u8_l vif_idx;
     /// FT over DS is ongoing
     bool_l ft_over_ds;
-	u8_l reassoc;
+    u8_l reassoc;
 };
 
 /// Structure containing the parameters of the @ref SM_EXTERNAL_AUTH_REQUIRED_IND
@@ -2488,7 +2502,7 @@ struct mesh_stop_cfm
 {
     /// Index of the VIF for which the MP has to be stopped
     u8_l vif_idx;
-   /// Status
+    /// Status
     u8_l status;
 };
 
@@ -2856,7 +2870,8 @@ struct dbg_start_app_cfm
     u32_l bootstatus;
 };
 
-enum {
+enum
+{
     HOST_START_APP_AUTO = 1,
     HOST_START_APP_CUSTOM = 2,
     HOST_START_APP_REBOOT = 3,

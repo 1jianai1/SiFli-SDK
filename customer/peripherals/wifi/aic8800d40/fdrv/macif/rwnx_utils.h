@@ -1,5 +1,5 @@
 /*
- * SPDX-FileCopyrightText: 2019-2026 SiFli Technologies(Nanjing) Co., Ltd
+ * SPDX-FileCopyrightText: 2026 AICSemi Ltd
  *
  * SPDX-License-Identifier: Apache-2.0
  */
@@ -23,23 +23,23 @@
 #define REORDER_DEBUG       0
 
 #if !REORDER_DEBUG
-#define DBG_REORD(...)  do {} while (0)
-#define WRN_REORD(...)  do {} while (0)
-#define DBG_TIMER(...)  do {} while (0)
-#define WRN_TIMER(...)  do {} while (0)
+    #define DBG_REORD(...)  do {} while (0)
+    #define WRN_REORD(...)  do {} while (0)
+    #define DBG_TIMER(...)  do {} while (0)
+    #define WRN_TIMER(...)  do {} while (0)
 #else
-#define DBG_REORD(...)  DBG_MACIF_VRB(__VA_ARGS__)
-#define WRN_REORD(...)  DBG_MACIF_WRN(__VA_ARGS__)
-#define DBG_TIMER(...)  DBG_MACIF_VRB(__VA_ARGS__)
-#define WRN_TIMER(...)  DBG_MACIF_WRN(__VA_ARGS__)
+    #define DBG_REORD(...)  DBG_MACIF_VRB(__VA_ARGS__)
+    #define WRN_REORD(...)  DBG_MACIF_WRN(__VA_ARGS__)
+    #define DBG_TIMER(...)  DBG_MACIF_VRB(__VA_ARGS__)
+    #define WRN_TIMER(...)  DBG_MACIF_WRN(__VA_ARGS__)
 #endif
 #define ERR_REORD(...)  DBG_MACIF_ERR(__VA_ARGS__)
 #define ERR_TIMER(...)  DBG_MACIF_ERR(__VA_ARGS__)
 
 #ifdef CONFIG_RWNX_DBG
-#define RWNX_DBG        AIC_LOG_PRINTF
+    #define RWNX_DBG        AIC_LOG_PRINTF
 #else
-#define RWNX_DBG(a...)  do {} while (0)
+    #define RWNX_DBG(a...)  do {} while (0)
 #endif
 
 #define RWNX_FN_ENTRY_STR ">>> %s()\n", __func__
@@ -80,15 +80,17 @@ typedef uint32_t dma_addr_t;
 
 
 #if (AICWF_RWNX_TIMER_EN)
-typedef void (*rwnx_timer_cb_t)(void * arg,void * arg1);
+typedef void (*rwnx_timer_cb_t)(void *arg, void *arg1);
 
-enum rwnx_timer_state_e {
+enum rwnx_timer_state_e
+{
     RWNX_TIMER_STATE_FREE   = 0,
     RWNX_TIMER_STATE_POST   = 1,
     RWNX_TIMER_STATE_STOP   = 2,
 };
 
-enum rwnx_timer_action_e {
+enum rwnx_timer_action_e
+{
     RWNX_TIMER_ACTION_CREATE    = 0,
     RWNX_TIMER_ACTION_START     = 1,
     RWNX_TIMER_ACTION_RESTART   = 2,
@@ -97,11 +99,12 @@ enum rwnx_timer_action_e {
     RWNX_TIMER_ACTION_NONE      = 5,
 };
 
-struct rwnx_timer_node_s {
+struct rwnx_timer_node_s
+{
     struct co_list_hdr hdr;
     rwnx_timer_cb_t cb;
     void *arg;
-	void *arg1;
+    void *arg1;
     uint32_t expired_ms; // remained
     enum rwnx_timer_state_e state;
     enum rwnx_timer_action_e action;
@@ -109,7 +112,7 @@ struct rwnx_timer_node_s {
     bool auto_load;
 };
 
-typedef struct rwnx_timer_node_s * rwnx_timer_handle;
+typedef struct rwnx_timer_node_s *rwnx_timer_handle;
 #endif
 
 #if (AICWF_RX_REORDER)
@@ -119,21 +122,23 @@ typedef struct rwnx_timer_node_s * rwnx_timer_handle;
 #define SN_LESS(a, b)           (((a-b)&0x800) != 0)
 #define SN_EQUAL(a, b)          (a == b)
 
-struct reord_ctrl {
+struct reord_ctrl
+{
     uint8_t enable;
     uint8_t wsize_b;
     uint16_t ind_sn;
     uint16_t list_cnt;
     struct co_list reord_list;
     rtos_mutex reord_list_lock;
-    #if (AICWF_RWNX_TIMER_EN)
+#if (AICWF_RWNX_TIMER_EN)
     rwnx_timer_handle reord_timer;
-    #else
+#else
     rtos_timer reord_timer;
-    #endif
+#endif
 };
 
-struct reord_ctrl_info {
+struct reord_ctrl_info
+{
     struct co_list_hdr hdr;
     uint8_t mac_addr[6];
     struct reord_ctrl preorder_ctrl[8];
@@ -141,12 +146,13 @@ struct reord_ctrl_info {
 
 struct fhost_rx_buf_tag;
 
-struct recv_msdu {
+struct recv_msdu
+{
     struct co_list_hdr hdr;
     struct fhost_rx_buf_tag *rx_buf;
-    #ifdef CONFIG_RX_NOCOPY
+#ifdef CONFIG_RX_NOCOPY
     void *lwip_msg;
-    #endif
+#endif
     uint16_t buf_len;
     uint16_t seq_num;
     uint8_t  tid;

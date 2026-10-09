@@ -1,0 +1,395 @@
+diff --git a/customer/peripherals/wifi/aic8800_rtos_driver/SConscript b/customer/peripherals/wifi/aic8800_rtos_driver/SConscript
+index 5f4a99ef2..15d490e87 100644
+--- a/customer/peripherals/wifi/aic8800_rtos_driver/SConscript
++++ b/customer/peripherals/wifi/aic8800_rtos_driver/SConscript
+@@ -61,6 +61,7 @@ CPPPATH = [
+ # ============================================================================
+ CPPDEFINES = [
+     'CONFIG_AIC8800D80',
++    'CONFIG_AIC8800D80N',
+     'USE_5G',
+     'CONFIG_SDIO_SUPPORT',
+     'AIC_HCI_OVER_SDIO',
+diff --git a/customer/peripherals/wifi/aic8800_rtos_driver/platform/fmac/aic_fw_port.c b/customer/peripherals/wifi/aic8800_rtos_driver/platform/fmac/aic_fw_port.c
+index dc010f406..c937674c3 100644
+--- a/customer/peripherals/wifi/aic8800_rtos_driver/platform/fmac/aic_fw_port.c
++++ b/customer/peripherals/wifi/aic8800_rtos_driver/platform/fmac/aic_fw_port.c
+@@ -1517,6 +1517,9 @@ int aicwf_rwnx_load_firmware(uint16_t chipid, int mode, uint32_t **fw_buf)
+             *fw_buf = (uint32_t *)aic_fw_ptr_get(FMACFW_8800D80_U02);
+             size = aic_fw_size_get(FMACFW_8800D80_U02);
+         }
++        /* [TRACE] 库来取 D80N 固件就会打这一行: size 为 0 表示没取到 */
++        DBG_FMAC_INF("[trace] load_firmware D80N: mode=%d size=%d buf=%p\n",
++                     mode, size, (void *)*fw_buf);
+ #endif /* CONFIG_AIC8800D80N */
+     }
+     else if (chipid == PRODUCT_ID_AIC8800D80X2)
+@@ -1553,6 +1556,8 @@ int aicwf_rwnx_load_patch_tbl(uint16_t chipid, uint32_t **fw_buf)
+ {
+     int size = 0;
+ 
++    /* [TRACE] 库是否来取补丁表 */
++    DBG_FMAC_INF("[trace] load_patch_tbl: chipid=%u\n", (unsigned)chipid);
+     if (chipid == PRODUCT_ID_AIC8800DC || chipid == PRODUCT_ID_AIC8800DW)
+     {
+ #if defined(CONFIG_AIC8800DC) || defined(CONFIG_AIC8800DW)
+@@ -1585,6 +1590,8 @@ int aicwf_rwnx_load_patch_tbl(uint16_t chipid, uint32_t **fw_buf)
+ int aicwf_rwnx_load_calib(uint16_t chipid, uint32_t **fw_buf)
+ {
+     int size = 0;
++    /* [TRACE] 库是否来取校准数据 */
++    DBG_FMAC_INF("[trace] load_calib: chipid=%u\n", (unsigned)chipid);
+ #if defined(CONFIG_AIC8800DC) || defined(CONFIG_AIC8800DW)
+     if (chipid == PRODUCT_ID_AIC8800DC || chipid == PRODUCT_ID_AIC8800DW)
+     {
+diff --git a/customer/peripherals/wifi/aic8800_rtos_driver/platform/hal/sdio_port.c b/customer/peripherals/wifi/aic8800_rtos_driver/platform/hal/sdio_port.c
+index 24eb83573..f55a370ac 100644
+--- a/customer/peripherals/wifi/aic8800_rtos_driver/platform/hal/sdio_port.c
++++ b/customer/peripherals/wifi/aic8800_rtos_driver/platform/hal/sdio_port.c
+@@ -150,7 +150,24 @@ static void (*host_sdio_irq_cb)(void);
+ #define DRV_NAME "AIC8800D"
+ #define DEVICE_FUNC_CODE    0x07
+ 
+-/* SDIO 设备 ID 表 — 按 AIC_CHIP_MODEL 选择对应芯片系列的 ID */
++/* SDIO 设备 ID 表 — 按 AIC_CHIP_MODEL 选择对应芯片系列的 ID
++ *
++ * ============================ 硬约定 (改本表前必读) ============================
++ * 本平台 core 的 sdio_match_card() 只读 driver->id 指向的【第一条】, 不遍历数组:
++ *   - struct rt_sdio_driver.id 是单指针 (drivers/include/drivers/sdio.h:151),
++ *     core 实现见 rtos/rtthread/components/drivers/sdio/sdio.c:1328-1356,
++ *     只访问 id->manufacturer / id->product, 且 product == SDIO_ANY_PROD_ID 时
++ *     立即 return 1。
++ * 由此产生三条必须遵守的规则:
++ *   1) 第一条必须用 SDIO_ANY_PROD_ID 兜底 —— 否则本表其它型号条目永远匹配不到;
++ *   2) 具体型号只能由 probe 内 aicwf_sdio_chipmatch() 按卡级 PID 运行时判定
++ *      (D80=0x0082, D80N=0x9081, D80LN=0x9082, D80WN=0x9083, ...);
++ *   3) 任何"把某条具体 PID 挪到第一条"的改法都会让其它型号 probe 不到,
++ *      现象是 sdio_register_driver() 返回 -RT_EEMPTY(-4)、设备不注册。
++ * 另: core 从不校验本结构第一个成员 func_code, DEVICE_FUNC_CODE 仅为对齐 Linux
++ *     写法的占位, 写什么值都不影响匹配。
++ * =============================================================================
++ */
+ static struct sdio_device_id aic_sdio_ids[] =
+ {
+ #if defined(CONFIG_AIC8800D80) || defined(CONFIG_AIC8800D80N)
+@@ -171,6 +188,12 @@ static struct sdio_device_id aic_sdio_ids[] =
+     {DEVICE_FUNC_CODE, SDIO_VENDOR_ID_AIC8800DC,  SDIO_DEVICE_ID_AIC8800DC},
+ #elif defined(CONFIG_AIC8800D)
+     {DEVICE_FUNC_CODE, SDIO_VENDOR_ID_AIC8801,    SDIO_DEVICE_ID_AIC8801},
++#else
++    /* 编译期闸门: 宏链全不成立时本数组会变成空数组, driver->id 指向零长度对象,
++     * sdio_match_card() 读到的是数组边界外的数据 -> 匹配结果不确定, 表现为
++     * "时好时坏的设备不注册"。宁可编译失败也不要这种运行时随机行为。
++     * 宏由 customer/peripherals/wifi/aic8800_rtos_driver/SConscript 的 CPPDEFINES 注入。 */
++#error "AIC8800 chip model macro is missing (need one of CONFIG_AIC8800D80/D80N/DC/DW/D): aic_sdio_ids[] would be empty and SDIO matching would be undefined. Check CPPDEFINES in aic8800_rtos_driver/SConscript."
+ #endif
+ };
+ 
+@@ -228,10 +251,23 @@ static rt_int32_t __aicwf_aic_drv_init(struct mmcsd_card *card)
+      * 故本地下标上界取 min(sdio_function_num, SDIOM_MAX_FUNCS-1) */
+     num = co_min(card->sdio_function_num, (uint8_t)(SDIOM_MAX_FUNCS - 1));
+ 
++    /* 打印 probe 实际拿到的卡级信息, 便于与 core 的 "card registered" 行对账 */
++    DBG_SDIO_INF("[sdio-match] probe: man=0x%04X prod=0x%04X funcs=%d cccr_ver=%d\r\n",
++                 card->cis.manufacturer, card->cis.product,
++                 card->sdio_function_num, card->cccr.sdio_version);
++
+     // 按 func->num 映射：索引必须与实际功能号对齐，不匹配的槽位保持 NULL
+     for (i = 0; i <= num; i++)
+     {
+         struct sdio_func *f = card->sdio_function[i];
++
++        /* 防御: core 分配 function 失败 / 槽位未填充时可能为 NULL, 直接解引用会 HardFault */
++        if (f == NULL)
++        {
++            DBG_SDIO_ERR("__aicwf_aic_drv_init(): sdio_function[%d] is NULL, skip\r\n", i);
++            continue;
++        }
++
+         func_idx = f->num;
+         if (func_idx >= SDIOM_MAX_FUNCS)
+         {
+@@ -277,6 +313,19 @@ static rt_int32_t __aicwf_aic_dev_remove(struct mmcsd_card *card)
+ 
+ /**
+  * @brief 注册AIC SDIO驱动到SDIO子系统
++ *
++ * 返回值语义 (rtos/rtthread/components/drivers/sdio/sdio.c:1379-1405):
++ *   0             : 已在 sdio_cards 中匹配到卡, 并调用过 probe
++ *   -RT_EEMPTY(-4): 驱动节点已挂入 sdio_drivers, 但没有匹配到卡 —— 两种成因:
++ *                     (a) 卡压根没枚举成功 (sdio_cards 为空): 看核心日志有没有
++ *                         'init SDIO card failed' / 探测线程是否还没跑完;
++ *                     (b) 卡的厂商码与本驱动 ID 表第一条不符 (VID mismatch)。
++ *
++ * 注意: 这里【不能】写"延时重试注册"的循环 —— sdio_register_driver() 每次调用
++ * 都会无条件往 sdio_drivers 链表插入一个新节点 (sdio.c:1393), 重复调用会残留
++ * 多个节点, 之后每次 sdio_register_card() 都会对本驱动重复调用 probe。
++ * 所以这里只做"返回值检查 + 定位打印", 不做重试。
++ *
+  * @return 注册结果, 0=成功
+  */
+ int aicwf_sdio_drv_register(void)
+@@ -285,6 +334,19 @@ int aicwf_sdio_drv_register(void)
+     err = aic_sdio_register_driver(&sdio_drvpriv.wifi_drv);
+ 
+     DBG_SDIO_INF("====>aicwf_sdio_drv_register():ret:%d\n", err);
++    /* 打印本驱动实际参与匹配的 VID/PID: core 只读第一条, 见 aic_sdio_ids 上方注释 */
++    DBG_SDIO_INF("[sdio-match] driver id table first entry: VID=0x%04X PID=0x%04X (ANY=0x%04X)\n",
++                 aic_sdio_ids[0].manufacturer, aic_sdio_ids[0].product, SDIO_ANY_PROD_ID);
++
++    if (err == -RT_EEMPTY)
++    {
++        DBG_SDIO_ERR("[sdio-match] ret=%d: no SDIO card matched. Cross-check the core log:\n"
++                     "  * 'card registered: man=... prod=...' printed?\n"
++                     "      - no  -> card never enumerated (look for 'init SDIO card failed')\n"
++                     "      - yes -> vendor mismatch, driver expects VID=0x%04X\n"
++                     "  * 'init_sdio ret=' value (non-zero means enumeration failed midway)\n",
++                     err, aic_sdio_ids[0].manufacturer);
++    }
+ 
+     return err;
+ }
+@@ -509,6 +571,8 @@ int aicwf_sdio_readsb(uint32_t func_num, void *dst, unsigned int addr, int count
+     int ret;
+     struct sdio_func *func = sdio_function_local[func_num];
+ 
++    /* [TRACE] CMD53 轨迹: 固件搬运(读方向)只要发生就会留下这两行 */
++    DBG_SDIO_INF("[trace] CMD53 RD fn=%u addr=0x%x len=%d\n", (unsigned)func_num, (unsigned)addr, count);
+     SDIO_PRE_OP();
+     aicwf_rtos_mutex_lock(sdio_dev.bus_txrx, -1);
+     ret = aic_sdio_io_rw_extended_block(func, 0, addr, 0, (uint8_t *)dst, count);
+@@ -518,6 +582,7 @@ int aicwf_sdio_readsb(uint32_t func_num, void *dst, unsigned int addr, int count
+     {
+         DBG_SDIO_INF("%s: %d\n", __func__, ret);
+     }
++    DBG_SDIO_INF("[trace] CMD53 RD done ret=%d\n", ret);
+     SDIO_WR_FAIL(ret);
+     return ret;
+ }
+@@ -534,6 +599,8 @@ int aicwf_sdio_writesb(uint32_t func_num, unsigned int addr, void *src, int coun
+ {
+     int ret;
+     struct sdio_func *func = sdio_function_local[func_num];
++    /* [TRACE] CMD53 写 = 固件/数据搬运的唯一通道 */
++    DBG_SDIO_INF("[trace] CMD53 WR fn=%u addr=0x%x len=%d\n", (unsigned)func_num, (unsigned)addr, count);
+     SDIO_PRE_OP();
+ 
+     aicwf_rtos_mutex_lock(sdio_dev.bus_txrx, -1);
+@@ -544,6 +611,7 @@ int aicwf_sdio_writesb(uint32_t func_num, unsigned int addr, void *src, int coun
+     {
+         DBG_SDIO_INF("%s: %d\n", __func__, ret);
+     }
++    DBG_SDIO_INF("[trace] CMD53 WR done ret=%d\n", ret);
+     SDIO_WR_FAIL(ret);
+     return ret;
+ }
+@@ -563,6 +631,7 @@ int aicwf_sdio_writesb_msg(uint32_t func_num, unsigned int addr, void *src, int
+ {
+     int ret;
+     struct sdio_func *func = sdio_function_local[func_num];
++    DBG_SDIO_INF("[trace] CMD53 WR-MSG fn=%u addr=0x%x len=%d\n", (unsigned)func_num, (unsigned)addr, count);
+     SDIO_PRE_OP();
+ 
+     aicwf_rtos_mutex_lock(sdio_dev.bus_txrx, -1);
+@@ -573,6 +642,7 @@ int aicwf_sdio_writesb_msg(uint32_t func_num, unsigned int addr, void *src, int
+     {
+         DBG_SDIO_INF("%s: %d\n", __func__, ret);
+     }
++    DBG_SDIO_INF("[trace] CMD53 WR-MSG done ret=%d\n", ret);
+     SDIO_WR_FAIL(ret);
+     return ret;
+ }
+@@ -728,6 +798,8 @@ bool aicwf_sdio_readb_cmd52_by_num(uint32_t func_num, uint32_t addr, uint8_t *da
+     int err;
+     uint8_t b;
+     struct sdio_func *func = sdio_function_local[func_num];
++    /* [TRACE] 跳过 D80 系列消息流控寄存器(func1 0x03) 的轮询, 否则刷屏 */
++    bool trace = !((func_num == FUNC_1) && (addr == 0x03));
+     SDIO_PRE_OP_B();
+ 
+     aicwf_rtos_mutex_lock(sdio_dev.bus_txrx, -1);
+@@ -741,6 +813,11 @@ bool aicwf_sdio_readb_cmd52_by_num(uint32_t func_num, uint32_t addr, uint8_t *da
+         return false;
+     }
+     *data = b;
++    if (trace)
++    {
++        DBG_SDIO_INF("[trace] CMD52 R fn=%u reg=0x%02x -> 0x%02x\n",
++                     (unsigned)func_num, (unsigned)addr, (unsigned)b);
++    }
+     return true;
+ }
+ 
+@@ -760,6 +837,8 @@ bool aicwf_sdio_writeb_cmd52_by_num(uint32_t func_num, uint32_t addr, uint8_t da
+     struct sdio_func *func = sdio_function_local[func_num];
+     SDIO_PRE_OP_B();
+ 
++    DBG_SDIO_INF("[trace] CMD52 W fn=%u reg=0x%02x <= 0x%02x\n",
++                 (unsigned)func_num, (unsigned)addr, (unsigned)data);
+     aicwf_rtos_mutex_lock(sdio_dev.bus_txrx, -1);
+     err = aic_sdio_io_writeb(func, addr, data);
+     aicwf_rtos_mutex_unlock(sdio_dev.bus_txrx);
+diff --git a/customer/peripherals/wifi/aic8800_rtos_driver/platform/platform_init.c b/customer/peripherals/wifi/aic8800_rtos_driver/platform/platform_init.c
+index 4dd10ffed..fc35258b4 100644
+--- a/customer/peripherals/wifi/aic8800_rtos_driver/platform/platform_init.c
++++ b/customer/peripherals/wifi/aic8800_rtos_driver/platform/platform_init.c
+@@ -5,6 +5,8 @@
+  */
+ 
+ #include <rtthread.h>
++#include <rthw.h>       /* rt_hw_exception_install() */
++#include <rtdevice.h>   /* rt_console_get_device() / rt_device_write(): 故障钩子直写串口用 */
+ #include "bf0_hal.h"
+ #include "plat_port.h"
+ #include "rtos_port.h"
+@@ -38,16 +40,107 @@ static int aicwf_wifi_power_on(void)
+ }
+ INIT_BOARD_EXPORT(aicwf_wifi_power_on);
+ 
++/* ==========================================================================
++ * 故障现场导出 (driver-side, 不依赖 ulog)
++ *
++ * 背景: SDIO 初始化打通之后, aicwf_wifi_init_task 线程会在 fhost 平台初始化
++ *   收尾处 (建完 fhost_rx / rwnx_timer 等任务、固件下载之前) 触发 HardFault。
++ *   核心的故障处理函数随后要打印现场, 但它的打印会走 ulog, 而此刻该线程正持有
++ *   ulog 输出锁 (hold==1), 故障处理函数又把它递归拿到 hold==2, 于是被
++ *   RT_ASSERT(ulog.output_locker.hold == 1) (ulog.c:297) 打断 ——
++ *   日志里只剩 [ULOG-REENT] + 断言, 真正的第一次故障现场被第二次死机吃掉。
++ *
++ * 本钩子绕开这条死路:
++ *   - rt_hw_exception_install() 注册的钩子在核心故障打印【之前】被调用
++ *     (rtos/rtthread/libcpu/arm/cortex-m33/cpuport.c:475-481), 参数就是硬件
++ *     压栈的异常帧 {r0,r1,r2,r3,r12,lr,pc,psr};
++ *   - 钩子里用 rt_device_write() 直写控制台设备 (同 ulog_forensic_dump 的做法),
++ *     不经过 ulog, 因此不会再触发上面的断言;
++ *   - 返回非 RT_EOK, 核心原有行为不变 (现场已先落盘)。
++ *
++ * 只改 WiFi 驱动, 不触碰 ulog / cpuport。
++ * ========================================================================== */
++
++/* 与 cortex-m33/cpuport.c:47-57 的 struct exception_stack_frame 布局一致
++ * (该结构定义在 .c 内部, 公开头文件没有, 故按 ABI 镜像一份) */
++struct aicwf_exception_frame
++{
++    rt_uint32_t r0;
++    rt_uint32_t r1;
++    rt_uint32_t r2;
++    rt_uint32_t r3;
++    rt_uint32_t r12;
++    rt_uint32_t lr;
++    rt_uint32_t pc;
++    rt_uint32_t psr;
++};
++
++/* SCB 寄存器: 用裸地址, 避免为几个读数引入额外头依赖 */
++#define AICWF_SCB_ICSR   (*(volatile rt_uint32_t *)0xE000ED04UL)
++#define AICWF_SCB_CFSR   (*(volatile rt_uint32_t *)0xE000ED28UL)
++#define AICWF_SCB_HFSR   (*(volatile rt_uint32_t *)0xE000ED2CUL)
++#define AICWF_SCB_MMFAR  (*(volatile rt_uint32_t *)0xE000ED34UL)
++#define AICWF_SCB_BFAR   (*(volatile rt_uint32_t *)0xE000ED38UL)
++
++static rt_err_t aicwf_fault_hook(void *context)
++{
++    struct aicwf_exception_frame *f = (struct aicwf_exception_frame *)context;
++    char buf[400];
++    int len = 0;
++    rt_uint32_t psp, msp;
++    rt_thread_t self = rt_thread_self();
++    rt_device_t dev;
++
++    if (f == RT_NULL)
++        return -RT_ERROR;
++
++    __asm volatile ("mrs %0, psp" : "=r"(psp));
++    __asm volatile ("mrs %0, msp" : "=r"(msp));
++
++    len = rt_snprintf(buf, sizeof(buf),
++                      "\r\n[AIC-FAULT] first-fault: pc=%08x lr=%08x psr=%08x\r\n"
++                      "[AIC-FAULT] r0=%08x r1=%08x r2=%08x r3=%08x r12=%08x\r\n"
++                      "[AIC-FAULT] cfsr=%08x hfsr=%08x mmfar=%08x bfar=%08x icsr=%08x\r\n"
++                      "[AIC-FAULT] psp=%08x msp=%08x thread=%s\r\n",
++                      (unsigned)f->pc, (unsigned)f->lr, (unsigned)f->psr,
++                      (unsigned)f->r0, (unsigned)f->r1, (unsigned)f->r2,
++                      (unsigned)f->r3, (unsigned)f->r12,
++                      (unsigned)AICWF_SCB_CFSR, (unsigned)AICWF_SCB_HFSR,
++                      (unsigned)AICWF_SCB_MMFAR, (unsigned)AICWF_SCB_BFAR,
++                      (unsigned)(AICWF_SCB_ICSR & 0x1FFUL),
++                      (unsigned)psp, (unsigned)msp,
++                      (self != RT_NULL && self->name != RT_NULL) ? self->name : "?");
++
++    /* 直写控制台设备, 绕开 ulog 的输出锁 (ulog_forensic_dump 同款做法) */
++    dev = rt_console_get_device();
++    if ((dev != RT_NULL) && (len > 0))
++    {
++        rt_uint16_t old_flag = dev->open_flag;
++
++        if (len > (int)sizeof(buf) - 1)
++            len = (int)sizeof(buf) - 1;
++        dev->open_flag |= RT_DEVICE_FLAG_STREAM;
++        rt_device_write(dev, 0, buf, len);
++        dev->open_flag = old_flag;
++    }
++
++    return -RT_ERROR;   /* 保持核心原有处理(继续打印/停机); 我们的现场已先落盘 */
++}
++
+ /**
+- * @brief 平台初始化函数（extern方式下为空操作）
++ * @brief 平台初始化函数
+  *
+  * 在extern链接方式下，所有平台函数由链接器直接解析绑定，
+- * 无需显式注册，本函数为空实现。
++ * 无需显式注册。
+  *
+  * @note 该函数在WiFi驱动演示测试入口 aic_wifi_demo_test() 中最先被调用。
+  *       芯片上电已在 INIT_BOARD_EXPORT(aicwf_wifi_power_on) 完成, 此处不再
+  *       重复上电, 避免枚举完成后复位掉 SDIO 卡。
++ *
++ * @note 本函数额外注册"故障现场导出钩子"(aicwf_fault_hook): 必须在故障发生前
++ *       注册, 否则第一次 HardFault 的 pc/lr/CFSR 会被 ulog 重入断言吃掉。
+  */
+ void aic_platform_init(void)
+ {
++    rt_hw_exception_install(aicwf_fault_hook);
+ }
+diff --git a/customer/peripherals/wifi/aic8800_rtos_driver/port/inc/plat_port.h b/customer/peripherals/wifi/aic8800_rtos_driver/port/inc/plat_port.h
+index bdd35de48..2e4e16758 100644
+--- a/customer/peripherals/wifi/aic8800_rtos_driver/port/inc/plat_port.h
++++ b/customer/peripherals/wifi/aic8800_rtos_driver/port/inc/plat_port.h
+@@ -101,7 +101,7 @@ extern uint32_t task_end_prio;
+ #define FHOST_TCPACK_STACK_SIZE     (2048)
+ #define CLI_CMD_STACK_SIZE          (1024)
+ #define RWNX_TIMER_STACK_SIZE       (1024)
+-#define RWNX_WIFI_STACK_SIZE        (1024)
++#define RWNX_WIFI_STACK_SIZE        (4096)
+ #define RWNX_APM_STACK_SIZE         (1024)
+ 
+ /* Exported stack size variables — defined in plat_port.c */
+diff --git a/example/rt_device/aic8800_d80/project/proj.conf b/example/rt_device/aic8800_d80/project/proj.conf
+index 9a91e7228..327a0a30e 100644
+--- a/example/rt_device/aic8800_d80/project/proj.conf
++++ b/example/rt_device/aic8800_d80/project/proj.conf
+@@ -46,7 +46,7 @@ CONFIG_RT_USING_ULOG=y
+ CONFIG_RT_USING_MEMTRACE=y
+ 
+ # ==== iperf 吞吐测试(可选) ====
+-CONFIG_PKG_USING_NETUTILS=y
+-CONFIG_PKG_NETUTILS_IPERF=y
++CONFIG_PKG_USING_NETUTILS=n
++CONFIG_PKG_NETUTILS_IPERF=n
+ 
+ # 注: 不开 PKG_USING_MBEDTLS —— 驱动自带 lib/libaic_mbedtls.a, 避免 aes_*/utils.c 符号冲突
+diff --git a/rtos/rtthread/components/drivers/sdio/mmcsd_core.c b/rtos/rtthread/components/drivers/sdio/mmcsd_core.c
+index 1aeab3d67..adbdc0d7b 100644
+--- a/rtos/rtthread/components/drivers/sdio/mmcsd_core.c
++++ b/rtos/rtthread/components/drivers/sdio/mmcsd_core.c
+@@ -670,7 +670,8 @@ static rt_int32_t mmcsd_detect_mode(struct rt_mmcsd_host *host, mmcsd_host_detec
+             /* [TEMP-DIAG] init_sdio 返回值: 非 0 表示 SDIO 卡初始化中途失败 */
+             rt_int32_t ret = init_sdio(host, ocr);
+             LOG_I("init_sdio ret=%d", ret);
+-            mmcsd_power_off(host);
++            if (ret)
++                mmcsd_power_off(host);
+         }
+         break;
+     case MMCSD_HOST_DETECT_SDCARD:

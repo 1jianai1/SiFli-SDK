@@ -1,5 +1,5 @@
 /*
- * SPDX-FileCopyrightText: 2019-2026 SiFli Technologies(Nanjing) Co., Ltd
+ * SPDX-FileCopyrightText: 2026 AICSemi Ltd
  *
  * SPDX-License-Identifier: Apache-2.0
  */
@@ -56,7 +56,8 @@ static void rwnx_rx_vector_convert(struct rwnx_hw *rwnx_hw,
     rx_vect1->leg_rate = rx_vect1_leg.leg_rate;
     rx_vect1->rssi1 = rx_vect1_leg.rssi1;
 
-    switch (rx_vect1->format_mod) {
+    switch (rx_vect1->format_mod)
+    {
     case FORMATMOD_NON_HT:
     case FORMATMOD_NON_HT_DUP_OFDM:
         rx_vect1->leg.lsig_valid = rx_vect1_leg.lsig_valid;
@@ -81,7 +82,7 @@ static void rwnx_rx_vector_convert(struct rwnx_hw *rwnx_hw,
         rx_vect1->vht.fec = rx_vect1_leg.fec_coding;
         rx_vect1->vht.length = rx_vect1_leg.ht_length | rx_vect1_leg._ht_length << 8;
         rx_vect1->vht.mcs = rx_vect1_leg.mcs & 0x0F;
-        rx_vect1->vht.nss = rx_vect1_leg.stbc ? rx_vect1_leg.n_sts/2 : rx_vect1_leg.n_sts;
+        rx_vect1->vht.nss = rx_vect1_leg.stbc ? rx_vect1_leg.n_sts / 2 : rx_vect1_leg.n_sts;
         rx_vect1->vht.doze_not_allowed = rx_vect1_leg.doze_not_allowed;
         rx_vect1->vht.short_gi = rx_vect1_leg.short_gi;
         rx_vect1->vht.sounding = rx_vect1_leg.sounding;
@@ -112,7 +113,8 @@ static void rwnx_rx_vector_convert(struct rwnx_hw *rwnx_hw,
     rx_vect2->evm4 = rx_vect2_leg.evm4;
 }
 
-static inline unsigned int generic_hweight32(unsigned int w) {
+static inline unsigned int generic_hweight32(unsigned int w)
+{
     unsigned int res = (w & 0x55555555) + ((w >> 1) & 0x55555555);
     res = (res & 0x33333333) + ((res >> 2) & 0x33333333);
     res = (res & 0x0F0F0F0F) + ((res >> 4) & 0x0F0F0F0F);
@@ -120,7 +122,8 @@ static inline unsigned int generic_hweight32(unsigned int w) {
     return (res & 0x0000FFFF) + ((res >> 16) & 0x0000FFFF);
 }
 
-unsigned char hweight8(unsigned char n) {
+unsigned char hweight8(unsigned char n)
+{
     n = (n & 0x55) + ((n >> 1) & 0x55);
     n = (n & 0x33) + ((n >> 2) & 0x33);
     n = (n & 0x0F) + (n >> 4);
@@ -128,7 +131,8 @@ unsigned char hweight8(unsigned char n) {
 }
 #define ALIGN(x, align) (((x) + (align) - 1) & ~((align) - 1))
 
-const u16 tx_legrates_lut_rate[] = {
+const u16 tx_legrates_lut_rate[] =
+{
     10,
     20,
     55,
@@ -143,7 +147,8 @@ const u16 tx_legrates_lut_rate[] = {
     540
 };
 
-const struct rwnx_legrate legrates_lut[] = {
+const struct rwnx_legrate legrates_lut[] =
+{
     [0] = { .idx = 0, .rate = 10},
     [1] = { .idx = 1, .rate = 20},
     [2] = { .idx = 2, .rate = 55},
@@ -180,14 +185,15 @@ static u8 rwnx_rx_rtap_hdrlen(struct rx_vector_1 *rxvect,
     rtap_len = sizeof(struct ieee80211_radiotap_header) + 8;
 
     DBG_MACIF_VRB("fmt=%x,bw=%x,pre=%x,ant=%x,r=%d,r1=%d\n",
-        rxvect->format_mod, rxvect->ch_bw, rxvect->pre_type, rxvect->antenna_set,rxvect->rssi_leg,rxvect->rssi1);
+                  rxvect->format_mod, rxvect->ch_bw, rxvect->pre_type, rxvect->antenna_set, rxvect->rssi_leg, rxvect->rssi1);
     // Check for multiple antennas
     if (generic_hweight32(rxvect->antenna_set) > 1)
         // antenna and antenna signal fields
         rtap_len += 4 * hweight8(rxvect->antenna_set);
 
     // TSFT
-    if (!has_vend_rtap) {
+    if (!has_vend_rtap)
+    {
         rtap_len = ALIGN(rtap_len, 8);
         rtap_len += 8;
     }
@@ -206,37 +212,42 @@ static u8 rwnx_rx_rtap_hdrlen(struct rx_vector_1 *rxvect,
     // aic_dbg("format %d\r\n", rxvect->format_mod);
     // Check for HT frames
     if ((rxvect->format_mod == FORMATMOD_HT_MF) ||
-        (rxvect->format_mod == FORMATMOD_HT_GF))
+            (rxvect->format_mod == FORMATMOD_HT_GF))
         rtap_len += 3;
 
     // Check for AMPDU
     if (!(has_vend_rtap) && ((rxvect->format_mod >= FORMATMOD_VHT) ||
                              ((rxvect->format_mod > FORMATMOD_NON_HT_DUP_OFDM) &&
-                                                     (rxvect->ht.aggregation)))) {
+                              (rxvect->ht.aggregation))))
+    {
         rtap_len = ALIGN(rtap_len, 4);
         rtap_len += 8;
     }
 
     // Check for VHT frames
-    if (rxvect->format_mod == FORMATMOD_VHT) {
+    if (rxvect->format_mod == FORMATMOD_VHT)
+    {
         rtap_len = ALIGN(rtap_len, 2);
         rtap_len += 12;
     }
 
     // Check for HE frames
-    if (rxvect->format_mod == FORMATMOD_HE_SU) {
+    if (rxvect->format_mod == FORMATMOD_HE_SU)
+    {
         rtap_len = ALIGN(rtap_len, 2);
         rtap_len += sizeof(struct ieee80211_radiotap_he);
     }
 
     // Check for multiple antennas
-    if (generic_hweight32(rxvect->antenna_set) > 1) {
+    if (generic_hweight32(rxvect->antenna_set) > 1)
+    {
         // antenna and antenna signal fields
         rtap_len += 2 * hweight8(rxvect->antenna_set);
     }
 
     // Check for vendor specific data
-    if (has_vend_rtap) {
+    if (has_vend_rtap)
+    {
         /* vendor presence bitmap */
         rtap_len += 4;
         /* alignment for fixed 6-byte vendor data header */
@@ -262,8 +273,9 @@ static void put_unaligned_le32(unsigned int val, void *p)
     ptr[3] = ((val >> 24) & 0xFF);
 }
 
-static void put_unaligned_le64(uint64_t value, void *dest) {
-    uint8_t *ptr = (uint8_t*)dest;
+static void put_unaligned_le64(uint64_t value, void *dest)
+{
+    uint8_t *ptr = (uint8_t *)dest;
     ptr[0] = (uint8_t)(value >> 0);
     ptr[1] = (uint8_t)(value >> 8);
     ptr[2] = (uint8_t)(value >> 16);
@@ -275,7 +287,7 @@ static void put_unaligned_le64(uint64_t value, void *dest) {
 }
 
 #ifndef IEEE80211_MAX_CHAINS
-#define IEEE80211_MAX_CHAINS 4
+    #define IEEE80211_MAX_CHAINS 4
 #endif
 
 #define IEEE80211_CHAN_2GHZ       0x0080
@@ -342,10 +354,12 @@ static void put_unaligned_le64(uint64_t value, void *dest) {
 #define IEEE80211_RADIOTAP_CODING_LDPC_USER0  0x01
 
 
-static inline uint8_t find_first_set_ll(uint64_t x) {
+static inline uint8_t find_first_set_ll(uint64_t x)
+{
     if (x == 0) return 0;
     uint8_t pos = 1;
-    while ((x & 1) == 0) {
+    while ((x & 1) == 0)
+    {
         x >>= 1;
         pos++;
     }
@@ -396,26 +410,30 @@ static void rwnx_rx_add_rtap_hdr(void *skb,
     it_present = &rtap->it_present;
 
     // Check for multiple antennas
-    if (generic_hweight32(rxvect->antenna_set) > 1) {
+    if (generic_hweight32(rxvect->antenna_set) > 1)
+    {
         // int chain;
         unsigned long chains = rxvect->antenna_set;
 
         //for_each_set_bit(chain, &chains, IEEE80211_MAX_CHAINS) {
-        for (int e = 0; e < IEEE80211_MAX_CHAINS; e++) {
-            if (chains & BIT(e)) {
+        for (int e = 0; e < IEEE80211_MAX_CHAINS; e++)
+        {
+            if (chains & BIT(e))
+            {
                 it_present_val |=
                     BIT(IEEE80211_RADIOTAP_EXT) |
                     BIT(IEEE80211_RADIOTAP_RADIOTAP_NAMESPACE);
                 put_unaligned_le32(it_present_val, it_present);
                 it_present++;
                 it_present_val = BIT(IEEE80211_RADIOTAP_ANTENNA) |
-                                BIT(IEEE80211_RADIOTAP_DBM_ANTSIGNAL);
+                                 BIT(IEEE80211_RADIOTAP_DBM_ANTSIGNAL);
             }
         }
     }
 
     // Check if vendor specific data is present
-    if (vend_rtap_len) {
+    if (vend_rtap_len)
+    {
         it_present_val |= BIT(IEEE80211_RADIOTAP_VENDOR_NAMESPACE) |
                           BIT(IEEE80211_RADIOTAP_EXT);
         put_unaligned_le32(it_present_val, it_present);
@@ -427,7 +445,8 @@ static void rwnx_rx_add_rtap_hdr(void *skb,
     pos = (void *)(it_present + 1);
 
     // IEEE80211_RADIOTAP_TSFT
-    if (hwvect) {
+    if (hwvect)
+    {
         rtap->it_present |= cpu_to_le32(1 << IEEE80211_RADIOTAP_TSFT);
         // padding
         while ((pos - (u8 *)rtap) & 7)
@@ -451,28 +470,35 @@ static void rwnx_rx_add_rtap_hdr(void *skb,
 
     // IEEE80211_RADIOTAP_RATE
     // check for HT, VHT or HE frames
-    if (rxvect->format_mod >= FORMATMOD_HE_SU) {
+    if (rxvect->format_mod >= FORMATMOD_HE_SU)
+    {
         rate_idx = rxvect->he.mcs;
         fec_coding = rxvect->he.fec;
         stbc = rxvect->he.stbc;
         aggregation = true;
         *pos = 0;
-    } else if (rxvect->format_mod == FORMATMOD_VHT) {
+    }
+    else if (rxvect->format_mod == FORMATMOD_VHT)
+    {
         rate_idx = rxvect->vht.mcs;
         fec_coding = rxvect->vht.fec;
         short_gi = rxvect->vht.short_gi;
         stbc = rxvect->vht.stbc;
         aggregation = true;
         *pos = 0;
-    } else if (rxvect->format_mod > FORMATMOD_NON_HT_DUP_OFDM) {
+    }
+    else if (rxvect->format_mod > FORMATMOD_NON_HT_DUP_OFDM)
+    {
         rate_idx = rxvect->ht.mcs;
         fec_coding = rxvect->ht.fec;
         short_gi = rxvect->ht.short_gi;
         stbc = rxvect->ht.stbc;
         aggregation = rxvect->ht.aggregation;
         *pos = 0;
-    } else {
-        #define DIV_ROUND_UP(a, b) (((a) + (b) - 1) / (b))
+    }
+    else
+    {
+#define DIV_ROUND_UP(a, b) (((a) + (b) - 1) / (b))
         // struct ieee80211_supported_band *band =
         //         rwnx_hw->wiphy->bands[phy_info->phy_band];
         rtap->it_present |= cpu_to_le32(1 << IEEE80211_RADIOTAP_RATE);
@@ -497,7 +523,8 @@ static void rwnx_rx_add_rtap_hdr(void *skb,
         put_unaligned_le16(IEEE80211_CHAN_CCK | IEEE80211_CHAN_2GHZ, pos);
     pos += 2;
 
-    if (generic_hweight32(rxvect->antenna_set) == 1) {
+    if (generic_hweight32(rxvect->antenna_set) == 1)
+    {
         // IEEE80211_RADIOTAP_DBM_ANTSIGNAL
         rtap->it_present |= cpu_to_le32(1 << IEEE80211_RADIOTAP_DBM_ANTSIGNAL);
         *pos++ = rxvect->rssi1;
@@ -522,7 +549,8 @@ static void rwnx_rx_add_rtap_hdr(void *skb,
     // aic_dbg("rtap->it_present %08x\r\n", rtap->it_present);
     // Check if HT
     if ((rxvect->format_mod == FORMATMOD_HT_MF)
-            || (rxvect->format_mod == FORMATMOD_HT_GF)) {
+            || (rxvect->format_mod == FORMATMOD_HT_GF))
+    {
         rtap->it_present |= cpu_to_le32(1 << IEEE80211_RADIOTAP_MCS);
         *pos++ = IEEE80211_RADIOTAP_MCS_HAVE_MCS |
                  IEEE80211_RADIOTAP_MCS_HAVE_GI |
@@ -545,7 +573,8 @@ static void rwnx_rx_add_rtap_hdr(void *skb,
     }
 
     // check for HT or VHT frames
-    if (aggregation && hwvect) {
+    if (aggregation && hwvect)
+    {
         // 4 byte alignment
         while ((pos - (u8 *)rtap) & 3)
             pos++;
@@ -557,7 +586,8 @@ static void rwnx_rx_add_rtap_hdr(void *skb,
     }
 
     // Check for VHT frames
-    if (rxvect->format_mod == FORMATMOD_VHT) {
+    if (rxvect->format_mod == FORMATMOD_VHT)
+    {
         u16 vht_details = IEEE80211_RADIOTAP_VHT_KNOWN_GI |
                           IEEE80211_RADIOTAP_VHT_KNOWN_BANDWIDTH;
         u8 vht_nss = rxvect->vht.nss + 1;
@@ -583,9 +613,9 @@ static void rwnx_rx_add_rtap_hdr(void *skb,
         if (rxvect->ch_bw == PHY_CHNL_BW_80)
             *pos++ = 4;
         else if ((rxvect->ch_bw == PHY_CHNL_BW_160)
-                && phy_info->phy_center2_freq)
+                 && phy_info->phy_center2_freq)
             *pos++ = 0; //80P80
-        else if  (rxvect->ch_bw == PHY_CHNL_BW_160)
+        else if (rxvect->ch_bw == PHY_CHNL_BW_160)
             *pos++ = 11;
         else // 20 MHz
             *pos++ = 0;
@@ -598,7 +628,7 @@ static void rwnx_rx_add_rtap_hdr(void *skb,
             // *pos |= 0x01;
             // #else
             *pos |= IEEE80211_RADIOTAP_CODING_LDPC_USER0;
-            // #endif
+        // #endif
         pos++;
         // group ID
         pos++;
@@ -607,21 +637,25 @@ static void rwnx_rx_add_rtap_hdr(void *skb,
     }
 
     // Check for HE frames
-    if (rxvect->format_mod == FORMATMOD_HE_SU) {
+    if (rxvect->format_mod == FORMATMOD_HE_SU)
+    {
         struct ieee80211_radiotap_he he;
-        #define HE_PREP(f, val) cpu_to_le16(FIELD_PREP(IEEE80211_RADIOTAP_HE_##f, val))
-        #define D1_KNOWN(f) cpu_to_le16(IEEE80211_RADIOTAP_HE_DATA1_##f##_KNOWN)
-        #define D2_KNOWN(f) cpu_to_le16(IEEE80211_RADIOTAP_HE_DATA2_##f##_KNOWN)
+#define HE_PREP(f, val) cpu_to_le16(FIELD_PREP(IEEE80211_RADIOTAP_HE_##f, val))
+#define D1_KNOWN(f) cpu_to_le16(IEEE80211_RADIOTAP_HE_DATA1_##f##_KNOWN)
+#define D2_KNOWN(f) cpu_to_le16(IEEE80211_RADIOTAP_HE_DATA2_##f##_KNOWN)
 
         he.data1 = D1_KNOWN(DATA_MCS) | D1_KNOWN(BSS_COLOR) | D1_KNOWN(BEAM_CHANGE) |
                    D1_KNOWN(UL_DL) | D1_KNOWN(CODING) |  D1_KNOWN(STBC) |
                    D1_KNOWN(BW_RU_ALLOC) | D1_KNOWN(DOPPLER) | D1_KNOWN(DATA_DCM);
         he.data2 = D2_KNOWN(GI) | D2_KNOWN(TXBF);
 
-        if (stbc) {
+        if (stbc)
+        {
             he.data6 |= HE_PREP(DATA6_NSTS, 2);
             he.data3 |= HE_PREP(DATA3_STBC, 1);
-        } else {
+        }
+        else
+        {
             he.data6 |= HE_PREP(DATA6_NSTS, rxvect->he.nss);
         }
 
@@ -637,22 +671,23 @@ static void rwnx_rx_add_rtap_hdr(void *skb,
         he.data5 |= HE_PREP(DATA5_TXBF, rxvect->he.beamformed);
         he.data5 |= HE_PREP(DATA5_LTF_SIZE, rxvect->he.he_ltf_type + 1);
 
-        switch (rxvect->ch_bw) {
+        switch (rxvect->ch_bw)
+        {
         case PHY_CHNL_BW_20:
             he.data5 |= HE_PREP(DATA5_DATA_BW_RU_ALLOC,
-                        IEEE80211_RADIOTAP_HE_DATA5_DATA_BW_RU_ALLOC_20MHZ);
+                                IEEE80211_RADIOTAP_HE_DATA5_DATA_BW_RU_ALLOC_20MHZ);
             break;
         case PHY_CHNL_BW_40:
             he.data5 |= HE_PREP(DATA5_DATA_BW_RU_ALLOC,
-                        IEEE80211_RADIOTAP_HE_DATA5_DATA_BW_RU_ALLOC_40MHZ);
+                                IEEE80211_RADIOTAP_HE_DATA5_DATA_BW_RU_ALLOC_40MHZ);
             break;
         case PHY_CHNL_BW_80:
             he.data5 |= HE_PREP(DATA5_DATA_BW_RU_ALLOC,
-                        IEEE80211_RADIOTAP_HE_DATA5_DATA_BW_RU_ALLOC_80MHZ);
+                                IEEE80211_RADIOTAP_HE_DATA5_DATA_BW_RU_ALLOC_80MHZ);
             break;
         case PHY_CHNL_BW_160:
             he.data5 |= HE_PREP(DATA5_DATA_BW_RU_ALLOC,
-                        IEEE80211_RADIOTAP_HE_DATA5_DATA_BW_RU_ALLOC_160MHZ);
+                                IEEE80211_RADIOTAP_HE_DATA5_DATA_BW_RU_ALLOC_160MHZ);
             break;
         default:
             DBG_MACIF_ERR("Invalid SU BW %d\n", rxvect->ch_bw);
@@ -669,14 +704,17 @@ static void rwnx_rx_add_rtap_hdr(void *skb,
     }
 
     // Rx Chains
-    if (generic_hweight32(rxvect->antenna_set) > 1) {
+    if (generic_hweight32(rxvect->antenna_set) > 1)
+    {
         // int chain;
         unsigned long chains = rxvect->antenna_set;
         u8 rssis[4] = {rxvect->rssi1, rxvect->rssi1, rxvect->rssi1, rxvect->rssi1};
 
         //for_each_set_bit(chain, &chains, IEEE80211_MAX_CHAINS) {
-        for (int e = 0; e < IEEE80211_MAX_CHAINS; e++) {
-            if (chains & BIT(e)) {
+        for (int e = 0; e < IEEE80211_MAX_CHAINS; e++)
+        {
+            if (chains & BIT(e))
+            {
                 *pos++ = rssis[e];
                 *pos++ = e;
             }
@@ -714,18 +752,22 @@ void rwnx_rx_monitor_cb(struct fhost_frame_info *info, void *arg)
 {
     int info_size = sizeof(struct rx_info);
     //dump_hex32((uint32_t *)info->prinfo, (info_size + 3) / sizeof(uint32_t));
-    if (info->payload == NULL) {
+    if (info->payload == NULL)
+    {
         DBG_MACIF_ERR("Unsupported frame: length = %d\r\n", info->length);
-    } else {
+    }
+    else
+    {
         struct mac_hdr *hdr = (struct mac_hdr *)info->payload;
         uint8_t *adr1 = ((uint8_t *)(hdr->addr1.array));
         uint8_t *adr2 = ((uint8_t *)(hdr->addr2.array));
         uint8_t *adr3 = ((uint8_t *)(hdr->addr3.array));
-        if ((hdr->fctl & MAC_FCTRL_TYPESUBTYPE_MASK) == MAC_FCTRL_BEACON) {
+        if ((hdr->fctl & MAC_FCTRL_TYPESUBTYPE_MASK) == MAC_FCTRL_BEACON)
+        {
             return;
         }
         DBG_MACIF_INF("fc=%04X SN=%d len=%d rssi=%d\n",
-                 hdr->fctl, hdr->seq >> 4, info->length, info->rssi);
+                      hdr->fctl, hdr->seq >> 4, info->length, info->rssi);
         // if ( ((hdr->fctl & MAC_FCTRL_TYPESUBTYPE_MASK) == MAC_FCTRL_ACTION) ||
         //      ((hdr->fctl & MAC_FCTRL_TYPE_MASK) == MAC_FCTRL_DATA_T)) {
         //     printf("a1=%02x:%02x:%02x:%02x:%02x:%02x a2=%02x:%02x:%02x:%02x:%02x:%02x "
@@ -736,17 +778,18 @@ void rwnx_rx_monitor_cb(struct fhost_frame_info *info, void *arg)
         //         hdr->fctl, hdr->seq >> 4, info->length);
         //     rwnx_data_dump("Frame", info->payload, 32);
         // }
-        #ifdef CONFIG_MONITOR_RADIO_HEADER
+#ifdef CONFIG_MONITOR_RADIO_HEADER
         //dump_hex32((uint32_t *)(&info->prinfo->vect.recvec1a), 4);
         uint16_t radio_hdr_len = rwnx_rx_rtap_hdrlen((struct rx_vector_1 *)(&info->prinfo->vect.recvec1a), false);
         uint8_t *radiotap_hdr = (uint8_t *)rtos_malloc(radio_hdr_len);
-        if (radiotap_hdr) {
+        if (radiotap_hdr)
+        {
             rwnx_rx_add_rtap_hdr(radiotap_hdr, &info->prinfo->vect.recvec1a,
-            &info->prinfo->phy_info, &info->prinfo->vect,
-            radio_hdr_len, 0, 0);
+                                 &info->prinfo->phy_info, &info->prinfo->vect,
+                                 radio_hdr_len, 0, 0);
             DBG_MACIF_VRB("radio_hdr_len=%d\n", radio_hdr_len);
             rtos_free(radiotap_hdr);
         }
-        #endif /* CONFIG_MONITOR_RADIO_HEADER */
+#endif /* CONFIG_MONITOR_RADIO_HEADER */
     }
 }

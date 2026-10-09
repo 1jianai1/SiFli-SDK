@@ -1,5 +1,5 @@
 /*
- * SPDX-FileCopyrightText: 2019-2026 SiFli Technologies(Nanjing) Co., Ltd
+ * SPDX-FileCopyrightText: 2026 AICSemi Ltd
  *
  * SPDX-License-Identifier: Apache-2.0
  */
@@ -61,7 +61,8 @@
              &pos->member != (head);    \
              pos = list_entry(pos->member.next, rwnx_cmd, member))
 
-struct list_head {
+struct list_head
+{
     struct list_head *next, *prev;
 };
 
@@ -72,8 +73,8 @@ static __INLINE void INIT_LIST_HEAD(struct list_head *list)
 }
 
 static __INLINE void __list_add(struct list_head *new,
-              struct list_head *prev,
-              struct list_head *next)
+                                struct list_head *prev,
+                                struct list_head *next)
 {
     next->prev = new;
     new->next = next;
@@ -91,7 +92,7 @@ static __INLINE void list_add(struct list_head *new, struct list_head *head)
     __list_add(new, head, head->next);
 }
 
-static __INLINE void __list_del(struct list_head * prev, struct list_head * next)
+static __INLINE void __list_del(struct list_head *prev, struct list_head *next)
 {
     next->prev = prev;
     prev->next = next;

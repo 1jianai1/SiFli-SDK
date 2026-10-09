@@ -1,5 +1,5 @@
 /*
- * SPDX-FileCopyrightText: 2019-2026 SiFli Technologies(Nanjing) Co., Ltd
+ * SPDX-FileCopyrightText: 2026 AICSemi Ltd
  *
  * SPDX-License-Identifier: Apache-2.0
  */
@@ -43,10 +43,10 @@ void co_dlist_init(struct co_dlist *list)
     list->last = NULL;
     list->cnt = 0;
 
-    #if NX_DLIST_DEBUG
+#if NX_DLIST_DEBUG
     list->maxcnt = 0;
     list->mincnt = 0xFFFFFFFF;
-    #endif // NX_DLIST_DEBUG
+#endif // NX_DLIST_DEBUG
 }
 
 void co_dlist_push_back(struct co_dlist *list, struct co_dlist_hdr *list_hdr)
@@ -70,15 +70,15 @@ void co_dlist_push_back(struct co_dlist *list, struct co_dlist_hdr *list_hdr)
     list_hdr->next = NULL;
     list->cnt++;
 
-    #if NX_DLIST_DEBUG
-    if(list->maxcnt < list->cnt)
+#if NX_DLIST_DEBUG
+    if (list->maxcnt < list->cnt)
     {
         list->maxcnt = list->cnt;
     }
-    #endif // NX_DLIST_DEBUG
+#endif // NX_DLIST_DEBUG
 }
 
-void co_dlist_push_front(struct co_dlist *list,struct co_dlist_hdr *list_hdr)
+void co_dlist_push_front(struct co_dlist *list, struct co_dlist_hdr *list_hdr)
 {
     // check if list is empty
     if (co_dlist_is_empty(list))
@@ -98,12 +98,12 @@ void co_dlist_push_front(struct co_dlist *list,struct co_dlist_hdr *list_hdr)
     list_hdr->prev = NULL;
     list->cnt++;
 
-    #if NX_DLIST_DEBUG
-    if(list->maxcnt < list->cnt)
+#if NX_DLIST_DEBUG
+    if (list->maxcnt < list->cnt)
     {
         list->maxcnt = list->cnt;
     }
-    #endif // NX_DLIST_DEBUG
+#endif // NX_DLIST_DEBUG
 }
 
 struct co_dlist_hdr *co_dlist_pop_front(struct co_dlist *list)
@@ -111,7 +111,7 @@ struct co_dlist_hdr *co_dlist_pop_front(struct co_dlist *list)
     struct co_dlist_hdr *element;
 
     element = list->first;
-    if ( element != NULL )
+    if (element != NULL)
     {
         // The list isn't empty : extract the first element
         list->cnt--;
@@ -128,12 +128,12 @@ struct co_dlist_hdr *co_dlist_pop_front(struct co_dlist *list)
             list->last = NULL;
         }
 
-        #if NX_DLIST_DEBUG
-        if(list->mincnt > list->cnt)
+#if NX_DLIST_DEBUG
+        if (list->mincnt > list->cnt)
         {
             list->mincnt = list->cnt;
         }
-        #endif // NX_DLIST_DEBUG
+#endif // NX_DLIST_DEBUG
     }
     return element;
 }
@@ -167,7 +167,7 @@ void co_dlist_extract(struct co_dlist *list, struct co_dlist_hdr const *list_hdr
     }
     else
     {
-        #if NX_DLIST_DEBUG
+#if NX_DLIST_DEBUG
         struct co_dlist_hdr *scan_list;
         // verify that the element is in the list (for debugging only)
         // Look for the element in the list
@@ -178,13 +178,13 @@ void co_dlist_extract(struct co_dlist *list, struct co_dlist_hdr const *list_hdr
             AIC_ASSERT_ERR(scan_list != NULL);  // element is not in the list !
         }
         // end of : verify that the element is in the list (for debugging only)
-        #endif // NX_DLIST_DEBUG
+#endif // NX_DLIST_DEBUG
 
         // re move the element by linking its next and previous elements
         list_hdr->prev->next = list_hdr->next;
 
         // check if the searched element is the last
-        if(list->last == list_hdr)
+        if (list->last == list_hdr)
         {
             // the searched is the last element => update the last element with the previous
             list->last = list_hdr->prev;
@@ -198,12 +198,12 @@ void co_dlist_extract(struct co_dlist *list, struct co_dlist_hdr const *list_hdr
 
     list->cnt--;
 
-    #if NX_DLIST_DEBUG
-    if(list->mincnt > list->cnt)
+#if NX_DLIST_DEBUG
+    if (list->mincnt > list->cnt)
     {
         list->mincnt = list->cnt;
     }
-    #endif // NX_DLIST_DEBUG
+#endif // NX_DLIST_DEBUG
 }
 
 /// @}

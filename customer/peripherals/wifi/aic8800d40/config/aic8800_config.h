@@ -1,24 +1,9 @@
 /*
- * SPDX-FileCopyrightText: 2019-2026 SiFli Technologies(Nanjing) Co., Ltd
+ * SPDX-FileCopyrightText: 2026 AICSemi Ltd
  *
  * SPDX-License-Identifier: Apache-2.0
  */
 
-/*------------------------------------------------------------------------
-# Copyright (C) 2018-2025 AICSemi Ltd. All Rights Reserved.
-#-------------------------------------------------------------------------
-
-#=========================================================================
-# File Name      : aic8800_config.h
-# Description    : Main make file for the aicwifi.
-#
-# Usage          : make [-s] -f aicwifi.mak OPT_FILE=<path>/<opt_file>
-#
-# Notes          : The options file defines macro values defined
-#                  by the environment, target, and groups. It
-#                  must be included for proper package building.
-#
-#=========================================================================*/
 #ifndef _AIC8800_CONFIG_H_
 #define _AIC8800_CONFIG_H_
 

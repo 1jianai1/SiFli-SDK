@@ -1,5 +1,5 @@
 /*
- * SPDX-FileCopyrightText: 2019-2026 SiFli Technologies(Nanjing) Co., Ltd
+ * SPDX-FileCopyrightText: 2026 AICSemi Ltd
  *
  * SPDX-License-Identifier: Apache-2.0
  */
@@ -9,7 +9,8 @@
 
 #include <stdint.h>
 
-static const uint32_t fmacfw_rf_patch_88800dc[] = {
+static const uint32_t fmacfw_rf_patch_88800dc[] =
+{
     0xf240b5f8,
     0x460c400e,
     0x23044619,

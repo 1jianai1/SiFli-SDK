@@ -1,0 +1,2961 @@
+﻿
+########## aic_cfg.mk
+git : warning: in the working copy of 'D:/SiFli/SDK/SiFli-SDK-WiFi/SiFli-SDK/customer/peripherals/wifi/aic8800_rtos_dri
+ver/aic_cfg.mk', LF will be replaced by CRLF the next time Git touches it
+所在位置 行:18 字符: 8
++   $d = git diff --no-index --no-color --unified=3 --ignore-cr-at-eol  ...
++        ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+    + CategoryInfo          : NotSpecified: (warning: in the... Git touches it:String) [], RemoteException
+    + FullyQualifiedErrorId : NativeCommandError
+ 
+warning: in the working copy of 'G:/Code/VScode/SF32_Code/SiFli_demos/aic8800_diff_sifli/aic8800_diff_sf32lb52x_sifli_g
+b4036bf_20261013/sdk_patch/platform/aic8800_rtos_driver/aic_cfg.mk', LF will be replaced by CRLF the next time Git touc
+hes it
+diff --git a/D:/SiFli/SDK/SiFli-SDK-WiFi/SiFli-SDK/customer/peripherals/wifi/aic8800_rtos_driver/aic_cfg.mk b/G:/Code/VScode/SF32_Code/SiFli_demos/aic8800_diff_sifli/aic8800_diff_sf32lb52x_sifli_gb4036bf_20261013/sdk_patch/platform/aic8800_rtos_driver/aic_cfg.mk
+index 975d147d9..19e4c75dc 100644
+--- a/D:/SiFli/SDK/SiFli-SDK-WiFi/SiFli-SDK/customer/peripherals/wifi/aic8800_rtos_driver/aic_cfg.mk
++++ b/G:/Code/VScode/SF32_Code/SiFli_demos/aic8800_diff_sifli/aic8800_diff_sf32lb52x_sifli_gb4036bf_20261013/sdk_patch/platform/aic8800_rtos_driver/aic_cfg.mk
+@@ -25,7 +25,7 @@
+ #   DL_H — AIC8800DL  (chip sub_id=2, 仅含 _h_u02 固件, 节省 Flash)
+ #   D80X2 — AIC8800D80X2 (支持 5G, U05 基线, 2T2R)
+ # ============================================================================
+-AIC_CHIP_MODEL ?= D80N
++AIC_CHIP_MODEL ?= D80
+ 
+ # 根据芯片型号设置编译宏
+ ifeq ($(AIC_CHIP_MODEL),D80)
+@@ -174,16 +174,6 @@ ifeq ($(AIC_FW_PATCH_DPD_LOG),1)
+ DFLAGS += -DFW_PATCH_DPD_LOG=1
+ endif
+ 
+-# ================================================================
+-# FW 日志开机自动使能 (init 完成后自动调 aic_wifi_fw_log_enable(ALL, INF))
+-# 1 = 开启 (默认): FW 启动后即输出全模块 >=INF 级日志
+-# 0 = 关闭: 需运行时手动调 aic_wifi_fw_log_enable()
+-# ================================================================
+-AIC_FW_LOG_AUTO_EN ?= 1
+-ifeq ($(AIC_FW_LOG_AUTO_EN),1)
+-DFLAGS += -DFW_LOG_AUTO_EN=1
+-endif
+-
+ # =============================================================================
+ # RX 全链路零拷贝
+ #
+
+########## BUILD.md
+git : warning: in the working copy of 'D:/SiFli/SDK/SiFli-SDK-WiFi/SiFli-SDK/customer/peripherals/wifi/aic8800_rtos_dri
+ver/BUILD.md', LF will be replaced by CRLF the next time Git touches it
+所在位置 行:18 字符: 8
++   $d = git diff --no-index --no-color --unified=3 --ignore-cr-at-eol  ...
++        ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+    + CategoryInfo          : NotSpecified: (warning: in the... Git touches it:String) [], RemoteException
+    + FullyQualifiedErrorId : NativeCommandError
+ 
+warning: in the working copy of 'G:/Code/VScode/SF32_Code/SiFli_demos/aic8800_diff_sifli/aic8800_diff_sf32lb52x_sifli_g
+b4036bf_20261013/sdk_patch/platform/aic8800_rtos_driver/BUILD.md', LF will be replaced by CRLF the next time Git touche
+s it
+diff --git a/D:/SiFli/SDK/SiFli-SDK-WiFi/SiFli-SDK/customer/peripherals/wifi/aic8800_rtos_driver/BUILD.md b/G:/Code/VScode/SF32_Code/SiFli_demos/aic8800_diff_sifli/aic8800_diff_sf32lb52x_sifli_gb4036bf_20261013/sdk_patch/platform/aic8800_rtos_driver/BUILD.md
+index 6cf9f5894..cd0dfedb6 100644
+--- a/D:/SiFli/SDK/SiFli-SDK-WiFi/SiFli-SDK/customer/peripherals/wifi/aic8800_rtos_driver/BUILD.md
++++ b/G:/Code/VScode/SF32_Code/SiFli_demos/aic8800_diff_sifli/aic8800_diff_sf32lb52x_sifli_gb4036bf_20261013/sdk_patch/platform/aic8800_rtos_driver/BUILD.md
+@@ -149,7 +149,7 @@ aic8800_rtos/
+ │  Stage 1: host 发布                 Stage 2: platform 编译      │
+ │  host/Makefile release   ──→      顶层 Makefile                │
+ │  编译驱动库 → 输出到 release/      编译 platform, 链接 release/  │
+-│  (含头文件, 自包含发布包)           (引用 release/include/)      │
++│  (含头文件, 自包含发布包)           (引用 release/lib/include/)  │
+ │                                                                │
+ │  适用: 交付第三方, release/ 目录可独立分发                       │
+ └────────────────────────────────────────────────────────────────┘
+@@ -382,10 +382,10 @@ cd release && make
+ 客户/平台直接集成时引用 release/ 中的内容:
+ 
+ ```makefile
+-# 头文件引用
+-CFLAGS += -Irelease/include/drv_api/inc
+-CFLAGS += -Irelease/include/drv_wifi
+-CFLAGS += -Irelease/include/utils/inc
++# 头文件引用 (单一事实源 = lib/include/, 无顶层 include/ 副本)
++CFLAGS += -Irelease/lib/include/drv_api/inc
++CFLAGS += -Irelease/lib/include/drv_wifi
++CFLAGS += -Irelease/lib/include/utils/inc
+ CFLAGS += -Iport/inc
+ 
+ # 链接库 (单库统一, 库名无型号后缀)
+@@ -630,10 +630,9 @@ platform 编译时需要的 `-I` 路径（顶层 Makefile 已配置）：
+ ```makefile
+ # 驱动内部路径 (已在 Makefile 中配置)
+ -Iport/inc                          # port 头文件 (rtos_port.h, sdio_port.h 等)
+--Irelease/include/drv_api/inc       # netif_def.h, sys_api.h, wifi_api.h 等
+--Irelease/include/drv_wifi          # WiFi 管理 API
+--Irelease/include/drv_wlan          # WLAN 接口
+--Irelease/include/utils/inc         # 工具头文件 (compiler.h, co_math.h 等)
++-Irelease/lib/include/drv_api/inc   # netif_def.h, sys_api.h, wifi_api.h 等
++-Irelease/lib/include/drv_wifi      # WiFi 管理 API
++-Irelease/lib/include/utils/inc     # 工具头文件 (compiler.h, co_math.h 等)
+ -Iplatform/fmac                     # 固件管理
+ -Iplatform/hal                      # HAL
+ -Iplatform/netif                    # 网络接口
+@@ -861,5 +860,25 @@ cmake .. -DAIC_BUILD_MBEDTLS_PORT=OFF && make
+ - `cmake --build . --target release` 生成 `<驱动目录名>_release/` 自包含发布包
+   （lib/ + lib/include/ + include/ + platform/ + port/inc/ + Makefile + CMakeLists.txt + 配置）
+ 
++**CMake 侧开关**（与 Makefile 同名同义，默认值对齐 `aic_cfg.mk` / `host_config.mk`）：
++
++| CMake 变量 | 默认 | 说明 | Makefile 对应 |
++|---|---|---|---|
++| `AIC_USE_PREBUILT_HOST` | 自动 | `ON`=引用 `lib/` 预编译库；`OFF`=全源码编译 | `AIC_BUILD_HOST` |
++| `AIC_FEATURE_BT` | `0` | 平台 BT 层（`platform/bt/`：`aic_hci.c` + 传输后端）+ `AIC_FEATURE_BT` 宏 | `AIC_FEATURE_BT` |
++| `AIC_HCI_TRANSPORT` | `SDIO` | BT HCI 传输：`SDIO`/`UART`/`USB`，恒注入 `AIC_HCI_OVER_*` | `AIC_HCI_TRANSPORT` |
++| `AIC_HOST_BT_DRIVER` | `1` | host BT 驱动（`drv_bt` + `drv_api/bt_api.c`）+ `AIC_HOST_BT_DRIVER` 宏 | `AIC_HOST_BT_DRIVER` |
++| `AIC_FEATURE_P2P` | `1` | P2P 宏（恒注入，含引用模式）+ 全源码模式的 wpa p2p 源 | `AIC_FEATURE_P2P` |
++| `AIC_FEATURE_PLT` | `0` | 平台启动/demo 框架 `platform/wifi/wifi_port_plt.c` | `AIC_FEATURE_PLT` |
++| `AIC_FEATURE_NIMBLE` | `OFF` | NimBLE host 栈（需同时 `AIC_FEATURE_BT=ON`） | `AIC_FEATURE_NIMBLE` |
++| `AIC_BUILD_MBEDTLS_PORT` | `1` | 全源码模式编入 host mbedTLS port 层（TLS 客户端/证书/硬件熵源） | `AIC_BUILD_MBEDTLS_PORT` |
++| `USE_BUILTIN_MBEDTLS` | `1` | `1`=链接内置 `libaic_mbedtls.a`；`0`=平台提供 `aic_mbedtls_*` 符号 | `USE_BUILTIN_MBEDTLS` |
++| `AIC_MBEDTLS_FWD_EXAMPLE` | `1` | `USE_BUILTIN_MBEDTLS=0` 时编入转发示例 `platform/crypto/aic_mbedtls_port_example.c` | `AIC_MBEDTLS_FWD_EXAMPLE` |
++| `AIC_RTOS_PORT_SRC` | `rtos_freertos.c` | `platform/rtos/` 下的 RTOS 端口文件名 | `AIC_RTOS` |
++| `AIC_CHIP_MODEL` | `D80` | 仅 platform 侧固件数据选择（host 库型号无关） | `AIC_CHIP_MODEL` |
++
++> **总线范围**：本 CMake 清单按 SDIO 固定（恒注入 `CONFIG_SDIO_SUPPORT`，不含 `platform/hal/usb_port.c`）；USB 总线平台需自行调整清单。
++> **平台保留文件**：`platform/hal/plat_port.c` 在 CMake 路径恒编基准参考实现（Make 路径要求平台自行 `SRC_PLATFORM +=` 追加，见 §流程）。平台若已自带实现，请在集成 CMake 里移除该行，避免重复符号。
++
+ > **注意**：host 预编译库必须先由 make 体系产出（`make release` 或顶层 `make` 的 lib-sync），
+ > CMake 集成模式不编译 host 源码（IP 保护，与 Makefile 发布模式一致）。
+
+########## CMakeLists.txt
+git : warning: in the working copy of 'D:/SiFli/SDK/SiFli-SDK-WiFi/SiFli-SDK/customer/peripherals/wifi/aic8800_rtos_dri
+ver/CMakeLists.txt', LF will be replaced by CRLF the next time Git touches it
+所在位置 行:18 字符: 8
++   $d = git diff --no-index --no-color --unified=3 --ignore-cr-at-eol  ...
++        ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+    + CategoryInfo          : NotSpecified: (warning: in the... Git touches it:String) [], RemoteException
+    + FullyQualifiedErrorId : NativeCommandError
+ 
+warning: in the working copy of 'G:/Code/VScode/SF32_Code/SiFli_demos/aic8800_diff_sifli/aic8800_diff_sf32lb52x_sifli_g
+b4036bf_20261013/sdk_patch/platform/aic8800_rtos_driver/CMakeLists.txt', LF will be replaced by CRLF the next time Git 
+touches it
+diff --git a/D:/SiFli/SDK/SiFli-SDK-WiFi/SiFli-SDK/customer/peripherals/wifi/aic8800_rtos_driver/CMakeLists.txt b/G:/Code/VScode/SF32_Code/SiFli_demos/aic8800_diff_sifli/aic8800_diff_sf32lb52x_sifli_gb4036bf_20261013/sdk_patch/platform/aic8800_rtos_driver/CMakeLists.txt
+index 9098f9087..54fbd89d3 100644
+--- a/D:/SiFli/SDK/SiFli-SDK-WiFi/SiFli-SDK/customer/peripherals/wifi/aic8800_rtos_driver/CMakeLists.txt
++++ b/G:/Code/VScode/SF32_Code/SiFli_demos/aic8800_diff_sifli/aic8800_diff_sf32lb52x_sifli_gb4036bf_20261013/sdk_patch/platform/aic8800_rtos_driver/CMakeLists.txt
+@@ -1,12 +1,20 @@
+-set(PACKAGE_NAME softutil-aic_wifi)
+-set(PRIV_PACKAGE_NAME softutil-aic_wifi_priv)
++get_filename_component(AIC_PACKAGE_DIR_NAME ${CMAKE_CURRENT_SOURCE_DIR} NAME)
++set(PACKAGE_NAME softutil-${AIC_PACKAGE_DIR_NAME})
++set(PRIV_PACKAGE_NAME ${PACKAGE_NAME}_priv)
+ set(OBJ_PACKAGE_NAME ${PACKAGE_NAME}_obj)
+ set(PRIV_OBJ_PACKAGE_NAME ${PRIV_PACKAGE_NAME}_obj)
+ 
+-set(PACKAGE_PATH ${XROOT}/softutil/aic_wifi)
++set(PACKAGE_PATH ${XROOT}/softutil/${AIC_PACKAGE_DIR_NAME})
+ set(PACKAGE_DRIVER_PATH   ${PACKAGE_PATH}/host/driver)
+ set(PACKAGE_PLATFORM_PATH ${PACKAGE_PATH}/platform)
+ set(PACKAGE_WPA_PATH      ${PACKAGE_PATH}/host/thirdparty/wpa_supplicant)
++set(PACKAGE_MBEDTLS_PATH  ${PACKAGE_PATH}/host/thirdparty/mbedtls_v3_6_2)
++
++# 平台 RTOS 端口文件 (platform/rtos/ 下): 默认 FreeRTOS 参考实现,
++# 平台用 -DAIC_RTOS_PORT_SRC=rtos_threadx.c 之类覆盖 (如 ASR/064 ThreadX)。
++if(NOT DEFINED AIC_RTOS_PORT_SRC)
++    set(AIC_RTOS_PORT_SRC rtos_freertos.c)
++endif()
+ 
+ # ============================================================================
+ # host 构建模式 (与 Makefile AIC_BUILD_HOST 对齐)
+@@ -29,6 +37,16 @@ set(PACKAGE_DFLAGS)
+ set(PACKAGE_SRC_OPEN_FILES)
+ set(PACKAGE_SRC_PRIV_FILES)
+ 
++# ============================================================================
++# mbedTLS crypto 层选择 (与 Makefile 同名变量对齐)
++#   USE_BUILTIN_MBEDTLS=1 (默认): 内置 mbedtls crypto (引用模式链接 libaic_mbedtls.a)
++#   USE_BUILTIN_MBEDTLS=0: 平台自实现 aic_mbedtls_* 符号 —— 按 Makefile 口径自动编入
++#     转发示例 platform/crypto/aic_mbedtls_port_example.c (AIC_MBEDTLS_FWD_EXAMPLE=0 可关)。
++# 此前 USE_BUILTIN_MBEDTLS 只在引用模式块内声明, 全源码模式取不到值 → 示例源从不编入。
++# ============================================================================
++set(USE_BUILTIN_MBEDTLS 1 CACHE STRING "1=builtin mbedtls crypto; 0=platform provides aic_mbedtls_* symbols")
++set(AIC_MBEDTLS_FWD_EXAMPLE 1 CACHE STRING "with USE_BUILTIN_MBEDTLS=0: 1=compile platform/crypto/aic_mbedtls_port_example.c; 0=platform provides its own")
++
+ set(PACKAGE_INC_PATHS			${XROOT}/os/threadx/inc
+ 								${XROOT}/hal/SDIO/inc
+ 								${XROOT}/hal/MMU/inc
+@@ -115,15 +133,25 @@ list(APPEND PACKAGE_SRC_PRIV_FILES   ${PACKAGE_DRIVER_PATH}/drv_fhost/fhost.c
+ 								${PACKAGE_DRIVER_PATH}/drv_macif/rwnx_utils.c
+ 								${PACKAGE_DRIVER_PATH}/drv_wifi/wifi_if.c
+ 								${PACKAGE_DRIVER_PATH}/drv_wlan/wlan_if.c
+-								${PACKAGE_DRIVER_PATH}/drv_api/src/bt_api.c
++								# drv_api/src/bt_api.c 跟随 host BT 驱动开关, 见下方 AIC_HOST_BT_DRIVER 块
+ 								${PACKAGE_DRIVER_PATH}/drv_api/src/cli_api.c
+ 								${PACKAGE_DRIVER_PATH}/drv_api/src/netif_api.c
+ 								${PACKAGE_DRIVER_PATH}/drv_api/src/sdio_api.c
+ 								${PACKAGE_DRIVER_PATH}/drv_api/src/sys_api.c
+ 								${PACKAGE_DRIVER_PATH}/drv_api/src/wifi_api.c
++								# 清单对齐 Makefile drv_api 通配: app_api.c 为 iperf 迁移后的空占位,
++								# 无符号但必须枚举保持清单一致
++								${PACKAGE_DRIVER_PATH}/drv_api/src/app_api.c
+ 								${PACKAGE_DRIVER_PATH}/layer_common/src/hal_co.c
+ 								${PACKAGE_DRIVER_PATH}/layer_common/src/netif_co.c
+ 								${PACKAGE_DRIVER_PATH}/layer_common/src/sdio_co.c
++								# 清单对齐 Makefile layer_common 通配: USB CO 层 (Plan B), 主体被
++								# CONFIG_USB_SUPPORT 包裹, SDIO 构建下编译为空对象
++								${PACKAGE_DRIVER_PATH}/layer_common/src/usb_co.c
++								# 必编: 运行态型号/索引状态 (sys_chip_id/sub_id/mcu_id/is_chip_id_h/fw_match、
++								# sys_mac_vif_index、sys_sta_index) —— 缺此项时整镜像链接报一堆 sys_* undefined
++								# (回流源: ASR/CPSDK 集成树客户链接报错, 见 aidoc/AC5-DS5构建注意.md)。
++								${PACKAGE_DRIVER_PATH}/layer_common/src/sys_state.c
+ 								${PACKAGE_DRIVER_PATH}/layer_common/src/aic_sock.c
+ 								${PACKAGE_DRIVER_PATH}/utils/src/co_dlist.c
+ 								${PACKAGE_DRIVER_PATH}/utils/src/co_list.c
+@@ -131,36 +159,75 @@ list(APPEND PACKAGE_SRC_PRIV_FILES   ${PACKAGE_DRIVER_PATH}/drv_fhost/fhost.c
+ 								${PACKAGE_DRIVER_PATH}/utils/src/co_pool.c
+ 								${PACKAGE_DRIVER_PATH}/utils/src/co_ring.c
+ 								${PACKAGE_DRIVER_PATH}/utils/src/co_version.c
++								# 必编: aic_chip_desc_get/chipid_get/cache_set (host 各层取型号差异数据)
++								${PACKAGE_DRIVER_PATH}/utils/src/aic_chip_desc.c
+ 								)
+ 
+-if(AIC_FEATURE_BT)
++# mbedTLS port 层 (TLS 客户端 / 证书 / 硬件熵源) —— 与 Makefile AIC_BUILD_MBEDTLS_PORT 对齐:
++#   1 (默认) = 编入基准 port 层 (host/Makefile 侧 lib-sync 亦以默认 1 编入同一批 port/src/*.c);
++#   0       = 平台自实现 (需提供 aic_mbedtls_client_* / 证书数组等符号, 契约见
++#             host/thirdparty/mbedtls_v3_6_2/port/include/mbedtls_port_if.h)。
++# 此前 CMake 清单从未列这批源: 静态库不解析符号, 引用这批 API 的平台只在整镜像链接
++# 阶段报 undefined (与 e8a21cc/7f2935f 两笔 CMake 清单回流同源)。
++set(AIC_BUILD_MBEDTLS_PORT 1 CACHE STRING "1=compile mbedTLS port layer; 0=platform provides it")
++if(AIC_BUILD_MBEDTLS_PORT)
+ list(APPEND PACKAGE_SRC_PRIV_FILES
+-								${PACKAGE_DRIVER_PATH}/drv_bt/aic_bt_driver.c
+-								${PACKAGE_DRIVER_PATH}/drv_bt/aic_sdio_bt.c
++								${PACKAGE_MBEDTLS_PATH}/port/src/tls_client.c
++								${PACKAGE_MBEDTLS_PATH}/port/src/tls_certificate.c
++								${PACKAGE_MBEDTLS_PATH}/port/src/tls_hardware.c
++								)
++# 头路径只加给私有(host)目标: PACKAGE_INC_PATHS 以 BEFORE 注入, 若并入会把基准 mbedtls
++# 头提到平台 SDK mbedTLS 之前, 影响平台侧 include 选择
++set(PACKAGE_MBEDTLS_PORT_INC
++								${PACKAGE_MBEDTLS_PATH}/include
++								${PACKAGE_MBEDTLS_PATH}/library
++								${PACKAGE_MBEDTLS_PATH}/port/include
+ 								)
+-list(APPEND PACKAGE_DFLAGS CONFIG_BT_SUPPORT)
+-list(APPEND PACKAGE_SRC_OPEN_FILES
+-								${PACKAGE_PLATFORM_PATH}/bt/aic_hci.c
++endif()
++
++# host BT 驱动裁剪: 单开关 AIC_HOST_BT_DRIVER (host_config.mk, 默认 1), 与 AIC_FEATURE_BT
++# 无关 —— AIC_FEATURE_BT 管 platform 层 BT 固件注册与 HCI 传输 (见下方平台 BT 块)。
++# host 源码 (rwnx_main.c / rwnx_msg_*.c / wlan_if.c / lmac_msg.h) 以 AIC_HOST_BT_DRIVER
++# 守卫 BT 路径, 该宏必须注入, 否则 host 库 BT 代码被静默裁掉 (此前 CMake 从未注入)。
++set(AIC_HOST_BT_DRIVER 1 CACHE STRING "1=compile host BT driver (drv_bt/aic_bt_driver.c + drv_api/bt_api.c); 0=WiFi-only host lib")
++if(AIC_HOST_BT_DRIVER)
++list(APPEND PACKAGE_SRC_PRIV_FILES
++${PACKAGE_DRIVER_PATH}/drv_bt/aic_bt_driver.c
++								${PACKAGE_DRIVER_PATH}/drv_api/src/bt_api.c
+ 								)
++# 注: 平台侧无该宏引用 (已核), 故走 PACKAGE_DFLAGS, 与 Make 侧 HOST_DFLAGS 语义等价
++list(APPEND PACKAGE_DFLAGS AIC_HOST_BT_DRIVER)
++endif()
++endif()  # NOT AIC_USE_PREBUILT_HOST (host 驱动源码)
++
++# AIC_HCI_OVER_*: BT HCI 传输宏, 与 AIC_FEATURE_BT 解耦 — 按 AIC_HCI_TRANSPORT 恒注入
++# (对齐 aic_cfg.mk L142-154)。驱动 platform 层 BT 固件注册: aic_fw_port.c DC_H 选
++# hbt 变体 / userconfig.c btport=MB。
++# 本段必须在 host-only 块【之外】: 与 AIC_FEATURE_BT 解耦后, 引用模式下平台层同样
++# 需要该宏 (曾遗留嵌在块内 → 引用模式收不到, 同一发布两套构建选不同固件)。
++# BT 传输源文件 (aic_hci.c/aic_bt_*.c) 由 AIC_FEATURE_BT 裁剪, 见下方平台 BT 块。
+ set(AIC_HCI_TRANSPORT "SDIO" CACHE STRING "BT HCI transport: SDIO, UART or USB")
+ if(AIC_HCI_TRANSPORT STREQUAL "UART")
+     list(APPEND PACKAGE_DFLAGS AIC_HCI_OVER_UART)
+-    list(APPEND PACKAGE_SRC_OPEN_FILES ${PACKAGE_PLATFORM_PATH}/bt/aic_bt_uart.c)
+ elseif(AIC_HCI_TRANSPORT STREQUAL "USB")
+     list(APPEND PACKAGE_DFLAGS AIC_HCI_OVER_USB)
+-    list(APPEND PACKAGE_SRC_OPEN_FILES ${PACKAGE_PLATFORM_PATH}/bt/aic_btusb.c)
+ else()
+     list(APPEND PACKAGE_DFLAGS AIC_HCI_OVER_SDIO)
+-    list(APPEND PACKAGE_SRC_OPEN_FILES ${PACKAGE_PLATFORM_PATH}/bt/aic_bt_sdio.c)
+ endif()
+-endif()
+-endif()  # NOT AIC_USE_PREBUILT_HOST (host 驱动源码)
+ 
+ list(APPEND PACKAGE_SRC_OPEN_FILES   ${PACKAGE_PLATFORM_PATH}/fmac/aic_fw_port.c
+ 								${PACKAGE_PLATFORM_PATH}/fmac/userconfig.c
++								# 基准 HAL/日志参考实现 (aicwf_ATRESP / aicwf_log_printf / 电源 GPIO 等)。
++								# Make 路径不自动编入: 平台须自行 `SRC_PLATFORM += 自己的 plat_port.c`
++								# (BUILD.md「plat_port.c — HAL/硬件抽象」、release-adaptation §7.4)。
++								# CMake 路径恒编基准版 —— 平台若已自带实现, 请在集成 CMake 里移除本行,
++								# 否则重复符号; 未自带则此处即基准参考实现 (AT 回包走 DBG_CMN_INF)。
+ 								${PACKAGE_PLATFORM_PATH}/hal/plat_port.c
+ 								${PACKAGE_PLATFORM_PATH}/hal/sdio_port.c
+-								${PACKAGE_PLATFORM_PATH}/rtos/rtos_freertos.c
++								# 注: 本清单按 SDIO 总线固定 (DFLAGS 恒注入 CONFIG_SDIO_SUPPORT), 不含 USB
++								# 端口源 platform/hal/usb_port.c (Make 路径在 AIC_BUS_TYPE=USB 时才编);
++								# USB 总线平台需自行在本清单调整。
++								${PACKAGE_PLATFORM_PATH}/rtos/${AIC_RTOS_PORT_SRC}
+ 								${PACKAGE_PLATFORM_PATH}/platform_init.c
+ 								${PACKAGE_PLATFORM_PATH}/wifi/wifi_port.c
+ 								${PACKAGE_PLATFORM_PATH}/wifi/wifi_port_ap.c
+@@ -168,9 +235,50 @@ list(APPEND PACKAGE_SRC_OPEN_FILES   ${PACKAGE_PLATFORM_PATH}/fmac/aic_fw_port.c
+ 								${PACKAGE_PLATFORM_PATH}/wifi/wifi_port_wps.c
+ 								${PACKAGE_PLATFORM_PATH}/wifi/wifi_port_p2p.c
+ 								${PACKAGE_PLATFORM_PATH}/wifi/wifi_port_cmd.c
+-								${PACKAGE_PLATFORM_PATH}/wifi/wifi_port_plt.c
++								# 平台启动/demo 框架 wifi_port_plt.c 不在此列: 见下方 AIC_FEATURE_PLT 门控
++								# (对齐 Makefile/aic_cfg.mk 的 AIC_FEATURE_PLT ?= 0)
++								# 必编: 网络接口契约实现 (aicwf_net_if_* / aicwf_net_init / tx|rx_eth_data_process
++								# / DHCP 系列)。缺此项时静态库仍能归档(不解析符号), 但整镜像链接会报一堆
++								# undefined symbol —— 回流源: ASR/CPSDK 集成 (见 aidoc/AC5-DS5构建注意.md)。
++								${PACKAGE_PLATFORM_PATH}/netif/netif_port.c
++								# 必编: aic_chip_desc_lookup() —— host drv_wifi/wifi_if.c 的 aicwf_get_chipid()
++								# 依赖它做运行时型号查表 (port/inc/aic_chip_desc.h)。
++								${PACKAGE_PLATFORM_PATH}/fmac/aic_chip_desc_port.c
++								# 平台专有源(如 UART/USB 端口、iperf 工具、平台自实现 mbedtls、平台 UAP/duster 桥接)
++								# 默认不入清单: 由各平台按需在此追加, 或在自己的集成 CMake 里 target_sources。
+ 								)
+ 
++# 平台启动/demo 框架 (AT/CLI demo 入口 + 随 WiFi bring-up 的 nimble 拉起, 见
++# platform/wifi/wifi_port_plt.c)。Make 路径由 aic_cfg.mk 的 AIC_FEATURE_PLT 门控,
++# 默认 0 不编; 此处对齐同默认 —— 平台需要该参考框架时 -DAIC_FEATURE_PLT=1。
++set(AIC_FEATURE_PLT 0 CACHE STRING "1=build platform/wifi/wifi_port_plt.c (demo/bring-up); 0=platform provides its own")
++if(AIC_FEATURE_PLT)
++list(APPEND PACKAGE_SRC_OPEN_FILES ${PACKAGE_PLATFORM_PATH}/wifi/wifi_port_plt.c)
++endif()
++
++# BT 平台层 (HCI 拆包 aic_hci.c + 传输后端) —— 由 AIC_FEATURE_BT 裁剪 (对齐 aic_cfg.mk,
++# 默认 0)。AIC_FEATURE_BT 同时被 platform/wifi/wifi_port_cmd.c、hal/usb_port.c 的 BT
++# 分支守卫, 故宏与源必须成对注入; 此前两者都嵌在 host-only 块内 → 引用模式整体缺失。
++# (CONFIG_BT_SUPPORT 已由 port/inc/aic_cfg.h 无条件定义, 此处保留显式注入为等价冗余)
++set(AIC_FEATURE_BT 0 CACHE STRING "1=enable BT (platform BT layer + AIC_FEATURE_BT macro); 0=WiFi-only")
++if(AIC_FEATURE_BT)
++list(APPEND PACKAGE_DFLAGS AIC_FEATURE_BT CONFIG_BT_SUPPORT)
++list(APPEND PACKAGE_SRC_OPEN_FILES ${PACKAGE_PLATFORM_PATH}/bt/aic_hci.c)
++if(AIC_HCI_TRANSPORT STREQUAL "UART")
++    list(APPEND PACKAGE_SRC_OPEN_FILES ${PACKAGE_PLATFORM_PATH}/bt/aic_bt_uart.c)
++elseif(AIC_HCI_TRANSPORT STREQUAL "USB")
++    list(APPEND PACKAGE_SRC_OPEN_FILES ${PACKAGE_PLATFORM_PATH}/bt/aic_btusb.c)
++else()
++    list(APPEND PACKAGE_SRC_OPEN_FILES ${PACKAGE_PLATFORM_PATH}/bt/aic_bt_sdio.c)
++endif()
++endif()
++
++# mbedTLS crypto 层: 平台自实现 (USE_BUILTIN_MBEDTLS=0) 时按 Makefile 口径自动编入
++# 转发示例 (AIC_MBEDTLS_FWD_EXAMPLE=0 可关)。此前 CMake 从不编入该示例源。
++if(NOT USE_BUILTIN_MBEDTLS AND AIC_MBEDTLS_FWD_EXAMPLE)
++list(APPEND PACKAGE_SRC_OPEN_FILES ${PACKAGE_PLATFORM_PATH}/crypto/aic_mbedtls_port_example.c)
++endif()
++
+ # --- WPA Supplicant 源码 (host 部分, 仅全源码模式编译) ---
+ if(NOT AIC_USE_PREBUILT_HOST)
+ list(APPEND PACKAGE_SRC_PRIV_FILES   ${PACKAGE_WPA_PATH}/wpa_supplicant/ap.c
+@@ -192,6 +300,9 @@ list(APPEND PACKAGE_SRC_PRIV_FILES   ${PACKAGE_WPA_PATH}/wpa_supplicant/ap.c
+ 								${PACKAGE_WPA_PATH}/wpa_supplicant/wpas_glue.c
+ 								${PACKAGE_WPA_PATH}/wpa_supplicant/wpa_supplicant.c
+ 								${PACKAGE_WPA_PATH}/wpa_supplicant/wps_supplicant.c
++								# 必编: CONFIG_OFFCHANNEL 默认开启 (port/inc/aic_cfg.h), events.c/
++								# wpa_supplicant.c 依赖 offchannel_remain_on_channel_cb/offchannel_deinit 等
++								${PACKAGE_WPA_PATH}/wpa_supplicant/offchannel.c
+ 								${PACKAGE_WPA_PATH}/src/ap/ap_config.c
+ 								${PACKAGE_WPA_PATH}/src/ap/acs.c
+ 								${PACKAGE_WPA_PATH}/src/ap/ap_drv_ops.c
+@@ -294,9 +405,21 @@ list(APPEND PACKAGE_SRC_PRIV_FILES   ${PACKAGE_WPA_PATH}/wpa_supplicant/ap.c
+ 								${PACKAGE_WPA_PATH}/src/wps/wps_registrar.c
+ 								)
+ 
++# P2P 开关: 与 Makefile/aic_cfg.mk 的 AIC_FEATURE_P2P ?= 1 对齐 (默认开)。
++# 宏必须【无条件】注入 (含引用模式): platform 层 netif_port.c / wifi_port.c /
++# wifi_port_cmd.c 用 CONFIG_P2P_SUPPORT 守卫 P2P 分支, 而预编译 host 库内 P2P 代码
++# 按 Make 默认是编入的 —— 此前宏只加在全源码块内, 引用模式下两侧能力分叉。
++# 注意: set 必须先于下方所有 AIC_FEATURE_P2P 引用 —— CMake 顺序执行, 未定义变量
++# 在 if() 中恒为 false (曾因定义晚于引用, 全新 configure 首次求值时 P2P 源被静默
++# 丢弃而宏照常注入, 同一目录二次 configure 因 CMakeCache 已存 =1 而恢复)。
++set(AIC_FEATURE_P2P 1 CACHE STRING "1=enable P2P (macro always; wpa p2p sources in full-source mode); 0=disable")
+ if(AIC_FEATURE_P2P)
+-# P2P 宏与源文件同步: netif_port.c 等平台代码用 CONFIG_P2P_SUPPORT 守卫 P2P 分支
+-list(APPEND PACKAGE_DFLAGS AIC_FEATURE_P2P CONFIG_P2P_SUPPORT)
++	list(APPEND PACKAGE_DFLAGS AIC_FEATURE_P2P CONFIG_P2P_SUPPORT)
++endif()
++
++if(NOT AIC_USE_PREBUILT_HOST AND AIC_FEATURE_P2P)
++# 注: P2P 宏注入见上方开关块 —— 引用模式下 platform 层同样需要该宏,
++# 留在本块内会导致「预编译 host 库含 P2P 代码、platform 层 P2P 分支被裁」的能力分叉
+ list(APPEND PACKAGE_SRC_PRIV_FILES
+ 								${PACKAGE_WPA_PATH}/wpa_supplicant/p2p_supplicant.c
+ 								${PACKAGE_WPA_PATH}/wpa_supplicant/p2p_supplicant_sd.c
+@@ -311,10 +434,11 @@ list(APPEND PACKAGE_SRC_PRIV_FILES
+ 								${PACKAGE_WPA_PATH}/src/p2p/p2p_dev_disc.c
+ 								${PACKAGE_WPA_PATH}/src/p2p/p2p_group.c
+ 								${PACKAGE_WPA_PATH}/src/ap/p2p_hostapd.c
+-								${PACKAGE_WPA_PATH}/wpa_supplicant/offchannel.c
+ 								${PACKAGE_WPA_PATH}/wpa_supplicant/gas_query.c
+ 								${PACKAGE_WPA_PATH}/wpa_supplicant/wifi_display.c
+ 								)
++# 注: offchannel.c 已在上方无条件段列入 (对齐 Makefile: offchannel 必须无条件编译,
++# CONFIG_OFFCHANNEL 恒定义), 此处不重复列出
+ endif()
+ endif()  # NOT AIC_USE_PREBUILT_HOST (WPA 源码)
+ 
+@@ -330,6 +454,7 @@ else()
+                                 CONFIG_AIC8800D80
+                                 USE_5G)
+ endif()
++
+ list(APPEND PACKAGE_DFLAGS
+ 							CONFIG_SDIO_SUPPORT
+ #### firmware bin file
+@@ -371,14 +496,16 @@ if(PACKAGE_SRC_PRIV_FILES)
+ endif()
+ add_library(${OBJ_PACKAGE_NAME} OBJECT ${_AIC_OBJ_SRC})
+ add_library(${PACKAGE_NAME} $<TARGET_OBJECTS:${OBJ_PACKAGE_NAME}>)
++# host 源码 (fhost_*.c) 需要驱动内部 utils/inc (co_endian.h 等): 基准 Makefile 流程
++# 由 host/Makefile 的 -I 提供, CMake 流程此前遗漏该目录 → #5 cannot open co_endian.h。
++target_include_directories(${OBJ_PACKAGE_NAME} PRIVATE ${PACKAGE_DRIVER_PATH}/utils/inc)
+ # 引用模式 (AIC_BUILD_HOST=0 语义): 链接 host 预编译库 (lib/ 由 make 体系产出)
+ if(AIC_USE_PREBUILT_HOST)
+     # 单库统一: 所有型号共用 libaic8800_driver.a (host 无型号宏, 运行时 desc 分发)
+     target_link_libraries(${PACKAGE_NAME} PUBLIC
+         ${PACKAGE_PATH}/lib/libaic8800_driver.a)
+     # mbedTLS crypto 库: USE_BUILTIN_MBEDTLS=0 时由平台自实现 aic_mbedtls_*
+-    # 符号 (转发示例 platform/crypto/aic_mbedtls_port_example.c), 不链接内置库
+-    set(USE_BUILTIN_MBEDTLS 1 CACHE STRING "1=link builtin libaic_mbedtls.a; 0=platform provides aic_mbedtls_* symbols")
++    # 符号 (转发示例 platform/crypto/aic_mbedtls_port_example.c; 变量声明见文件头), 不链接内置库
+     if(USE_BUILTIN_MBEDTLS)
+         target_link_libraries(${PACKAGE_NAME} PUBLIC
+             ${PACKAGE_PATH}/lib/libaic_mbedtls.a)
+@@ -408,6 +535,10 @@ if(NOT AIC_USE_PREBUILT_HOST)
+ 	endif()
+ 	target_compile_options(${PRIV_OBJ_PACKAGE_NAME} PRIVATE --diag_suppress=warning)
+ 	target_include_directories(${PRIV_OBJ_PACKAGE_NAME} BEFORE PRIVATE ${PACKAGE_INC_PATHS})
++	# mbedTLS port 层头 (仅 AIC_BUILD_MBEDTLS_PORT=1 且全源码模式时存在)
++	if(PACKAGE_MBEDTLS_PORT_INC)
++		target_include_directories(${PRIV_OBJ_PACKAGE_NAME} PRIVATE ${PACKAGE_MBEDTLS_PORT_INC})
++	endif()
+ 
+ 	creat_prebuild_file_pack(${PRIV_PACKAGE_NAME} ${PRIV_OBJ_PACKAGE_NAME})
+ endif()
+
+########## Makefile
+git : warning: in the working copy of 'D:/SiFli/SDK/SiFli-SDK-WiFi/SiFli-SDK/customer/peripherals/wifi/aic8800_rtos_dri
+ver/Makefile', LF will be replaced by CRLF the next time Git touches it
+所在位置 行:18 字符: 8
++   $d = git diff --no-index --no-color --unified=3 --ignore-cr-at-eol  ...
++        ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+    + CategoryInfo          : NotSpecified: (warning: in the... Git touches it:String) [], RemoteException
+    + FullyQualifiedErrorId : NativeCommandError
+ 
+warning: in the working copy of 'G:/Code/VScode/SF32_Code/SiFli_demos/aic8800_diff_sifli/aic8800_diff_sf32lb52x_sifli_g
+b4036bf_20261013/sdk_patch/platform/aic8800_rtos_driver/Makefile', LF will be replaced by CRLF the next time Git touche
+s it
+diff --git a/D:/SiFli/SDK/SiFli-SDK-WiFi/SiFli-SDK/customer/peripherals/wifi/aic8800_rtos_driver/Makefile b/G:/Code/VScode/SF32_Code/SiFli_demos/aic8800_diff_sifli/aic8800_diff_sf32lb52x_sifli_gb4036bf_20261013/sdk_patch/platform/aic8800_rtos_driver/Makefile
+index 3fc9d43e0..3feba6e28 100644
+--- a/D:/SiFli/SDK/SiFli-SDK-WiFi/SiFli-SDK/customer/peripherals/wifi/aic8800_rtos_driver/Makefile
++++ b/G:/Code/VScode/SF32_Code/SiFli_demos/aic8800_diff_sifli/aic8800_diff_sf32lb52x_sifli_gb4036bf_20261013/sdk_patch/platform/aic8800_rtos_driver/Makefile
+@@ -17,12 +17,14 @@ ifdef SDKROOT
+   LIBNAME := aic8800
+ 
+   # 宏定义
++  # 注意: LWIP_DHCPS / LWIP_NETIF_HOSTNAME 必须由平台 lwipopts.h 定义, 勿在此用 -D 注入
++  # (SDK lwIP 库不带该宏编译 → struct netif 布局与驱动库错位 → DHCP ACD 阶段野指针 HardFault;
++  #  平台未开 LWIP_DHCPS 时驱动带 -D 还会产生 dhcpd_start undefined reference)
+   LOCAL_CFLAGS += \
+       -DCONFIG_AIC8800D80 -DUSE_5G -DCONFIG_USB_SUPPORT \
+       -DCONFIG_AICWF_BUS_USB -DAIC_BUS_USB \
+       -DCONFIG_NO_WPA_MSG -DRT_THREAD \
+       -DCONFIG_LWIP -DPLATFORM_NO_FILE -DSYS_SOCK_DEFINE \
+-      -DLWIP_DHCPS -DLWIP_NETIF_HOSTNAME \
+       -DHAVE_SIGVAL -DHAVE_SIGEVENT -DHAVE_SIGINFO \
+       -DRT_VERSION_CHECK\(maj,min,pat\)=\(\(\(maj\)*10000\)+\(\(min\)*100\)+\(pat\)\)
+ 
+@@ -109,7 +111,8 @@ BUILD_DIR        := $(PACKAGE_PATH)/build
+ # 发布/diff 交付目录: 收敛到 dist/ (已 gitignore), 不再生成源码同级 *_release/
+ AIC_DIST_DIR   ?= $(PACKAGE_PATH)/dist
+ RELEASE_PATH := $(AIC_DIST_DIR)/$(notdir $(PACKAGE_PATH))_release
+-RELEASE_INC := $(RELEASE_PATH)/include
++# 注意: 交付头单一事实源 = lib/include/ (copy_release_headers.py 白名单)。
++# 历史遗留的顶层 include/ 副本已移除 — 编译路径 (INC_DRIVER/NimBLE) 只引用 lib/include/。
+ 
+ TARGET := $(BUILD_DIR)/libaic_platform.a
+ 
+@@ -149,6 +152,14 @@ endif
+ include $(PACKAGE_PATH)/$(PLATFORM_CONFIG)
+ include $(PACKAGE_PATH)/aic_cfg.mk
+ 
++# --- mbedTLS port 层开关 (host 子构建消费) ---
++# 1 = host 自带 TLS port 层 (tls_client/tls_certificate/tls_hardware), 0 = 平台自实现。
++# 与 host/Makefile 的 ?= 1 默认保持一致, 且必须显式透传给子 make:
++# platform_config.mk 中的赋值不随 MAKEFLAGS 传播, 不传会让 lib-sync 与
++# check-src-coverage 看到不同源清单 (实测归档 177 成员 vs 对账 174);
++# 未定义时传空值又会覆盖 host 的 ?= 1 默认, 故在此统一定义。
++AIC_BUILD_MBEDTLS_PORT ?= 1
++
+ # 单库统一: 所有芯片型号共用同一个驱动库 (libaic8800_driver.a),
+ # host 源码不含型号宏, 型号差异由 aic_chip_desc 数据表运行时分发。
+ 
+@@ -281,6 +292,7 @@ ifeq ($(AIC_BUILD_HOST),1)
+ 	"$(MAKE)" -C "$(HOST_PATH)" CC="$(CC)" AR="$(AR)" \
+ 		CFLAGS_ARCH="$(CFLAGS_ARCH)" \
+ 		DFLAGS="$(DFLAGS)" \
++		AIC_BUILD_MBEDTLS_PORT=$(AIC_BUILD_MBEDTLS_PORT) \
+ 		AIC_CHIP_MODEL=$(AIC_CHIP_MODEL) lib-sync
+ else
+ 	@echo "=== Skipping host build (using precompiled libraries) ==="
+@@ -312,6 +324,7 @@ nimble-clean:
+ 
+ # lib: 只构建 host 库 + API 公开头 (release 无调试符号) 到 $(PACKAGE_PATH)/lib/
+ # 供 make dist 组装; 亦可供纯 platform 调试引用预编译库
++# 末尾追加 host check-src-coverage 源-归档对账 (make release/diff-verify 经 dist→lib 自动覆盖)
+ .PHONY: lib
+ lib:
+ 	@echo "=== Building host driver lib (AIC_CHIP_MODEL=$(AIC_CHIP_MODEL)) ==="
+@@ -321,7 +334,16 @@ lib:
+ 	fi
+ 	"$(MAKE)" -C "$(HOST_PATH)" CC="$(CC)" AR="$(AR)" \
+ 		CFLAGS_ARCH="$(CFLAGS_ARCH_RELEASE)" \
++		AIC_BUILD_MBEDTLS_PORT=$(AIC_BUILD_MBEDTLS_PORT) \
+ 		AIC_CHIP_MODEL=$(AIC_CHIP_MODEL) lib-sync
++	# 源清单 ↔ 归档成员对账 (host/Makefile check-src-coverage): 静态库归档不解析符号,
++	# 源清单漏文件只在整镜像链接阶段暴露为 undefined symbol, 此处提前到归档阶段报错。
++	# 显式传 AIC_BUS_TYPE/CC/AR: 子 make 必须落在与 lib-sync 同一个 build_<总线> 目录,
++	# 否则会因取到空 AIC_BUS_TYPE 而找不到归档并触发错误标志重编。
++	@"$(MAKE)" -C "$(HOST_PATH)" CC="$(CC)" AR="$(AR)" \
++		CFLAGS_ARCH="$(CFLAGS_ARCH_RELEASE)" AIC_BUS_TYPE="$(AIC_BUS_TYPE)" \
++		AIC_BUILD_MBEDTLS_PORT=$(AIC_BUILD_MBEDTLS_PORT) \
++		AIC_CHIP_MODEL=$(AIC_CHIP_MODEL) check-src-coverage
+ 
+ # dist: 从驱动目录组装自包含发布包 (host lib + 公开头 + platform/port/config/docs)
+ # 输出到 $(AIC_DIST_DIR)/<driver>_release/ (与最终 diff 包同级),
+@@ -332,13 +354,16 @@ dist: lib
+ 	@$(RM_RF) $(RELEASE_PATH)
+ 	@$(call MKDIR,$(RELEASE_PATH)/lib)
+ 	@$(call MKDIR,$(RELEASE_PATH)/lib/include)
+-	@$(call MKDIR,$(RELEASE_PATH)/include)
+ 	@cp -r $(PACKAGE_PATH)/lib/. $(RELEASE_PATH)/lib/
+-	@cp -r $(PACKAGE_PATH)/lib/include/. $(RELEASE_PATH)/include/
+ 	@$(call MKDIR,$(RELEASE_PATH)/platform)
+ 	@$(call MKDIR,$(RELEASE_PATH)/port/inc)
+ 	@cp -r $(PLATFORM_PATH)/. $(RELEASE_PATH)/platform/
+ 	@cp -r $(PACKAGE_PATH)/port/inc/. $(RELEASE_PATH)/port/inc/
++	# port/*.c 平台实现文件 (如 sdio_ccm.c, 由 platform_config.mk 的 SRC_PLATFORM 引用);
++	# 基准仓库无 port/*.c 时跳过, 平台集成树有则随包携带 (缺失则 AIC_BUILD_HOST=0 独立编译失败)
++ifneq (,$(wildcard $(PACKAGE_PATH)/port/*.c))
++	@cp $(PACKAGE_PATH)/port/*.c $(RELEASE_PATH)/port/
++endif
+ 	@cp $(PACKAGE_PATH)/Makefile $(RELEASE_PATH)/Makefile
+ 	@cp $(PACKAGE_PATH)/CMakeLists.txt $(RELEASE_PATH)/CMakeLists.txt
+ 	@cp $(PACKAGE_PATH)/aic_cfg.mk $(RELEASE_PATH)/aic_cfg.mk
+@@ -389,6 +414,7 @@ ifeq ($(USE_BUILTIN_MBEDTLS),1)
+ 	@test -f $(RELEASE_PATH)/lib/libaic_mbedtls.a
+ endif
+ 	@test -d $(RELEASE_PATH)/lib/include
++	@test ! -d $(RELEASE_PATH)/include   # 头单一事实源: 不得存在顶层 include/ 冗余副本
+ 	@test -d $(RELEASE_PATH)/port/inc
+ 	@test -d $(RELEASE_PATH)/platform
+ 	@test -f $(RELEASE_PATH)/Makefile
+
+########## lwipopts.md
+git : warning: in the working copy of 'D:/SiFli/SDK/SiFli-SDK-WiFi/SiFli-SDK/customer/peripherals/wifi/aic8800_rtos_dri
+ver/lwipopts.md', LF will be replaced by CRLF the next time Git touches it
+所在位置 行:18 字符: 8
++   $d = git diff --no-index --no-color --unified=3 --ignore-cr-at-eol  ...
++        ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+    + CategoryInfo          : NotSpecified: (warning: in the... Git touches it:String) [], RemoteException
+    + FullyQualifiedErrorId : NativeCommandError
+ 
+warning: in the working copy of 'G:/Code/VScode/SF32_Code/SiFli_demos/aic8800_diff_sifli/aic8800_diff_sf32lb52x_sifli_g
+b4036bf_20261013/sdk_patch/platform/aic8800_rtos_driver/lwipopts.md', LF will be replaced by CRLF the next time Git tou
+ches it
+diff --git a/D:/SiFli/SDK/SiFli-SDK-WiFi/SiFli-SDK/customer/peripherals/wifi/aic8800_rtos_driver/lwipopts.md b/G:/Code/VScode/SF32_Code/SiFli_demos/aic8800_diff_sifli/aic8800_diff_sf32lb52x_sifli_gb4036bf_20261013/sdk_patch/platform/aic8800_rtos_driver/lwipopts.md
+index e2fe99547..47ee77d8b 100644
+--- a/D:/SiFli/SDK/SiFli-SDK-WiFi/SiFli-SDK/customer/peripherals/wifi/aic8800_rtos_driver/lwipopts.md
++++ b/G:/Code/VScode/SF32_Code/SiFli_demos/aic8800_diff_sifli/aic8800_diff_sf32lb52x_sifli_gb4036bf_20261013/sdk_patch/platform/aic8800_rtos_driver/lwipopts.md
+@@ -125,6 +125,8 @@ iperf traffic 任务 = `TCPIP_PRIORITY`（持平）、SDIO 任务 = `TCPIP_PRIOR
+ 8. RX 直连入栈启用时 `LWIP_TCPIP_CORE_LOCKING = 1`
+ 9. RX 零拷贝启用时 `LWIP_SUPPORT_CUSTOM_PBUF` 必须**显式** `= 1`（默认推导式因
+    `LWIP_NETIF_TX_SINGLE_PBUF=1` 变 0），且驱动/平台消费端代码与基准同版本（§5）
++10. `CHECKSUM_BY_HARDWARE` **未定义**（AIC8800 无 TX 校验和 offload，开了两头都不算，DHCP 零 OFFER，§8.1）
++11. `LWIP_DONT_PROVIDE_BYTEORDER_FUNCTIONS = 1`（防 htons 宏化破坏 wpa 预编译库符号垫片，链接失败，§8.2）
+ 
+ ## 7. RAM 预算参考（G32S10X 实测值）
+ 
+@@ -137,3 +139,19 @@ iperf traffic 任务 = `TCPIP_PRIORITY`（持平）、SDIO 任务 = `TCPIP_PRIOR
+ 
+ RAM 紧张平台优先收缩 `PBUF_POOL_SIZE`（512→256/120）与 `MEM_SIZE`（128KB→96KB 且
+ 同步下调 `TCP_SND_BUF`），TCP 窗口参数按带宽积等比收缩。
++
++---
++
++## 8. 校验和与符号兼容（强制项，CCM4211 实测教训）
++
++### 8.1 `CHECKSUM_BY_HARDWARE` —— 禁止定义
++
++| 宏 | 值 | 说明 |
++|----|----|------|
++| `CHECKSUM_BY_HARDWARE` | **不定义**（注释掉） | **禁止**。AIC8800 固件无 TX IP/UDP/TCP 校验和 offload（netif flags 亦未挂 checksum 能力位）。平台 lwipopts.h 定义它会使 `CHECKSUM_GEN_IP` 等推导为 0 → lwIP 与硬件两头都不算校验和：STA 发出的 DHCP DISCOVER IP 头校验和恒为 0x0000 非法值，AP 侧丢包，零 OFFER（DHCP 建网失败但 EAPOL/ARP 等非 IP 帧握手正常，极具迷惑性）。CCM4211 空口抓包实测定位 |
++
++### 8.2 `LWIP_DONT_PROVIDE_BYTEORDER_FUNCTIONS` —— 必须定义
++
++| 宏 | 值 | 说明 |
++|----|----|------|
++| `LWIP_DONT_PROVIDE_BYTEORDER_FUNCTIONS` | `1`（**必须显式定义**） | 禁止 lwIP 提供 htons/htonl 兼容宏。lwip `def.h` 的 `#define htons(x) lwip_htons(x)` 会把驱动 platform 层的 `htons()` 包装函数（wpa 预编译库 `U htons` 符号垫片）整体改名为 `lwip_htons`，造成 `lwip_htons` 多重定义 + `htons` 符号缺失，链接失败（CCM4211 firmware.elf 实测）。与 `platform` 层 htons 垫片机制配套（见 project 记忆 htons 分层结论） |
+
+########## SConscript
+git : warning: in the working copy of 'D:/SiFli/SDK/SiFli-SDK-WiFi/SiFli-SDK/customer/peripherals/wifi/aic8800_rtos_dri
+ver/SConscript', LF will be replaced by CRLF the next time Git touches it
+所在位置 行:18 字符: 8
++   $d = git diff --no-index --no-color --unified=3 --ignore-cr-at-eol  ...
++        ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+    + CategoryInfo          : NotSpecified: (warning: in the... Git touches it:String) [], RemoteException
+    + FullyQualifiedErrorId : NativeCommandError
+ 
+warning: in the working copy of 'G:/Code/VScode/SF32_Code/SiFli_demos/aic8800_diff_sifli/aic8800_diff_sf32lb52x_sifli_g
+b4036bf_20261013/sdk_patch/platform/aic8800_rtos_driver/SConscript', LF will be replaced by CRLF the next time Git touc
+hes it
+diff --git a/D:/SiFli/SDK/SiFli-SDK-WiFi/SiFli-SDK/customer/peripherals/wifi/aic8800_rtos_driver/SConscript b/G:/Code/VScode/SF32_Code/SiFli_demos/aic8800_diff_sifli/aic8800_diff_sf32lb52x_sifli_gb4036bf_20261013/sdk_patch/platform/aic8800_rtos_driver/SConscript
+index bac53bcbc..ecfa5b6db 100644
+--- a/D:/SiFli/SDK/SiFli-SDK-WiFi/SiFli-SDK/customer/peripherals/wifi/aic8800_rtos_driver/SConscript
++++ b/G:/Code/VScode/SF32_Code/SiFli_demos/aic8800_diff_sifli/aic8800_diff_sf32lb52x_sifli_gb4036bf_20261013/sdk_patch/platform/aic8800_rtos_driver/SConscript
+@@ -53,6 +53,8 @@ CPPPATH = [
+     cwd + '/platform/rtos',
+     cwd + '/platform/wifi',
+     cwd + '/platform/uapapi/inc',
++    # RT-Thread Wi-Fi 管理框架头文件 (AIC8800_USE_RT_WLAN 时需要)
++    cwd + '/../../rtos/rtthread/components/drivers/wlan',
+ ]
+ 
+ # ============================================================================
+@@ -60,12 +62,11 @@ CPPPATH = [
+ #   AIC_BUILD_HOST_FROM_SOURCE 为 host 专用, platform 侧不需要。
+ # ============================================================================
+ CPPDEFINES = [
+-    'CONFIG_AIC8800D80N',
++    'CONFIG_AIC8800D80',
+     'USE_5G',
+     'CONFIG_SDIO_SUPPORT',
+     'AIC_HCI_OVER_SDIO',
+     'CONFIG_NO_WPA_MSG',
+-    'FW_LOG_AUTO_EN=1',
+     'CONFIG_RX_NOCOPY',
+     'SYS_SOCK_DEFINE',
+     'PLATFORM_NO_FILE',
+@@ -75,12 +76,12 @@ CPPDEFINES = [
+ ]
+ 
+ # ============================================================================
+-# 板级上电引脚 —— Kconfig AIC8800_RTOS_WIRELESS_PWR_GPIO (customer/peripherals/wifi/Kconfig)
+-# 注入为 AIC_WIRELESS_PWR_GPIO, 供 platform/hal/plat_port.c 使用; 未配置则不定义。
++# 条件纳入: RT-Thread Wi-Fi 管理框架对接层 (CONFIG_AIC8800_USE_RT_WLAN=y)
++#   wlan_dev.h 等框架头由 components/drivers/wlan/SConscript DefineGroup 全局注入 CPPPATH
+ # ============================================================================
+-pwr_gpio = GetConfigValue('AIC8800_RTOS_WIRELESS_PWR_GPIO')
+-if pwr_gpio != '':
+-    CPPDEFINES += ['AIC_WIRELESS_PWR_GPIO=' + str(pwr_gpio)]
++if GetDepend('AIC8800_USE_RT_WLAN'):
++    src.append(cwd + '/platform/wlan/aic8800_wlan_dev.c')
++    CPPDEFINES.append('AIC8800_USE_RT_WLAN')
+ 
+ group = DefineGroup('aic8800_rtos', src,
+     depend      = ['WIFI_USING_AIC8800_RTOS'],
+
+########## platform_config.mk
+git : warning: in the working copy of 'D:/SiFli/SDK/SiFli-SDK-WiFi/SiFli-SDK/customer/peripherals/wifi/aic8800_rtos_dri
+ver/platform_config.mk', LF will be replaced by CRLF the next time Git touches it
+所在位置 行:18 字符: 8
++   $d = git diff --no-index --no-color --unified=3 --ignore-cr-at-eol  ...
++        ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+    + CategoryInfo          : NotSpecified: (warning: in the... Git touches it:String) [], RemoteException
+    + FullyQualifiedErrorId : NativeCommandError
+ 
+warning: in the working copy of 'G:/Code/VScode/SF32_Code/SiFli_demos/aic8800_diff_sifli/aic8800_diff_sf32lb52x_sifli_g
+b4036bf_20261013/sdk_patch/platform/aic8800_rtos_driver/platform_config.mk', LF will be replaced by CRLF the next time 
+Git touches it
+diff --git a/D:/SiFli/SDK/SiFli-SDK-WiFi/SiFli-SDK/customer/peripherals/wifi/aic8800_rtos_driver/platform_config.mk b/G:/Code/VScode/SF32_Code/SiFli_demos/aic8800_diff_sifli/aic8800_diff_sf32lb52x_sifli_gb4036bf_20261013/sdk_patch/platform/aic8800_rtos_driver/platform_config.mk
+index b75505597..1e8087cac 100644
+--- a/D:/SiFli/SDK/SiFli-SDK-WiFi/SiFli-SDK/customer/peripherals/wifi/aic8800_rtos_driver/platform_config.mk
++++ b/G:/Code/VScode/SF32_Code/SiFli_demos/aic8800_diff_sifli/aic8800_diff_sf32lb52x_sifli_gb4036bf_20261013/sdk_patch/platform/aic8800_rtos_driver/platform_config.mk
+@@ -20,7 +20,7 @@
+ # ============================================================================
+ # 芯片型号 / 总线 / RTOS
+ # ============================================================================
+-AIC_CHIP_MODEL := D80N
++AIC_CHIP_MODEL := D80
+ AIC_BUS_TYPE   := SDIO
+ AIC_RTOS       := rtthread
+ 
+
+########## platform_config_cortex-m33.mk
+git : warning: in the working copy of 'D:/SiFli/SDK/SiFli-SDK-WiFi/SiFli-SDK/customer/peripherals/wifi/aic8800_rtos_dri
+ver/platform_config_cortex-m33.mk', LF will be replaced by CRLF the next time Git touches it
+所在位置 行:18 字符: 8
++   $d = git diff --no-index --no-color --unified=3 --ignore-cr-at-eol  ...
++        ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+    + CategoryInfo          : NotSpecified: (warning: in the... Git touches it:String) [], RemoteException
+    + FullyQualifiedErrorId : NativeCommandError
+ 
+warning: in the working copy of 'G:/Code/VScode/SF32_Code/SiFli_demos/aic8800_diff_sifli/aic8800_diff_sf32lb52x_sifli_g
+b4036bf_20261013/sdk_patch/platform/aic8800_rtos_driver/platform_config_cortex-m33.mk', LF will be replaced by CRLF the
+ next time Git touches it
+diff --git a/D:/SiFli/SDK/SiFli-SDK-WiFi/SiFli-SDK/customer/peripherals/wifi/aic8800_rtos_driver/platform_config_cortex-m33.mk b/G:/Code/VScode/SF32_Code/SiFli_demos/aic8800_diff_sifli/aic8800_diff_sf32lb52x_sifli_gb4036bf_20261013/sdk_patch/platform/aic8800_rtos_driver/platform_config_cortex-m33.mk
+index b75505597..1e8087cac 100644
+--- a/D:/SiFli/SDK/SiFli-SDK-WiFi/SiFli-SDK/customer/peripherals/wifi/aic8800_rtos_driver/platform_config_cortex-m33.mk
++++ b/G:/Code/VScode/SF32_Code/SiFli_demos/aic8800_diff_sifli/aic8800_diff_sf32lb52x_sifli_gb4036bf_20261013/sdk_patch/platform/aic8800_rtos_driver/platform_config_cortex-m33.mk
+@@ -20,7 +20,7 @@
+ # ============================================================================
+ # 芯片型号 / 总线 / RTOS
+ # ============================================================================
+-AIC_CHIP_MODEL := D80N
++AIC_CHIP_MODEL := D80
+ AIC_BUS_TYPE   := SDIO
+ AIC_RTOS       := rtthread
+ 
+
+########## lib/include/aic_chip_desc.h
+git : warning: in the working copy of 'D:/SiFli/SDK/SiFli-SDK-WiFi/SiFli-SDK/customer/peripherals/wifi/aic8800_rtos_dri
+ver/lib/include/aic_chip_desc.h', LF will be replaced by CRLF the next time Git touches it
+所在位置 行:18 字符: 8
++   $d = git diff --no-index --no-color --unified=3 --ignore-cr-at-eol  ...
++        ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+    + CategoryInfo          : NotSpecified: (warning: in the... Git touches it:String) [], RemoteException
+    + FullyQualifiedErrorId : NativeCommandError
+ 
+warning: in the working copy of 'G:/Code/VScode/SF32_Code/SiFli_demos/aic8800_diff_sifli/aic8800_diff_sf32lb52x_sifli_g
+b4036bf_20261013/sdk_patch/platform/aic8800_rtos_driver/lib/include/aic_chip_desc.h', LF will be replaced by CRLF the n
+ext time Git touches it
+diff --git a/D:/SiFli/SDK/SiFli-SDK-WiFi/SiFli-SDK/customer/peripherals/wifi/aic8800_rtos_driver/lib/include/aic_chip_desc.h b/G:/Code/VScode/SF32_Code/SiFli_demos/aic8800_diff_sifli/aic8800_diff_sf32lb52x_sifli_gb4036bf_20261013/sdk_patch/platform/aic8800_rtos_driver/lib/include/aic_chip_desc.h
+index c629f471c..6741a13ce 100644
+--- a/D:/SiFli/SDK/SiFli-SDK-WiFi/SiFli-SDK/customer/peripherals/wifi/aic8800_rtos_driver/lib/include/aic_chip_desc.h
++++ b/G:/Code/VScode/SF32_Code/SiFli_demos/aic8800_diff_sifli/aic8800_diff_sf32lb52x_sifli_gb4036bf_20261013/sdk_patch/platform/aic8800_rtos_driver/lib/include/aic_chip_desc.h
+@@ -69,6 +69,16 @@ struct aic_chip_desc {
+     /* msg TX cfm 轮询路径 (原 CONFIG_AIC8801 send_pkt 分支) */
+     uint8_t msgcfm_poll_path;
+ 
++    /* ---- msg 通道流控 ---- */
++
++    /* msg (hal msg) 发送免流控 (不查询 func1 flow_ctrl_reg credit)。
++     * D80N FW 不维护 msg fc (该寄存器恒 0), 必须置 1 直接发送,
++     * 对齐 Linux aicsdio.c aicwf_sdio_tx_msg 的型号特判。
++     * 缺省 0 = 流控 (原行为): 平台树 desc 表未同步本字段时行为不变,
++     * 无静默回归。DC/DW 流控由 func2 释放 (func_flag_tx) 动态决定,
++     * 与本字段无关 (见 sdio_co.c sdio_msg_fc_enabled())。 */
++    uint8_t msg_fc_bypass;
++
+     /* ---- FW 协议行为 ---- */
+ 
+     /* mm_get_sta_info_req 变长打包时附加 more_info 字节
+
+########## lib/include/drv_api/inc/netif_api.h
+git : warning: in the working copy of 'D:/SiFli/SDK/SiFli-SDK-WiFi/SiFli-SDK/customer/peripherals/wifi/aic8800_rtos_dri
+ver/lib/include/drv_api/inc/netif_api.h', LF will be replaced by CRLF the next time Git touches it
+所在位置 行:18 字符: 8
++   $d = git diff --no-index --no-color --unified=3 --ignore-cr-at-eol  ...
++        ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+    + CategoryInfo          : NotSpecified: (warning: in the... Git touches it:String) [], RemoteException
+    + FullyQualifiedErrorId : NativeCommandError
+ 
+warning: in the working copy of 'G:/Code/VScode/SF32_Code/SiFli_demos/aic8800_diff_sifli/aic8800_diff_sf32lb52x_sifli_g
+b4036bf_20261013/sdk_patch/platform/aic8800_rtos_driver/lib/include/drv_api/inc/netif_api.h', LF will be replaced by CR
+LF the next time Git touches it
+diff --git a/D:/SiFli/SDK/SiFli-SDK-WiFi/SiFli-SDK/customer/peripherals/wifi/aic8800_rtos_driver/lib/include/drv_api/inc/netif_api.h b/G:/Code/VScode/SF32_Code/SiFli_demos/aic8800_diff_sifli/aic8800_diff_sf32lb52x_sifli_gb4036bf_20261013/sdk_patch/platform/aic8800_rtos_driver/lib/include/drv_api/inc/netif_api.h
+index 1e54f083a..93db54388 100644
+--- a/D:/SiFli/SDK/SiFli-SDK-WiFi/SiFli-SDK/customer/peripherals/wifi/aic8800_rtos_driver/lib/include/drv_api/inc/netif_api.h
++++ b/G:/Code/VScode/SF32_Code/SiFli_demos/aic8800_diff_sifli/aic8800_diff_sf32lb52x_sifli_gb4036bf_20261013/sdk_patch/platform/aic8800_rtos_driver/lib/include/drv_api/inc/netif_api.h
+@@ -10,7 +10,7 @@
+ #include "aic_porting_types.h"
+ #include "netif_def.h"
+ 
+-typedef void (*aic_tx_cb)(uint32_t frame_id, bool acknowledged, void *arg);
++typedef void (*aic_tx_cb)(uintptr_t frame_id, bool acknowledged, void *arg);
+ 
+ uint32_t aic_offsetof(void);
+ 
+
+########## lib/include/drv_api/inc/netif_def.h
+git : warning: in the working copy of 'D:/SiFli/SDK/SiFli-SDK-WiFi/SiFli-SDK/customer/peripherals/wifi/aic8800_rtos_dri
+ver/lib/include/drv_api/inc/netif_def.h', LF will be replaced by CRLF the next time Git touches it
+所在位置 行:18 字符: 8
++   $d = git diff --no-index --no-color --unified=3 --ignore-cr-at-eol  ...
++        ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+    + CategoryInfo          : NotSpecified: (warning: in the... Git touches it:String) [], RemoteException
+    + FullyQualifiedErrorId : NativeCommandError
+ 
+warning: in the working copy of 'G:/Code/VScode/SF32_Code/SiFli_demos/aic8800_diff_sifli/aic8800_diff_sf32lb52x_sifli_g
+b4036bf_20261013/sdk_patch/platform/aic8800_rtos_driver/lib/include/drv_api/inc/netif_def.h', LF will be replaced by CR
+LF the next time Git touches it
+diff --git a/D:/SiFli/SDK/SiFli-SDK-WiFi/SiFli-SDK/customer/peripherals/wifi/aic8800_rtos_driver/lib/include/drv_api/inc/netif_def.h b/G:/Code/VScode/SF32_Code/SiFli_demos/aic8800_diff_sifli/aic8800_diff_sf32lb52x_sifli_gb4036bf_20261013/sdk_patch/platform/aic8800_rtos_driver/lib/include/drv_api/inc/netif_def.h
+index 1638d2cc9..e4cf79cd9 100644
+--- a/D:/SiFli/SDK/SiFli-SDK-WiFi/SiFli-SDK/customer/peripherals/wifi/aic8800_rtos_driver/lib/include/drv_api/inc/netif_def.h
++++ b/G:/Code/VScode/SF32_Code/SiFli_demos/aic8800_diff_sifli/aic8800_diff_sf32lb52x_sifli_gb4036bf_20261013/sdk_patch/platform/aic8800_rtos_driver/lib/include/drv_api/inc/netif_def.h
+@@ -20,8 +20,7 @@ struct fhost_cntrl_link;
+  * 依赖平台 LwIP 的 PBUF_LINK_ENCAPSULATION_HLEN >= 28 预留 hostdesc headroom
+  * （hostdesc 写入起始于 payload-14 处，须落在 pbuf 内存内；
+  *  若平台未满足该配置，逐帧判定 headroom 不足自动回退 copy，
+- *  功能不受影响但无零拷贝收益，可用 aicwf_platform_nocopy_aggr_copy 命中情况确认），
+- * 需同步重编 host 库（改变 struct net_tx_buf_tag 布局） */
++ *  功能不受影响但无零拷贝收益，可用 aicwf_platform_nocopy_aggr_copy 命中情况确认） */
+ #define NET_IF_UAP_NCPYBUF      (1)
+ 
+ typedef enum
+
+########## lib/include/drv_api/inc/wifi_api.h
+git : warning: in the working copy of 'D:/SiFli/SDK/SiFli-SDK-WiFi/SiFli-SDK/customer/peripherals/wifi/aic8800_rtos_dri
+ver/lib/include/drv_api/inc/wifi_api.h', LF will be replaced by CRLF the next time Git touches it
+所在位置 行:18 字符: 8
++   $d = git diff --no-index --no-color --unified=3 --ignore-cr-at-eol  ...
++        ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+    + CategoryInfo          : NotSpecified: (warning: in the... Git touches it:String) [], RemoteException
+    + FullyQualifiedErrorId : NativeCommandError
+ 
+warning: in the working copy of 'G:/Code/VScode/SF32_Code/SiFli_demos/aic8800_diff_sifli/aic8800_diff_sf32lb52x_sifli_g
+b4036bf_20261013/sdk_patch/platform/aic8800_rtos_driver/lib/include/drv_api/inc/wifi_api.h', LF will be replaced by CRL
+F the next time Git touches it
+diff --git a/D:/SiFli/SDK/SiFli-SDK-WiFi/SiFli-SDK/customer/peripherals/wifi/aic8800_rtos_driver/lib/include/drv_api/inc/wifi_api.h b/G:/Code/VScode/SF32_Code/SiFli_demos/aic8800_diff_sifli/aic8800_diff_sf32lb52x_sifli_gb4036bf_20261013/sdk_patch/platform/aic8800_rtos_driver/lib/include/drv_api/inc/wifi_api.h
+index d6638513f..29e7f231a 100644
+--- a/D:/SiFli/SDK/SiFli-SDK-WiFi/SiFli-SDK/customer/peripherals/wifi/aic8800_rtos_driver/lib/include/drv_api/inc/wifi_api.h
++++ b/G:/Code/VScode/SF32_Code/SiFli_demos/aic8800_diff_sifli/aic8800_diff_sf32lb52x_sifli_gb4036bf_20261013/sdk_patch/platform/aic8800_rtos_driver/lib/include/drv_api/inc/wifi_api.h
+@@ -39,11 +39,28 @@ typedef struct _aic_config_scan_chan
+ } aic_config_scan_chan;
+ 
+ #define MAX_AP_COUNT 64
++
++/* SSID 最大 32 字节 (802.11) + 1 字节 '\0' 结尾符 */
++#define WIFI_MAX_SSID_LEN 32
++
++/* 扫描 AP 认证/加密方式 (@ref wifi_ap_info_t.auth_mode) */
++typedef enum {
++    AIC_WIFI_AUTH_NONE = 0,     /* 开放系统 (无加密) */
++    AIC_WIFI_AUTH_WEP,          /* 共享密钥 (WEP) */
++    AIC_WIFI_AUTH_WPA_PSK,      /* WPA-PSK */
++    AIC_WIFI_AUTH_WPA2_PSK,     /* WPA2-PSK */
++    AIC_WIFI_AUTH_WPA3_SAE,     /* WPA3-SAE */
++    AIC_WIFI_AUTH_WPA2_WPA3,    /* WPA2/WPA3 混合 (PSK+SAE) */
++    AIC_WIFI_AUTH_OTHER,        /* 802.1X 企业级/其他 */
++} aic_wifi_auth_mode_e;
++
+ typedef struct wifi_ap_info {
+-    unsigned char   ssid[32];
++    unsigned char   ssid[WIFI_MAX_SSID_LEN + 1];    /* SSID, 恒以 '\0' 结尾; 隐藏 AP 填占位符 */
++    unsigned char   ssid_len;                       /* SSID 实际字节数, 隐藏 AP = 0 */
+     unsigned char   bssid[6];
+     unsigned int    channel;
+     unsigned int    rssi;
++    unsigned char   auth_mode;                      /* 认证/加密方式 @ref aic_wifi_auth_mode_e */
+ } wifi_ap_info_t;
+ 
+ typedef struct _wifi_ap_list
+
+########## lib/include/utils/inc/compiler.h
+git : warning: in the working copy of 'D:/SiFli/SDK/SiFli-SDK-WiFi/SiFli-SDK/customer/peripherals/wifi/aic8800_rtos_dri
+ver/lib/include/utils/inc/compiler.h', LF will be replaced by CRLF the next time Git touches it
+所在位置 行:18 字符: 8
++   $d = git diff --no-index --no-color --unified=3 --ignore-cr-at-eol  ...
++        ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+    + CategoryInfo          : NotSpecified: (warning: in the... Git touches it:String) [], RemoteException
+    + FullyQualifiedErrorId : NativeCommandError
+ 
+warning: in the working copy of 'G:/Code/VScode/SF32_Code/SiFli_demos/aic8800_diff_sifli/aic8800_diff_sf32lb52x_sifli_g
+b4036bf_20261013/sdk_patch/platform/aic8800_rtos_driver/lib/include/utils/inc/compiler.h', LF will be replaced by CRLF 
+the next time Git touches it
+diff --git a/D:/SiFli/SDK/SiFli-SDK-WiFi/SiFli-SDK/customer/peripherals/wifi/aic8800_rtos_driver/lib/include/utils/inc/compiler.h b/G:/Code/VScode/SF32_Code/SiFli_demos/aic8800_diff_sifli/aic8800_diff_sf32lb52x_sifli_gb4036bf_20261013/sdk_patch/platform/aic8800_rtos_driver/lib/include/utils/inc/compiler.h
+index f6597115b..0abb1bc66 100644
+--- a/D:/SiFli/SDK/SiFli-SDK-WiFi/SiFli-SDK/customer/peripherals/wifi/aic8800_rtos_driver/lib/include/utils/inc/compiler.h
++++ b/G:/Code/VScode/SF32_Code/SiFli_demos/aic8800_diff_sifli/aic8800_diff_sf32lb52x_sifli_gb4036bf_20261013/sdk_patch/platform/aic8800_rtos_driver/lib/include/utils/inc/compiler.h
+@@ -23,6 +23,13 @@
+ #endif
+ 
+ 
++#ifndef dbg_vsnprintf
+ #define dbg_vsnprintf vsnprintf
++#endif
++#ifndef dbg_vsprintf
+ #define dbg_vsprintf  vsprintf
++#endif
++
++/* 注: aicwf_dbg_snprintf 为平台 porting 接口 (plat_port.h 声明, plat_port.c 实现),
++ * 驱动侧直接调用该平台函数, 不在此定义同名宏, 避免与 stdio/平台函数声明冲突 */
+ #endif /* _AIC_COMPILER_H_ */
+
+########## platform/fmac/aic_chip_desc_port.c
+git : warning: in the working copy of 'D:/SiFli/SDK/SiFli-SDK-WiFi/SiFli-SDK/customer/peripherals/wifi/aic8800_rtos_dri
+ver/platform/fmac/aic_chip_desc_port.c', LF will be replaced by CRLF the next time Git touches it
+所在位置 行:18 字符: 8
++   $d = git diff --no-index --no-color --unified=3 --ignore-cr-at-eol  ...
++        ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+    + CategoryInfo          : NotSpecified: (warning: in the... Git touches it:String) [], RemoteException
+    + FullyQualifiedErrorId : NativeCommandError
+ 
+warning: in the working copy of 'G:/Code/VScode/SF32_Code/SiFli_demos/aic8800_diff_sifli/aic8800_diff_sf32lb52x_sifli_g
+b4036bf_20261013/sdk_patch/platform/aic8800_rtos_driver/platform/fmac/aic_chip_desc_port.c', LF will be replaced by CRL
+F the next time Git touches it
+diff --git a/D:/SiFli/SDK/SiFli-SDK-WiFi/SiFli-SDK/customer/peripherals/wifi/aic8800_rtos_driver/platform/fmac/aic_chip_desc_port.c b/G:/Code/VScode/SF32_Code/SiFli_demos/aic8800_diff_sifli/aic8800_diff_sf32lb52x_sifli_gb4036bf_20261013/sdk_patch/platform/aic8800_rtos_driver/platform/fmac/aic_chip_desc_port.c
+index b0149d3ae..28830f4b9 100644
+--- a/D:/SiFli/SDK/SiFli-SDK-WiFi/SiFli-SDK/customer/peripherals/wifi/aic8800_rtos_driver/platform/fmac/aic_chip_desc_port.c
++++ b/G:/Code/VScode/SF32_Code/SiFli_demos/aic8800_diff_sifli/aic8800_diff_sf32lb52x_sifli_gb4036bf_20261013/sdk_patch/platform/aic8800_rtos_driver/platform/fmac/aic_chip_desc_port.c
+@@ -17,6 +17,8 @@
+  * - sdio_sleep_ack_poll: sdio_co.c aicwf_sdio_bus_sleep_allow
+  * - sdio_misc_int_path / sdio_intmaskf2_decode: sdio_co.c rx intstatus 读取
+  * - msgcfm_poll_path:  sdio_co.c send_pkt 8801 cfm 轮询分支
++ * - msg_fc_bypass:     sdio_co.c aicwf_sdio_tx_msg 免流控 (仅 D80N=1,
++ *                      对齐 Linux aicsdio.c tx_msg 型号特判; 缺省 0=流控)
+  * - sta_info_more_info: lmac_msg.h mm_get_sta_info_req.more_info (变长打包)
+  * - supports_5g:      USE_5G 宏 (fhost_config.c 信道表/rwnx_main.c stack_start)
+  */
+@@ -34,6 +36,7 @@ static const struct aic_chip_desc aic_chip_desc_table[] = {
+         .sdio_misc_int_path = 0,
+         .sdio_intmaskf2_decode = 0,
+         .msgcfm_poll_path   = 1,
++        .msg_fc_bypass      = 0,
+         .sta_info_more_info = 0,
+         .supports_5g        = 0,
+     },
+@@ -47,6 +50,7 @@ static const struct aic_chip_desc aic_chip_desc_table[] = {
+         .sdio_misc_int_path = 0,
+         .sdio_intmaskf2_decode = 0,
+         .msgcfm_poll_path   = 0,
++        .msg_fc_bypass      = 0,
+         .sta_info_more_info = 0,
+         .supports_5g        = 0,
+     },
+@@ -60,6 +64,7 @@ static const struct aic_chip_desc aic_chip_desc_table[] = {
+         .sdio_misc_int_path = 0,
+         .sdio_intmaskf2_decode = 0,
+         .msgcfm_poll_path   = 0,
++        .msg_fc_bypass      = 0,
+         .sta_info_more_info = 0,
+         .supports_5g        = 0,
+     },
+@@ -73,6 +78,7 @@ static const struct aic_chip_desc aic_chip_desc_table[] = {
+         .sdio_misc_int_path = 1,
+         .sdio_intmaskf2_decode = 1,
+         .msgcfm_poll_path   = 0,
++        .msg_fc_bypass      = 0,
+         .sta_info_more_info = 1,
+         .supports_5g        = 1,
+     },
+@@ -86,6 +92,7 @@ static const struct aic_chip_desc aic_chip_desc_table[] = {
+         .sdio_misc_int_path = 1,
+         .sdio_intmaskf2_decode = 1,
+         .msgcfm_poll_path   = 0,
++        .msg_fc_bypass      = 1,
+         .sta_info_more_info = 1,
+         .supports_5g        = 1,
+     },
+@@ -99,6 +106,7 @@ static const struct aic_chip_desc aic_chip_desc_table[] = {
+         .sdio_misc_int_path = 1,
+         .sdio_intmaskf2_decode = 1,
+         .msgcfm_poll_path   = 0,
++        .msg_fc_bypass      = 0,
+         .sta_info_more_info = 0,   /* X2 不带 more_info (原宏仅 D80/D80N) */
+         .supports_5g        = 1,
+     },
+
+########## platform/hal/plat_port.c
+git : warning: in the working copy of 'D:/SiFli/SDK/SiFli-SDK-WiFi/SiFli-SDK/customer/peripherals/wifi/aic8800_rtos_dri
+ver/platform/hal/plat_port.c', LF will be replaced by CRLF the next time Git touches it
+所在位置 行:18 字符: 8
++   $d = git diff --no-index --no-color --unified=3 --ignore-cr-at-eol  ...
++        ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+    + CategoryInfo          : NotSpecified: (warning: in the... Git touches it:String) [], RemoteException
+    + FullyQualifiedErrorId : NativeCommandError
+ 
+warning: in the working copy of 'G:/Code/VScode/SF32_Code/SiFli_demos/aic8800_diff_sifli/aic8800_diff_sf32lb52x_sifli_g
+b4036bf_20261013/sdk_patch/platform/aic8800_rtos_driver/platform/hal/plat_port.c', LF will be replaced by CRLF the next
+ time Git touches it
+diff --git a/D:/SiFli/SDK/SiFli-SDK-WiFi/SiFli-SDK/customer/peripherals/wifi/aic8800_rtos_driver/platform/hal/plat_port.c b/G:/Code/VScode/SF32_Code/SiFli_demos/aic8800_diff_sifli/aic8800_diff_sf32lb52x_sifli_gb4036bf_20261013/sdk_patch/platform/aic8800_rtos_driver/platform/hal/plat_port.c
+index 7888e9dcf..eca666b8e 100644
+--- a/D:/SiFli/SDK/SiFli-SDK-WiFi/SiFli-SDK/customer/peripherals/wifi/aic8800_rtos_driver/platform/hal/plat_port.c
++++ b/G:/Code/VScode/SF32_Code/SiFli_demos/aic8800_diff_sifli/aic8800_diff_sf32lb52x_sifli_gb4036bf_20261013/sdk_patch/platform/aic8800_rtos_driver/platform/hal/plat_port.c
+@@ -7,33 +7,19 @@
+ #include "aic_log.h"
+ #include "plat_port.h"
+ #include "compiler.h"
+-#include "rtos_port.h"
+ #include <stdarg.h>
+ // [PLATFORM] RT-Thread 平台头文件
+ #ifdef RT_THREAD
+ #include <rtthread.h>
+-#include <drivers/pin.h>
+ #endif
+ #include "aic_assert.h"
+ #include <stdio.h>
+-#include <string.h>
+ #include "userconfig.h"
+ 
+ #ifndef LINE
+ #define LINE "\r\n"
+ #endif
+ 
+-/* 上电引脚: 由 Kconfig AIC8800_RTOS_WIRELESS_PWR_GPIO 经 SConscript 注入;
+- * 值为负表示未接/未配置, 此时不做任何 GPIO 操作, 由硬件自行保证上电。 */
+-#ifndef AIC_WIRELESS_PWR_GPIO
+-#define AIC_WIRELESS_PWR_GPIO (-1)
+-#endif
+-
+-/* 上电时序参数 (参考 aic8800d40 驱动 aic8800_ele):
+- * 拉低 -> 延时 -> 拉高 -> 延时等待芯片 ROM 启动 */
+-#define AIC_WIFI_PWR_OFF_MS     (10)
+-#define AIC_WIFI_PWR_ON_MS      (200)
+-
+ /* Task Priority */
+ uint32_t sdio_datrx_priority       = SDIO_DATRX_PRIORITY;
+ uint32_t sdio_oobirq_priority      = SDIO_OOBIRQ_PRIORITY;
+@@ -78,73 +64,31 @@ int aicwifi_vrf_mode = VRF_DCDC_MODE;
+ //wpa debug level
+ int aicwifi_wpa_log_level = WPA_MSG_INFO; /* DEBUG 会刷屏 RX_MGMT / 邻 BSS beacon */
+ 
+-/* 上电引脚编号, 负值表示无效 */
+-static int aicwf_wifi_pwr_pin = -1;
+-
+-/* 首次上电时序完成(由板级 INIT_BOARD 触发)后置位, 用于屏蔽之后多余的电源循环。
+- * 预编译库 aic_wifi_open() 内部仍会执行一次 pin_init/disable/10ms/enable, 但该时刻
+- * SDIO 已完成枚举并工作在 4bit/高速模式, 芯片一掉电复位就会丢失 RCA 与总线宽度配置,
+- * 而主机不会再枚举, 导致后续 CMD52 全部超时(实机日志 0x18001)。
+- * 参考 aic8800d40 驱动: 同样的电源循环在 aic8800_init() 中是被 #if 0 屏蔽的。 */
+-static rt_bool_t aicwf_wifi_pwr_locked = RT_FALSE;
+-
+-static void aicwf_wifi_pwr_pin_set(int on)
+-{
+-    if (aicwf_wifi_pwr_pin >= 0)
+-    {
+-        rt_pin_write(aicwf_wifi_pwr_pin, on ? PIN_HIGH : PIN_LOW);
+-    }
+-}
+-
+ /**
+  * @brief 初始化WiFi电源引脚（平台相关）
+- * @note 引脚号来自 Kconfig AIC8800_RTOS_WIRELESS_PWR_GPIO (经 SConscript 注入
+- *       为 AIC_WIRELESS_PWR_GPIO); 为负则视为未使用, 后续操作全部跳过。
++ * @note 当前为空实现，需根据具体硬件平台补充
+  */
+ void aicwf_platform_pwr_wifi_pin_init(void)
+ {
+-    if (aicwf_wifi_pwr_pin >= 0)
+-    {
+-        return; /* 已初始化过, 不重复配置 */
+-    }
+-
+-    aicwf_wifi_pwr_pin = AIC_WIRELESS_PWR_GPIO;
+-    if (aicwf_wifi_pwr_pin >= 0)
+-    {
+-        rt_pin_mode(aicwf_wifi_pwr_pin, PIN_MODE_OUTPUT);
+-        DBG_CMN_INF("wifi pwr pin = %d\n", aicwf_wifi_pwr_pin);
+-    }
++    // To add
+ }
+ 
+ /**
+  * @brief 使能WiFi电源引脚（平台相关）
+- * @note 首次拉高(板级上电时序)后置位 aicwf_wifi_pwr_locked, 之后不再重复操作。
++ * @note 当前为空实现，需根据具体硬件平台补充
+  */
+ void aicwf_platform_pwr_wifi_pin_enable(void)
+ {
+-    if (aicwf_wifi_pwr_locked)
+-    {
+-        return;
+-    }
+-
+-    aicwf_wifi_pwr_pin_set(1);
+-    aicwf_wifi_pwr_locked = RT_TRUE;
++    // To add
+ }
+ 
+ /**
+  * @brief 禁用WiFi电源引脚（平台相关）
+- * @note 上电时序完成后调用会被忽略: 此时 SDIO 已枚举, 掉电会让芯片复位并使
+- *       后续 CMD52 超时; 需要真正断电/复位请走 aicwf_sdio_pdn_wifi()/
+- *       aicwf_sdio_reset_wifi() (它们会先解除该保护)。
++ * @note 当前为空实现，需根据具体硬件平台补充
+  */
+ void aicwf_platform_pwr_wifi_pin_disable(void)
+ {
+-    if (aicwf_wifi_pwr_locked)
+-    {
+-        return;
+-    }
+-
+-    aicwf_wifi_pwr_pin_set(0);
++    // To add
+ }
+ 
+ /**
+@@ -215,41 +159,30 @@ void aicwf_hal_switchPP(uint8_t lvl)
+ /**
+  * @brief SDIO复位WiFi芯片
+  * @return 0=成功, 非0=失败
+- * @note 本板无独立复位脚, 复位由 aicwf_sdio_reset_wifi() 的电源循环完成;
+- *       SDIO 总线本身由 MMC 核心重新枚举, 此处直接返回成功。
++ * @note 当前为空实现，需根据具体硬件平台补充
+  */
+ int aicwf_sdio_reset(void)
+ {
++    // To add
+     return 0;
+ }
+ 
+ /**
+  * @brief 通过SDIO下电WiFi（平台相关）
+- * @note 拉低电源脚; 未配置上电脚时为空操作。属于显式断电操作, 先解除上电保护。
++ * @note 当前为空实现，需根据具体硬件平台补充
+  */
+ void aicwf_sdio_pdn_wifi(void)
+ {
+-    aicwf_wifi_pwr_locked = RT_FALSE;
+-    aicwf_platform_pwr_wifi_pin_disable();
++    // To add
+ }
+ 
+ /**
+  * @brief 硬件复位WiFi芯片（平台相关）
+- * @note 无独立复位脚, 用电源循环等效复位 (时序同 aicwf_wifi_power_on)。
+- *       属于显式复位操作, 先解除上电保护; 完成后 SDIO 需由 MMC 核心重新枚举。
++ * @note 当前为空实现，需根据具体硬件平台补充
+  */
+ void aicwf_sdio_reset_wifi(void)
+ {
+-    if (aicwf_wifi_pwr_pin < 0)
+-    {
+-        return;
+-    }
+-
+-    aicwf_wifi_pwr_locked = RT_FALSE;
+-    aicwf_platform_pwr_wifi_pin_disable();
+-    aicwf_rtos_msleep(AIC_WIFI_PWR_OFF_MS);
+-    aicwf_platform_pwr_wifi_pin_enable();
+-    aicwf_rtos_msleep(AIC_WIFI_PWR_ON_MS);
++    // To add
+ }
+ 
+ /**
+@@ -264,13 +197,12 @@ void aicwf_ATRESP(int handle, int type, int level, char *buf)
+     (void)handle;
+     (void)type;
+     (void)level;
+-    /* 始终打到串口，避免仅依赖 DBG_CMN 模块开关时看不到扫描/连接结果 */
+-#ifdef RT_THREAD
++    /* [BUGFIX] (共性回流) 经 AIC 调试日志输出: 串口抓包只采集 [AIC][*] DBG 输出,
++     * 原实现 RT_THREAD 下仅 rt_kprintf / 非 RT_THREAD 仅 DBG_CMN_INF(受模块
++     * 开关门控), 扫描/连接结果 (+OK / [n]:rssi=...) 在 AIC 抓包日志中不可见。
++     * 平台另有控制台输出需求时在此追加 (如 RT-Thread rt_kprintf) */
+     if (buf)
+-        rt_kprintf("%s\n", buf);
+-#else
+-    DBG_CMN_INF("%s\n", buf);
+-#endif
++        DBG_APP_INF("%s\n", buf);
+ }
+ /**
+  * @brief 十六进制dump数据缓冲区（调试用）
+@@ -357,11 +289,41 @@ void aicwf_dump_buffer(char* tag, uint8_t *data, uint32_t len)
+  * @param value GPIO输出值
+  * @note 根据具体硬件平台的GPIO引脚配置调整
+  */
++/* GPIO 触发引脚映射表: 触发 id (DRV_TRG_*, 逻辑概念, 定义于 plat_port.h)
++ * → 板级 GPIO 引脚 (物理概念)。id 与 pin 相互独立, 默认平台两者取值恰好一致,
++ * 故默认映射表直接引用 DRV_TRG_*。其他平台适配时仅需修改本表引脚值与
++ * 下方实际输出调用。 */
++#define AIC_TRG_GPIO_SDIO       DRV_TRG_SDIO
++#define AIC_TRG_GPIO_SDIO_RX    DRV_TRG_SDIO_RX
++#define AIC_TRG_GPIO_FHOST_RX   DRV_TRG_FHOST_RX
++#define AIC_TRG_GPIO_FHOST_TX   DRV_TRG_FHOST_TX
++#define AIC_TRG_GPIO_NET_TX     DRV_TRG_NET_TX
++#define AIC_TRG_GPIO_POWCTR     DRV_TRG_POWCTR
++#define AIC_TRG_GPIO_USB        DRV_TRG_USB
++
+ void aicwf_plat_gpio_trigger(uint8_t id,uint8_t value)
+ {
+-    /* RT-Thread GPIO API - 需要根据实际硬件定义引脚编号 */
+-    /* rt_pin_mode(id, PIN_MODE_OUTPUT); */
+-    /* rt_pin_write(id, value ? PIN_HIGH : PIN_LOW); */
++    uint8_t pin;
++
++    /* id → pin 映射: 各触发点对应的板级引脚由平台映射表决定 */
++    switch (id) {
++    case DRV_TRG_SDIO:      pin = AIC_TRG_GPIO_SDIO;      break;
++    case DRV_TRG_SDIO_RX:   pin = AIC_TRG_GPIO_SDIO_RX;   break;
++    case DRV_TRG_FHOST_RX:  pin = AIC_TRG_GPIO_FHOST_RX;  break;
++    case DRV_TRG_FHOST_TX:  pin = AIC_TRG_GPIO_FHOST_TX;  break;
++    case DRV_TRG_NET_TX:    pin = AIC_TRG_GPIO_NET_TX;    break;
++    case DRV_TRG_POWCTR:    pin = AIC_TRG_GPIO_POWCTR;    break;
++    case DRV_TRG_USB:       pin = AIC_TRG_GPIO_USB;       break;
++    default:
++        return; /* 未知触发 id, 忽略 */
++    }
++
++    /* [PLATFORM] 实际 GPIO 输出调用, 各平台按自身 SDK API 实现, 例:
++     * RT-Thread: rt_pin_mode(pin, PIN_MODE_OUTPUT);
++     *            rt_pin_write(pin, value ? PIN_HIGH : PIN_LOW);
++     * 其他:      gpio_direction_output(pin, value); */
++    (void)pin;
++    (void)value;
+ }
+ 
+ // ============================================================
+@@ -447,8 +409,7 @@ int aicwf_log_printf(const char *fmt, ...)
+     va_end(ap);
+ 
+     if (r > 0) {
+-        // if(strstr(log_buf, "Interrupt but no data") == RT_NULL)
+-            rt_kprintf("%s", log_buf);
++        rt_kprintf("%s", log_buf);
+     }
+ #else
+     r = vsnprintf(log_buf, sizeof(log_buf), fmt, ap);
+
+########## platform/hal/sdio_port.c
+git : warning: in the working copy of 'D:/SiFli/SDK/SiFli-SDK-WiFi/SiFli-SDK/customer/peripherals/wifi/aic8800_rtos_dri
+ver/platform/hal/sdio_port.c', LF will be replaced by CRLF the next time Git touches it
+所在位置 行:18 字符: 8
++   $d = git diff --no-index --no-color --unified=3 --ignore-cr-at-eol  ...
++        ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+    + CategoryInfo          : NotSpecified: (warning: in the... Git touches it:String) [], RemoteException
+    + FullyQualifiedErrorId : NativeCommandError
+ 
+warning: in the working copy of 'G:/Code/VScode/SF32_Code/SiFli_demos/aic8800_diff_sifli/aic8800_diff_sf32lb52x_sifli_g
+b4036bf_20261013/sdk_patch/platform/aic8800_rtos_driver/platform/hal/sdio_port.c', LF will be replaced by CRLF the next
+ time Git touches it
+diff --git a/D:/SiFli/SDK/SiFli-SDK-WiFi/SiFli-SDK/customer/peripherals/wifi/aic8800_rtos_driver/platform/hal/sdio_port.c b/G:/Code/VScode/SF32_Code/SiFli_demos/aic8800_diff_sifli/aic8800_diff_sf32lb52x_sifli_gb4036bf_20261013/sdk_patch/platform/aic8800_rtos_driver/platform/hal/sdio_port.c
+index 1e01e5291..a894503ab 100644
+--- a/D:/SiFli/SDK/SiFli-SDK-WiFi/SiFli-SDK/customer/peripherals/wifi/aic8800_rtos_driver/platform/hal/sdio_port.c
++++ b/G:/Code/VScode/SF32_Code/SiFli_demos/aic8800_diff_sifli/aic8800_diff_sf32lb52x_sifli_gb4036bf_20261013/sdk_patch/platform/aic8800_rtos_driver/platform/hal/sdio_port.c
+@@ -135,21 +135,6 @@ uint8_t config_rxtask_insdio = CONFIG_RXTASK_INSDIO_DEFAULT;
+ uint8_t config_irq_sus = CONFIG_IRQ_SUS_DEFAULT;
+ //sdio rxdata mode
+ unsigned char aicwifi_sdio_rxdata_mode = CONFIG_RX_POLLING_DEFAULT;
+-
+-/* ==========================================================================
+- * SDIO(DAT1) 中断风暴规避 —— 只保留"不放开 SDIO 中断"这一处开关
+- *
+- * 原因: SDHCI 的 SDHCI_INT_CARD_INT 是电平中断(DAT1 被卡拉低期间一直有效),
+- *       而库内 aicwf_sdio_rx_task 每轮结束都无条件 sdio_host_enable_isr(TRUE),
+- *       形成 "中断->唤醒RX任务->读 intstatus=0->再放开中断->立刻又中断" 死循环。
+- *       该中断 NVIC 优先级高于串口, 串口 RX 永远得不到服务 => shell 收不到输入,
+- *       表现成"整机卡死"(只打印一次 "msh />", 之后回车无回显)。
+- *
+- * 规避: g_sdio_irq_mask_forced = 1 时, 本文件所有 "使能 SDIO 中断" 的路径都改
+- *       成保持屏蔽; 收包由库内 10ms 轮询兜底
+- *       (需同时把 aicwifi_sdio_rxdata_mode 置 1, 见 example/aic8800_d80/src/main.c)。
+- * ========================================================================== */
+-uint32_t g_sdio_irq_mask_forced = 0;            /* 1 = 不放开 SDIO 中断 */
+ // [PLATFORM] sdio_func / SDIOM_MAX_FUNCS 由平台 SDIO 头文件定义
+ // TODO: [AIC8800-PORT] 确认平台 struct sdio_func 成员命名一致
+ struct sdio_func *sdio_function_local[SDIOM_MAX_FUNCS];
+@@ -169,12 +154,8 @@ static void (*host_sdio_irq_cb)(void);
+ static struct sdio_device_id aic_sdio_ids[] =
+ {
+ #if defined(CONFIG_AIC8800D80) || defined(CONFIG_AIC8800D80N)
+-	/* D80 系列: D80 / D80N / D80LN / D80WN / D40N / D40LN / D40WN / D80X2
+-	 * 首条 product 用 SDIO_ANY_PROD_ID: 平台的 sdio_match_card() 只比卡级(func 0)
+-	 * 公共 CIS 中的 product, 且只取本表首条, 逐个型号列出只有第一条会生效;
+-	 * 具体型号由 probe 内 aicwf_sdio_chipmatch() 按卡级 PID 判定
+-	 * (D80=0x0082, D80N=0x9081, D80LN=0x9082, D80WN=0x9083, ...) */
+-	{DEVICE_FUNC_CODE, SDIO_VENDOR_ID_AIC8800D80,  SDIO_ANY_PROD_ID},
++	/* D80 系列: D80 / D80N / D80LN / D80WN / D40N / D40LN / D40WN / D80X2 */
++	{DEVICE_FUNC_CODE, SDIO_VENDOR_ID_AIC8800D80,  SDIO_DEVICE_ID_AIC8800D80},
+ 	{DEVICE_FUNC_CODE, SDIO_VENDOR_ID_AIC8800D80N, SDIO_DEVICE_ID_AIC8800D80N},
+ 	{DEVICE_FUNC_CODE, SDIO_VENDOR_ID_AIC8800D80N, SDIO_DEVICE_ID_AIC8800D80LN},
+ 	{DEVICE_FUNC_CODE, SDIO_VENDOR_ID_AIC8800D80N, SDIO_DEVICE_ID_AIC8800D80WN},
+@@ -238,13 +219,11 @@ static rt_int32_t __aicwf_aic_drv_init(struct mmcsd_card * card)
+ 	for (i = 0; i < SDIOM_MAX_FUNCS; i++)
+ 		sdio_function_local[i] = NULL;
+ 
+-	/* 平台数组下标即功能号: [0]=FUNC0(公共控制区), [1..N]=各 I/O 功能,
+-	 * 合法上界是 sdio_function_num(含), 共 sdio_function_num+1 项,
+-	 * 故本地下标上界取 min(sdio_function_num, SDIOM_MAX_FUNCS-1) */
+-	num = co_min(card->sdio_function_num, (uint8_t)(SDIOM_MAX_FUNCS - 1));
++	num = co_min(card->sdio_function_num, SDIOM_MAX_FUNCS);
+ 
+-	// 按 func->num 映射：索引必须与实际功能号对齐，不匹配的槽位保持 NULL
+-	for (i = 0; i <= num; i++) {
++	// 按 func->num 映射：平台 SDIO function 列表可能不含 FUNC0，
++	// 索引必须与实际功能号对齐，不匹配的槽位保持 NULL
++	for (i = 0; i < num; i++) {
+ 		struct sdio_func *f = card->sdio_function[i];
+ 		func_idx = f->num;
+ 		if (func_idx >= SDIOM_MAX_FUNCS) {
+@@ -521,6 +500,16 @@ int aicwf_sdio_readsb(uint32_t func_num, void *dst, unsigned int addr, int count
+     struct sdio_func *func = sdio_function_local[func_num];
+     
+     SDIO_PRE_OP();
++
++#ifdef CONFIG_SDIO_ADMA
++    /* [PLATFORM] ADMA 读分支需平台实现: 单缓冲 DMA 读 + 读后 CacheInvalidate
++     * (DMA 写入的 cache line 必须先失效再被 CPU 读取)。见 port/inc/sdio_port.h
++     * 的 ADMA 契约与 aidoc/adma平台移植参考.md。
++     * 本参考平台未实现 —— 显式拦截, 避免把 ADMA 语义下的 count 当作字节数
++     * 走普通块读, 造成静默数据错误。 */
++#error "CONFIG_SDIO_ADMA: implement aicwf_sdio_readsb() ADMA branch for this platform (see port/inc/sdio_port.h ADMA contract)"
++#endif
++
+     aicwf_rtos_mutex_lock(sdio_dev.bus_txrx, -1);
+     ret = aic_sdio_io_rw_extended_block(func, 0, addr, 0, (uint8_t *)dst, count);
+     aicwf_rtos_mutex_unlock(sdio_dev.bus_txrx);
+@@ -546,6 +535,15 @@ int aicwf_sdio_writesb(uint32_t func_num, unsigned int addr, void *src, int coun
+     struct sdio_func *func = sdio_function_local[func_num];
+     SDIO_PRE_OP();
+ 
++#ifdef CONFIG_SDIO_ADMA
++    /* [PLATFORM] ADMA 写分支需平台实现: src = const sdio_sg_list *,
++     * count = 段数 → 交给平台 DMA/描述符机制 (如 ASR/064:
++     * NU_SDIODrv_Write_Memory_sg(addr, sg_list, segcnt)), 每段 CacheClean +
++     * 同步屏障, 并以 PROTECT_TX_ADMA 等价手段保证发送完成前缓冲不被复用。
++     * 见 port/inc/sdio_port.h 的 ADMA 契约与 aidoc/adma平台移植参考.md。 */
++#error "CONFIG_SDIO_ADMA: implement aicwf_sdio_writesb() ADMA branch for this platform (see port/inc/sdio_port.h ADMA contract)"
++#endif
++
+     aicwf_rtos_mutex_lock(sdio_dev.bus_txrx, -1);
+     ret = aic_sdio_io_rw_extended_block(func, 1, addr, 0, (uint8_t *)src, count);
+     aicwf_rtos_mutex_unlock(sdio_dev.bus_txrx);
+@@ -773,39 +771,6 @@ bool aicwf_sdio_writeb_cmd52_by_num(uint32_t func_num, uint32_t addr, uint8_t da
+     return true;
+ }
+ 
+-/* ---------------------------------------------------------------------------
+- * D80N(0x9082) flow-ctrl 读重定向的阶段开关   [AIC8800-PORT][SiFli]
+- *
+- * 背景(证据见 example/aic8800_d80/docs/aic8800d80n_flowctrl_q1q2_vendor_report.md):
+- *   库把 sdio_reg.flow_ctrl_reg 硬编码为 Q1(0x03), 且数据通路与 msg(cfg) 通路
+- *   共用这一个字段; 而本芯片 ROM/CINIT/PATCH/CALIB 阶段只有 Q2(0x09) 有 TX 信用
+- *   (Q1 恒 0, Q2 恒 2; 且必须先哑读一次 Q1, Q2 才有效), 故在 func1 CMD52 读入口做
+- *   0x03 -> 0x09 的读侧重定向。该规避让初始化 100% 通过。
+- *
+- * 遗留问题: 重定向此前无条件且永久生效, 于是补丁 FW 跑起来之后:
+- *   · msg  通路判据 fc_reg != 0        -> Q2=2 通过   -> 扫描/认证/关联 OK
+- *   · 数据 通路判据 fc_reg >  THRESH(2) -> Q2=2 不通过 -> data fc:-2,
+- *     EAPOL(msg2/4) 永远发不出芯片 -> AP 每秒重发 msg1/4, 4 次后 deauth
+- *     reason=15(4WAY_HANDSHAKE_TIMEOUT) —— 即握手失败、连接超时。
+- *
+- * 本开关把重定向限定在真正需要的阶段, 以便实测"FW 运行后 Q1 是多少":
+- *   AIC_FC_Q1_AFTER_FWBOOT = 1: FW 就绪后停止重定向, 直读真实 Q1(0x03)
+- *                               Q1 > 2  -> 数据通路立刻可用(握手可完成)
+- *                               Q1 == 0 -> msg 通路退化为 msg fc:0(同修复前现象)
+- *   AIC_FC_Q1_AFTER_FWBOOT = 0: 保持原行为(永远读 Q2), 仅作 A/B 对照
+- *
+- *   AIC_FC_RAW_DBG = 1: 每 AIC_FC_RAW_DBG_PERIOD 次 flow-ctrl 读, 附带打印一次
+- *                       raw Q1/Q2(默认关闭: 报告 §3(4) 记录反复访问 Q1 会触发票
+- *                       芯片侧 "sdio func1 error bit:800, func1 free cnt=0, ...")
+- * ------------------------------------------------------------------------- */
+-#define AIC_FC_Q1_AFTER_FWBOOT   1
+-#define AIC_FC_RAW_DBG           0
+-#define AIC_FC_RAW_DBG_PERIOD    2000
+-
+-/* 1 = ROM/CINIT/PATCH/CALIB 阶段: 读 Q1 即重定向到 Q2;
+- * 由 aicwf_sdio_enable_irq_after_fw_boot() 在补丁 FW 启动成功后清零 */
+-static volatile int g_fc_redirect_q2 = 1;
+-
+ /**
+  * @brief SDIO CMD52单字节读（Function 1）
+  * @param addr 寄存器地址
+@@ -814,60 +779,6 @@ static volatile int g_fc_redirect_q2 = 1;
+  */
+ bool aicwf_sdio_readb_cmd52(uint32_t addr, uint8_t *data)
+ {
+-    if (addr == SDIOWIFI_FLOW_CTRL_Q1_REG_V3)
+-    {
+-        /* "前 5 次先哑读 Q1/Q2"
+-         * 与两次 rt_kprintf 造成的延时都被观察到是承重的：
+-         *   · 去掉本段(直接读 Q2)                          -> 拿不到信用，启动失败
+-         *   · 每次都哑读 Q1 再读 Q2(无延时)                -> 芯片反复报
+-         *        "sdio func1 error bit:800, func1 free cnt=0, func1 free queue2 cnt=2"
+-         *        并需要重试很多次才成功（反复访问 Q1 会招惹芯片）
+-         * [AIC8800-PORT][SiFli] 本段是 ROM/CINIT 阶段 Q2 给出有效信用的必要条件,
+-         * 与阶段无关地原样保留, 不做任何时序改动 */
+-        static uint32_t fc_dbg_cnt = 0;
+-        uint8_t v = 0;
+-        bool ok;
+-
+-        fc_dbg_cnt++;
+-
+-        if (fc_dbg_cnt <= 5)
+-        {
+-            uint8_t v03 = 0, v09 = 0;
+-            bool ok03 = aicwf_sdio_readb_cmd52_by_num(FUNC_1, SDIOWIFI_FLOW_CTRL_Q1_REG_V3, &v03);
+-            bool ok09 = aicwf_sdio_readb_cmd52_by_num(FUNC_1, SDIOWIFI_FLOW_CTRL_Q2_REG_V3, &v09);
+-            rt_kprintf("[AICFC] #%u raw 0x03=%u(ok%d) 0x09=%u(ok%d) chipid=%u field=0x%02x redir=%d\n",
+-                       fc_dbg_cnt, v03, ok03, v09, ok09,
+-                       g_runtime_chipid, sdio_dev.sdio_reg.flow_ctrl_reg, g_fc_redirect_q2);
+-        }
+-#if AIC_FC_RAW_DBG
+-        else if ((AIC_FC_RAW_DBG_PERIOD != 0) && ((fc_dbg_cnt % AIC_FC_RAW_DBG_PERIOD) == 0))
+-        {
+-            /* 周期探针: 观察 FW 运行后 Q1/Q2 是否变化 (默认关闭, 原因见开关处说明) */
+-            uint8_t v03 = 0, v09 = 0;
+-            bool ok03 = aicwf_sdio_readb_cmd52_by_num(FUNC_1, SDIOWIFI_FLOW_CTRL_Q1_REG_V3, &v03);
+-            bool ok09 = aicwf_sdio_readb_cmd52_by_num(FUNC_1, SDIOWIFI_FLOW_CTRL_Q2_REG_V3, &v09);
+-            rt_kprintf("[AICFC] #%u raw 0x03=%u(ok%d) 0x09=%u(ok%d) redir=%d\n",
+-                       fc_dbg_cnt, v03, ok03, v09, ok09, g_fc_redirect_q2);
+-        }
+-#endif
+-
+-        /* [AIC8800-PORT][SiFli] 仅在"需要重定向的阶段"且为 D80N 时才翻译到 Q2;
+-         * g_fc_redirect_q2 被 aicwf_sdio_enable_irq_after_fw_boot() 清零后,
+-         * 本函数返回的是真实 Q1(0x03) —— 数据通路的判据是 fc_reg > 2 */
+-        if (g_fc_redirect_q2 && (g_runtime_chipid == PRODUCT_ID_AIC8800D80N))
+-        {
+-            ok = aicwf_sdio_readb_cmd52_by_num(FUNC_1, SDIOWIFI_FLOW_CTRL_Q2_REG_V3, &v);
+-            if ((fc_dbg_cnt <= 5) || ((fc_dbg_cnt % 200) == 0))
+-                rt_kprintf("[AICFC] #%u -> redirect 0x09 val=%u ok=%d\n", fc_dbg_cnt, v, ok);
+-            *data = v;
+-            return ok;
+-        }
+-
+-        if ((fc_dbg_cnt <= 5) && (g_runtime_chipid != PRODUCT_ID_AIC8800D80N))
+-            rt_kprintf("[AICFC] #%u NOT redirect: chipid=%u (expect %u)\n",
+-                       fc_dbg_cnt, g_runtime_chipid, PRODUCT_ID_AIC8800D80N);
+-    }
+-
+     return aicwf_sdio_readb_cmd52_by_num(FUNC_1, addr, data);
+ }
+ 
+@@ -996,12 +907,6 @@ void aicwf_sdio_set_irq_handler(void (*cb)(void))
+  */
+ void aicwf_sdio_isr(uint8_t en)
+ {
+-    /* SDIO(DAT1) 中断风暴规避: 见本文件 g_sdio_irq_mask_forced 说明 */
+-    if (en && g_sdio_irq_mask_forced)
+-    {
+-        aicwf_mmc_enable_isr(0);
+-        return;
+-    }
+     aicwf_mmc_enable_isr(en);
+ }
+ 
+@@ -1015,15 +920,6 @@ void aicwf_sdio_isr(uint8_t en)
+  */
+ bool aicwf_sdio_host_enable_isr(bool enable)
+ {
+-    /* SDIO(DAT1) 中断风暴规避: 库 aicwf_sdio_rx_task 每轮结束都会无条件
+-     * enable=TRUE, 电平中断下会立刻再次进入中断形成风暴; 这里直接压住不放行,
+-     * 收包由 aicwifi_sdio_rxdata_mode=1 的 10ms 轮询兜底。 */
+-    if (enable && g_sdio_irq_mask_forced)
+-    {
+-        aicwf_mmc_enable_isr(0);
+-        return true;
+-    }
+-
+     aicwf_mmc_enable_isr(enable);
+ 
+     if(!enable)
+@@ -1338,16 +1234,17 @@ int aicwf_sdiov3_func_init(uint16_t chipid, struct aic_sdio_dev *sdiodev)
+     //aicwf_sdio_claim_host(sdio_function[1]);
+     if (chipid == PRODUCT_ID_AIC8800D80 || chipid == PRODUCT_ID_AIC8800D80N) {
+         struct sdio_func *func;
+-        /* 本平台不填 function 级 VID/PID: 本卡 func1 的 CIS 只有 FUNCID/FUNCE,
+-         * 没有 CISTPL_MANFID, 其 product 恒为 0, __aicwf_sdio_find_func() 按型号
+-         * 必然查不到; 型号已由 probe 中 chipmatch 按卡级 PID 校验,
+-         * 这里直接取 FUNC_1 并确认存在 */
+-        func = sdio_function_local[FUNC_1];
+-        if (!func) {
++        /* Enable Function 0 */
++        func = __aicwf_sdio_find_func(0x7, SDIO_VENDOR_ID_AIC8800D80,
++                (chipid == PRODUCT_ID_AIC8800D80N) ?
++                SDIO_DEVICE_ID_AIC8800D80N : SDIO_DEVICE_ID_AIC8800D80);
++        if(!func){
+             ret = -ENODEV;
+-            DBG_SDIO_ERR("%s: FUNC_1 not found!!(%d)\n", __func__, ret);
++            DBG_SDIO_ERR("%s: __aicwf_sdio_find_func func0 failed!!(%d)\n", __func__, ret);
+             return ret;
+         }
++        /* Enable Function 1 */
++        //__aicwf_sdio_find_func(0x7, 0x0, 0x0);
+     }
+     ret = __aicwf_sdio_enable_function(sdio_function_local[FUNC_1]->num);
+     if (ret) {
+@@ -1505,17 +1402,6 @@ int aicwf_sdio_enable_irq_after_fw_boot(void)
+         return -1;
+     }
+ 
+-#if AIC_FC_Q1_AFTER_FWBOOT
+-    /* [AIC8800-PORT][SiFli] 补丁 FW(PATCH/CALIB) 已启动, 数据队列(Q1)应已开始发放
+-     * TX 信用: 在此收回 ROM 阶段的 Q1->Q2 读重定向, 让数据通路读到真实 Q1。
+-     * 本函数是库在 "start_from_bootrom success." 之后调用的第一个明确锚点。
+-     * 置 AIC_FC_Q1_AFTER_FWBOOT=0 可保持原行为(永远读 Q2)做 A/B 对照。 */
+-    if (g_fc_redirect_q2) {
+-        g_fc_redirect_q2 = 0;
+-        rt_kprintf("[AICFC] patch FW up -> flow-ctrl read back to real Q1(0x03)\n");
+-    }
+-#endif
+-
+     DBG_SDIO_INF("aicwf_sdio_enable_irq_after_fw_boot: intr_config_reg=0x07 OK (WiFi IRQ enabled)\n");
+     return 0;
+ }
+
+########## platform/netif/netif_port.c
+git : warning: in the working copy of 'D:/SiFli/SDK/SiFli-SDK-WiFi/SiFli-SDK/customer/peripherals/wifi/aic8800_rtos_dri
+ver/platform/netif/netif_port.c', LF will be replaced by CRLF the next time Git touches it
+所在位置 行:18 字符: 8
++   $d = git diff --no-index --no-color --unified=3 --ignore-cr-at-eol  ...
++        ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+    + CategoryInfo          : NotSpecified: (warning: in the... Git touches it:String) [], RemoteException
+    + FullyQualifiedErrorId : NativeCommandError
+ 
+warning: in the working copy of 'G:/Code/VScode/SF32_Code/SiFli_demos/aic8800_diff_sifli/aic8800_diff_sf32lb52x_sifli_g
+b4036bf_20261013/sdk_patch/platform/aic8800_rtos_driver/platform/netif/netif_port.c', LF will be replaced by CRLF the n
+ext time Git touches it
+diff --git a/D:/SiFli/SDK/SiFli-SDK-WiFi/SiFli-SDK/customer/peripherals/wifi/aic8800_rtos_driver/platform/netif/netif_port.c b/G:/Code/VScode/SF32_Code/SiFli_demos/aic8800_diff_sifli/aic8800_diff_sf32lb52x_sifli_gb4036bf_20261013/sdk_patch/platform/aic8800_rtos_driver/platform/netif/netif_port.c
+index 8d13cc604..bbdc11588 100644
+--- a/D:/SiFli/SDK/SiFli-SDK-WiFi/SiFli-SDK/customer/peripherals/wifi/aic8800_rtos_driver/platform/netif/netif_port.c
++++ b/G:/Code/VScode/SF32_Code/SiFli_demos/aic8800_diff_sifli/aic8800_diff_sf32lb52x_sifli_gb4036bf_20261013/sdk_patch/platform/aic8800_rtos_driver/platform/netif/netif_port.c
+@@ -17,6 +17,7 @@
+ #include "lwip/dns.h"
+ #include "lwip/pbuf.h"
+ #include "lwip/tcpip.h"
++#include "lwip/init.h"
+ /* [AIC8800-PORT][SiFli] 路线1 直接依赖的 lwIP 头: 基线经其他头传递包含,
+  * SiFli lwIP-2.1.2 下不再传递; 对应选项 lwipopts.h 已开 (NETIF_API/ARP/DHCP=1) */
+ #include "lwip/netif.h"      /* struct netif, netif_linkoutput_fn */
+@@ -24,15 +25,10 @@
+ #include "lwip/etharp.h"     /* etharp_output, ETHARP_HWADDR_LEN */
+ #include "lwip/dhcp.h"       /* dhcp_supplied_address */
+ 
+-#ifdef RT_USING_NETDEV
+-/* [AIC8800-PORT][SiFli] 路线1 的驱动自建 lwIP netif, 需自行补注册 RT-Thread netdev,
+- * 否则 lwIP 侧的 netdev 钩子会拿到 NULL 直接断言 (详见 aicwf_net_if_netdev_add)。 */
+-#include "netdev.h"
+-/* lwIP port 的标准 ops 表 (rtos/rtthread/components/net/lwip/port/ethernetif.c):
+- * 各回调均以 netdev->user_data 作为 struct netif *, 其 set_dns_server 落到
+- * netdev_low_level_set_dns_server(), 不会再回调 dns_setserver(), 无递归风险 */
+-extern const struct netdev_ops lwip_netdev_ops;
+-#endif /* RT_USING_NETDEV */
++#ifdef AIC8800_USE_RT_WLAN
++#include "wlan_dev.h"  /* rt_wlan_dev_report_data, struct rt_wlan_device */
++extern struct rt_wlan_device *aic8800_wlan_get_device(void);
++#endif
+ 
+ /* host layer byte-order / inet utilities (aic_sock.c) */
+ extern int aic_inet_aton(const char *cp, void *addr);
+@@ -649,7 +645,7 @@ void aicwf_net_if_down(net_if_t net_if)
+ {
+     struct netif *nif;
+     int i;
+-    /* [AIC8800-PORT][BUGFIX] NULL 语义改为"下线 pool 全部活跃 netif";
++    /* [BUGFIX] (共性: netif 生命周期) NULL 语义改为"下线 pool 全部活跃 netif";
+      * 旧实现 NULL 走 not-in-pool 跳过, 等于没执行 */
+     if (net_if == NULL) {
+         for (i = 0; i < PLAT_NETIF_POOL_SIZE; i++) {
+@@ -730,7 +726,7 @@ int aicwf_net_if_get_ip(net_if_t net_if_h, uint32_t *ip, uint32_t *mask, uint32_
+ {
+     struct netif *net_if;
+ 
+-    /* [AIC8800-PORT][BUGFIX] NULL 表示默认接口: 按真实 STA vif(idx 0) 反查, 而非假定 pool[0]
++    /* [BUGFIX] (共性: netif 反查) NULL 表示默认接口: 按真实 STA vif(idx 0) 反查, 而非假定 pool[0]
+      * (驱动重初始化/APSTA 下 AP 先启动时 pool[0] 不是 STA) */
+     if (net_if_h == NULL) {
+         net_if_h = net_if_find_from_wifi_idx(0);
+@@ -761,194 +757,6 @@ int aicwf_net_if_get_ip(net_if_t net_if_h, uint32_t *ip, uint32_t *mask, uint32_
+ 
+ static err_t aicwf_net_if_init(struct netif *net_if);
+ 
+-#ifdef RT_USING_NETDEV
+-/* 每个 netif 槽位对应一个 RT-Thread netdev (静态复用, 不依赖堆) */
+-static struct netdev s_netdev_pool[PLAT_NETIF_POOL_SIZE];
+-static uint8_t       s_netdev_used[PLAT_NETIF_POOL_SIZE];
+-
+-static void aicwf_net_if_netdev_del(struct netif *nif);
+-
+-/**
+- * @brief 为已加入 lwIP 的 netif 补注册 RT-Thread netdev
+- *
+- * 路线1 的驱动自己用 netifapi_netif_add + 自己的 init 回调建 netif, 因此 SDK
+- * ethernetif.c::netdev_add() 不会为它建 netdev。而本 SDK 的 lwIP 把 netdev 当作
+- * DNS 的唯一载体:
+- *   - lwip/.../ipv4/dhcp.c::dhcp_handle_ack():
+- *         netdev_set_dns_server(netdev_get_by_name(netif->name), ...)
+- *   - lwip/.../core/dns.c::dns_setserver():
+- *         遍历 netif_list 逐个 netdev_set_dns_server()
+- *   - lwip/.../core/dns.c 解析时: 取 netdev_default->dns_servers[]
+- * 三者只要查不到 netdev, 就会在 netdev_set_dns_server() 的 RT_ASSERT(netdev) 处
+- * 直接断言 (实测: DHCP ACK 到达瞬间 tcpip 线程 fatal error)。
+- * 故按 ethernetif.c 相同语义注册 netdev: 名称取 netif->name(2 字节前缀, 与
+- * netdev_get_by_name(netif->name) 的查法一致), user_data 指向本 netif。
+- *
+- * @return 0=成功, -1=失败
+- */
+-static int aicwf_net_if_netdev_add(struct netif *nif)
+-{
+-    struct netdev *nd;
+-    char name[NETIF_NAMESIZE];
+-    int idx;
+-
+-    if (!nif)
+-        return -1;
+-
+-    idx = (int)(nif - &s_netif_pool[0]);
+-    if (idx < 0 || idx >= PLAT_NETIF_POOL_SIZE)
+-        return -1;
+-
+-    /* 幂等: 先摘掉旧登记, 避免 netdev_register() 把同一节点二次入链 */
+-    aicwf_net_if_netdev_del(nif);
+-
+-    nd = &s_netdev_pool[idx];
+-
+-    /* 与 ethernetif.c::netdev_add() 一致: netdev 名 = lwIP netif->name */
+-    memcpy(name, nif->name, sizeof(nif->name));
+-    name[NETIF_NAMESIZE - 1] = '\0';
+-
+-    /* [AIC8800-PORT][SiFli] 这些字段必须在 netdev_register() **之前** 装好, 否则
+-     * lwIP 的全局 netif_default 永远不会被设置, 症状极其隐蔽:
+-     *
+-     *   netdev_register() 在 netdev_default==NULL 时会内部调用
+-     *   netdev_set_default(netdev_list) (netdev.c:126-129), 而
+-     *   netdev_set_default() 会执行 netdev->ops->set_default(netdev)
+-     *   (netdev.c:490-493); lwIP port 的这个回调正是 netif_set_default()
+-     *   (rtos/rtthread/components/net/lwip/port/ethernetif.c:321)。
+-     *   若此刻 nd->ops 还是 NULL, 这次同步被静默跳过 -> netif_default 恒为 NULL。
+-     *
+-     * 后果是"只有同网段能用":
+-     *   - 与本机同网段的目的地: ipv4/ip4.c:195 之前的 ip4_addr_netcmp 命中本
+-     *     netif -> 正常发出。所以 DHCP、ping 网关、到网关的 DNS 全部正常;
+-     *   - 任何跨网段目的地: 走到 ipv4/ip4.c:229
+-     *     "netif_default == NULL -> No route" 分支, ip4_route() 直接返回 NULL,
+-     *     sendto()/connect() 在本地就失败(0ms), errno=118(工具链 sys/errno.h
+-     *     里 EHOSTUNREACH)。表现为"能 ping 通网关, 但任何公网地址都 0ms 失败"。
+-     *
+-     * 注意: aicwf_net_if_set_default() 虽有定义, 但全工程无人调用, 兜不住这里。 */
+-    nd->ops        = &lwip_netdev_ops;
+-    nd->hwaddr_len = nif->hwaddr_len;
+-    memcpy(nd->hwaddr, nif->hwaddr, nif->hwaddr_len);
+-    nd->ip_addr    = nif->ip_addr;
+-    nd->gw         = nif->gw;
+-    nd->netmask    = nif->netmask;
+-
+-    if (netdev_register(nd, name, nif) != 0) {
+-        memset(nd, 0, sizeof(struct netdev));
+-        DBG_NETAL_ERR("%s: netdev_register(%s) fail\r\n", __func__, name);
+-        return -1;
+-    }
+-
+-    s_netdev_used[idx] = 1;
+-
+-    DBG_NETAL_INF("%s: netdev '%s' registered (netif %p)\r\n", __func__, name, nif);
+-    return 0;
+-}
+-
+-/**
+- * @brief 摘除 netif 对应的 RT-Thread netdev
+- *
+- * netdev_unregister() 内部会 rt_memset 掉该结构, 故静态槽位可安全复用。
+- */
+-static void aicwf_net_if_netdev_del(struct netif *nif)
+-{
+-    int idx;
+-
+-    if (!nif)
+-        return;
+-
+-    idx = (int)(nif - &s_netif_pool[0]);
+-    if (idx < 0 || idx >= PLAT_NETIF_POOL_SIZE || !s_netdev_used[idx])
+-        return;
+-
+-    netdev_unregister(&s_netdev_pool[idx]);
+-    s_netdev_used[idx] = 0;
+-}
+-#endif /* RT_USING_NETDEV */
+-
+-/**
+- * @brief 把 lwIP netif 的链路标志 / 地址镜像到 RT-Thread netdev
+- *
+- * [AIC8800-PORT][SiFli] 路线1 的 netdev 是补注册的, 两侧状态必须显式同步,
+- * 否则会出现"netif 正常工作但 netdev 侧看不到"的割裂:
+- *
+- *  1) 链路标志 (本函数的首要目的)
+- *     aicwf_net_if_init() 是把 NETIF_FLAG_LINK_UP 直接写进 netif->flags 的,
+- *     绕过了 netif_set_link_up(); 而本 SDK 的 lwIP 只在
+- *     netif_set_link_up() / netif_set_link_down() 内部调用
+- *     netdev_low_level_set_link_status()
+- *     (rtos/rtthread/components/net/lwip/lwip-2.1.2/src/core/netif.c:1120 / 1150)。
+- *     于是 netdev.flags 恒为 LINK_DOWN。后果:
+- *       - netdev 版 ping 的前置判据 NETDEV_PING_IS_COMMONICABLE
+- *         (netdev.c:1288, 要求 netdev_is_up() && netdev_is_link_up())
+- *         不过 -> 一个 ICMP 包都不发就直接报
+- *             ping: network interface device(wl) status error.
+- *       - ifconfig 的 FLAGS 行显示 LINK_DOWN。
+- *     注意: lwIP 侧的链路是好的(ARP/DHCP 都正常), 被卡住的只有 netdev 这一侧。
+- *
+- *  2) 地址
+- *     netdev 的 ip/gw/netmask 是 netdev_register() 时刻的快照, DHCP 拿到地址后
+- *     不会自动回灌, 所以 ifconfig 会一直显示 0.0.0.0。
+- *
+- * 顺序说明: 先置标志再写地址。netdev_low_level_set_link_status(TRUE) 在
+- * "netdev_is_up() && ip 非 0" 时会调 sal_check_netdev_internet_up(); 先置标志时
+- * ip 尚为 0, 可避免该路径被意外触发。
+- *
+- * 幂等: 重复调用只做几次字段赋值, 可安全地在任意时刻调用。
+- *
+- * @param net_if 网络接口句柄, NULL = 默认 STA 接口 (语义同 aicwf_net_if_get_ip)
+- */
+-void aicwf_net_if_netdev_sync(net_if_t net_if)
+-{
+-#ifdef RT_USING_NETDEV
+-    struct netif *nif;
+-    struct netdev *nd;
+-
+-    if (net_if == NULL) {
+-        net_if = net_if_find_from_wifi_idx(0);
+-        if (net_if == NULL)
+-            return;
+-    }
+-
+-    nif = netif_from_handle(net_if);
+-    /* name[0]==0 表示 init 回调尚未跑过, 此时 netdev 也还没登记 */
+-    if (!nif || (nif->name[0] == '\0'))
+-        return;
+-
+-    nd = netdev_get_by_name(nif->name);
+-    if (!nd)
+-        return;
+-
+-    if (netif_is_up(nif))
+-        netdev_low_level_set_status(nd, RT_TRUE);
+-    if (netif_is_link_up(nif))
+-        netdev_low_level_set_link_status(nd, RT_TRUE);
+-
+-    nd->mtu     = nif->mtu;
+-    nd->ip_addr = nif->ip_addr;
+-    nd->gw      = nif->gw;
+-    nd->netmask = nif->netmask;
+-
+-#if LWIP_DHCP
+-    /* 与 ethernetif.c::netdev_flags_sync() 的做法一致: 供 ifconfig 显示 DHCP_ENABLE。
+-     * 不补这一位的话 ifconfig 会显示 DHCP_DISABLE, 与实际情况相反。 */
+-    netdev_low_level_set_dhcp_status(nd, RT_TRUE);
+-#endif
+-
+-    /* [AIC8800-PORT][SiFli] 兜底: lwIP 的全局 netif_default 是**跨网段路由的唯一
+-     * 出口** —— ipv4/ip4.c:229 在 netif_default==NULL 时对任何非本网段目的地直接
+-     * 判定无路由, 表现为 connect()/sendto() 0ms 失败、errno=118(EHOSTUNREACH)。
+-     * 正常情况下这一步已由 netdev_register() -> netdev_set_default() ->
+-     * ops->set_default() 完成 (见 aicwf_net_if_netdev_add 的说明); 这里再兜一次,
+-     * 覆盖"netdev 不是第一个注册的"等边界情况。幂等。 */
+-    if (netif_default == RT_NULL)
+-        netif_set_default(nif);
+-#else
+-    (void)net_if;
+-#endif /* RT_USING_NETDEV */
+-}
+-
+ /**
+  * @brief 添加网络接口到 LwIP
+  *
+@@ -984,15 +792,11 @@ int aicwf_net_if_add(net_if_t *net_if_h, const uint32_t *ipaddr, const uint32_t
+      * 一致; 不能用 num 判断 — num 已完全交由 lwIP 分配, 不再作注册标志) */
+     if (net_if->output != NULL) {
+         DBG_NETAL_INF("%s already added to LwIP\r\n", __func__);
+-#ifdef RT_USING_NETDEV
+-        /* [AIC8800-PORT][SiFli] 重连场景走这条早退分支: netdev 可能已被
+-         * aicwf_net_if_release_all() 摘除后重建, 这里补一次镜像 (幂等) */
+-        aicwf_net_if_netdev_sync(net_if);
+-#endif
+         return 0;
+     }
+ 
+     /* 3. 注册接口到 LwIP 协议栈 */
++#ifndef AIC8800_USE_RT_WLAN
+     status = netifapi_netif_add(net_if,
+                                (const ip4_addr_t *)ipaddr,
+                                (const ip4_addr_t *)netmask,
+@@ -1000,25 +804,15 @@ int aicwf_net_if_add(net_if_t *net_if_h, const uint32_t *ipaddr, const uint32_t
+                                vif,
+                                aicwf_net_if_init,
+                                tcpip_input);
++#else
++    /* M2: AIC8800_USE_RT_WLAN 模式下, netif 由 rt_wlan 框架创建 (wlan_lwip.c),
++     * 驱动跳过自建 netif; pool 槽位仍分配 (满足 host lib 内部假设) */
++    status = ERR_OK;
++#endif
+ 
+     DBG_NETAL_INF("%s status=%d\r\n", __func__, status);
+ 
+-    if (status != ERR_OK)
+-        return -1;
+-
+-#ifdef RT_USING_NETDEV
+-    /* [AIC8800-PORT][SiFli] 补注册 RT-Thread netdev: 本 SDK 的 lwIP 把 DNS 存在
+-     * netdev 上, 且 dhcp.c/dns.c 会以 netif->name 反查 netdev, 缺失即断言 */
+-    aicwf_net_if_netdev_add(net_if);
+-
+-    /* [AIC8800-PORT][SiFli] netdev 已登记 -> 立刻按 netif 的真实状态补齐镜像。
+-     * 关键的是 NETDEV_FLAG_LINK_UP: init 里直写 netif->flags 的写法不会经过
+-     * netif_set_link_up(), netdev 侧永远是 LINK_DOWN, netdev 版 ping 会被
+-     * "network interface device(wl) status error" 直接拒绝 (详见本函数实现处注释)。 */
+-    aicwf_net_if_netdev_sync(net_if);
+-#endif
+-
+-    return 0;
++    return (status == ERR_OK ? 0 : -1);
+ }
+ 
+ /**
+@@ -1049,6 +843,16 @@ static err_t aicwf_net_if_init(struct netif *net_if)
+     net_if->name[ 0 ] = 'w';
+     net_if->name[ 1 ] = 'l';
+ 
++    /* lwIP 版本开机可见 (双 VIF 只打一次): nocopy TX 类型检查分支随版本切换,
++     * >=2.1 走 type_internal 位检查, <=2.0/1.x 走 type 枚举检查 */
++    {
++        static bool lwip_ver_logged = false;
++        if (!lwip_ver_logged) {
++            lwip_ver_logged = true;
++            DBG_NETAL_INF("lwip version: %s\n", LWIP_VERSION_STRING);
++        }
++    }
++
+     net_if->output = etharp_output;
+     net_if->flags = NETIF_FLAG_BROADCAST | NETIF_FLAG_ETHARP | NETIF_FLAG_LINK_UP | NETIF_FLAG_IGMP;
+     net_if->hwaddr_len = ETHARP_HWADDR_LEN;
+@@ -1058,7 +862,7 @@ static err_t aicwf_net_if_init(struct netif *net_if)
+      * GCC14 将不兼容指针赋值提升为 error, 故显式 cast */
+     net_if->linkoutput = (netif_linkoutput_fn)__aicwf_net_if_output;
+ 
+-    /* [AIC8800-PORT][BUGFIX] MAC 单一来源为 fhost_vif->mac_addr (由启动路径
++    /* [BUGFIX] (共性: MAC 单一来源) MAC 单一来源为 fhost_vif->mac_addr (由启动路径
+      * set_mac 写入: STA=base, AP/P2P=base+vif_idx), 此处仅镜像同步到
+      * netif->hwaddr, 不再重复计算; 异常兜底: set_mac 未先行调用时回退 base,
+      * 保证 hwaddr 非零 */
+@@ -1073,7 +877,7 @@ static err_t aicwf_net_if_init(struct netif *net_if)
+     /* don't set NETIF_FLAG_ETHARP if this device is not an ethernet one */
+     net_if->flags = NETIF_FLAG_BROADCAST | NETIF_FLAG_ETHARP | NETIF_FLAG_LINK_UP | NETIF_FLAG_IGMP;
+     //net_if->flags = NETIF_FLAG_IGMP | NETIF_FLAG_ETHERNET | NETIF_FLAG_ETHARP;
+-    /* [AIC8800-PORT][BUGFIX] 不覆盖 net_if->num: lwIP netif_add 分配全局唯一
++    /* [BUGFIX] (共性: 接口名唯一) 不覆盖 net_if->num: lwIP netif_add 分配全局唯一
+      * num (名字 wl<num>), 接口名唯一是 fhost_vif_idx_from_name() 按名反查 vif
+      * 的前提; 曾按 vif_idx 覆盖导致 STA/AP 并发时两个 netif 同名 "wl2",
+      * AP 的 WPA iface 被绑到 STA 的 vif0 (concurrent add_iface failed) */
+@@ -1098,7 +902,7 @@ void aicwf_net_if_update_mac(net_if_t net_if)
+ /**
+  * @brief 回收全部 pool netif (驱动反初始化时调用)
+  *
+- * [AIC8800-PORT][BUGFIX] 修复 netif 只增不减导致的槽位泄漏: 旧实现在驱动重初始化
++ * [BUGFIX] (共性: netif 生命周期) 修复 netif 只增不减导致的槽位泄漏: 旧实现在驱动重初始化
+  * (fhost_init 将 net_if_handle 清 NULL) 后无任何 netif_remove, 旧 netif
+  * 永久占据 netif_list 且 pool 槽 output!=NULL 不可复用, 名字漂移
+  * (wl0→wl1→...) 且 4 次重初始化后 pool 耗尽。
+@@ -1114,10 +918,6 @@ void aicwf_net_if_release_all(void)
+             continue;
+         DBG_NETAL_INF("%s: remove netif %c%c%d\n", __func__,
+                       nif->name[0], nif->name[1], nif->num);
+-#ifdef RT_USING_NETDEV
+-        /* 先摘 netdev: 否则驱动重初始化时同一槽位会带旧登记二次入链 */
+-        aicwf_net_if_netdev_del(nif);
+-#endif
+         netif_set_down(nif);
+         netif_remove(nif);
+         /* 槽位回池: netif_remove 不清 output, 需整体清零以恢复可分配 */
+@@ -1525,6 +1325,12 @@ exit:
+ int aicwf_rx_eth_data_process(uint8_t *pdata, uint16_t len, net_if_t netif,
+                               void *lwip_msg, uint8_t is_reord)
+ {
++#ifdef AIC8800_USE_RT_WLAN
++    /* M2: RX 桥接到 rt_wlan 框架 (框架持有 netif, 驱动只投递裸帧) */
++    (void)netif; (void)lwip_msg; (void)is_reord;
++    rt_wlan_dev_report_data(aic8800_wlan_get_device(), pdata, (int)len);
++    return 0;
++#else
+ #ifdef CONFIG_RX_NOCOPY
+     /* reorder 直通 / 零拷贝: lwip_msg 已建好(payload 直指 pdata),
+      * 入栈失败时 pbuf_free 触发 custom_free_fn 归还头 + 解除 node 引用 */
+@@ -1538,6 +1344,7 @@ int aicwf_rx_eth_data_process(uint8_t *pdata, uint16_t len, net_if_t netif,
+     }
+ #endif /* CONFIG_RX_NOCOPY */
+     return aicwf_rx_eth_data_process_copy((unsigned char *)pdata, len, netif);
++#endif /* AIC8800_USE_RT_WLAN */
+ }
+ 
+ #ifdef CONFIG_FILTER_TCP_ACK
+@@ -1940,7 +1747,7 @@ int aicwf_net_dhcp_start(net_if_t net_if)
+  */
+ uint8_t aicwf_net_if_dhcp_done(uint8_t act)
+ {
+-    /* [AIC8800-PORT][BUGFIX] 按真实 STA vif(idx 0) 反查 netif; pool[0] 假设
++    /* [BUGFIX] (共性: netif 反查) 按真实 STA vif(idx 0) 反查 netif; pool[0] 假设
+      * STA 恒为首槽, 驱动重初始化/APSTA 下 AP 先启动时不成立, 会查错接口 */
+     net_if_t net_if = net_if_find_from_wifi_idx(0);
+     if (!net_if)
+@@ -1962,7 +1769,7 @@ uint8_t aicwf_net_if_dhcp_done(uint8_t act)
+  */
+ void aicwf_netif_mode_switch(uint8_t mode)
+ {
+-    /* [AIC8800-PORT][BUGFIX] 同 aicwf_net_if_dhcp_done: 按 vif idx 0 反查真实
++    /* [BUGFIX] (共性: netif 反查) 同 aicwf_net_if_dhcp_done: 按 vif idx 0 反查真实
+      * STA netif, 而非假定 pool[0] */
+     net_if_t net_if = net_if_find_from_wifi_idx(0);
+     if (!net_if)
+
+########## platform/platform_init.c
+git : warning: in the working copy of 'D:/SiFli/SDK/SiFli-SDK-WiFi/SiFli-SDK/customer/peripherals/wifi/aic8800_rtos_dri
+ver/platform/platform_init.c', LF will be replaced by CRLF the next time Git touches it
+所在位置 行:18 字符: 8
++   $d = git diff --no-index --no-color --unified=3 --ignore-cr-at-eol  ...
++        ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+    + CategoryInfo          : NotSpecified: (warning: in the... Git touches it:String) [], RemoteException
+    + FullyQualifiedErrorId : NativeCommandError
+ 
+warning: in the working copy of 'G:/Code/VScode/SF32_Code/SiFli_demos/aic8800_diff_sifli/aic8800_diff_sf32lb52x_sifli_g
+b4036bf_20261013/sdk_patch/platform/aic8800_rtos_driver/platform/platform_init.c', LF will be replaced by CRLF the next
+ time Git touches it
+diff --git a/D:/SiFli/SDK/SiFli-SDK-WiFi/SiFli-SDK/customer/peripherals/wifi/aic8800_rtos_driver/platform/platform_init.c b/G:/Code/VScode/SF32_Code/SiFli_demos/aic8800_diff_sifli/aic8800_diff_sf32lb52x_sifli_gb4036bf_20261013/sdk_patch/platform/aic8800_rtos_driver/platform/platform_init.c
+index 4dd10ffed..6c5ff9a7d 100644
+--- a/D:/SiFli/SDK/SiFli-SDK-WiFi/SiFli-SDK/customer/peripherals/wifi/aic8800_rtos_driver/platform/platform_init.c
++++ b/G:/Code/VScode/SF32_Code/SiFli_demos/aic8800_diff_sifli/aic8800_diff_sf32lb52x_sifli_gb4036bf_20261013/sdk_patch/platform/aic8800_rtos_driver/platform/platform_init.c
+@@ -4,49 +4,13 @@
+  * All Rights Reserved
+  */
+ 
+-#include <rtthread.h>
+-#include "bf0_hal.h"
+-#include "plat_port.h"
+-#include "rtos_port.h"
+-
+-/* 上电时序参数, 与 platform/hal/plat_port.c 保持一致 (参考 aic8800d40 aic8800_ele) */
+-#define AIC_WIFI_PWR_OFF_MS     (10)
+-#define AIC_WIFI_PWR_ON_MS      (200)
+-
+-/**
+- * @brief WiFi 芯片上电 (板级, 时序参考 aic8800d40 驱动的 aic8800_ele)
+- *
+- * 拉低电源脚 -> 延时 -> 拉高 -> 延时等待芯片 ROM 启动。
+- *
+- * @note 必须注册在 INIT_BOARD_EXPORT: SDMMC/SDHCI host 驱动在
+- *       INIT_DEVICE_EXPORT 阶段枚举 SDIO 卡, 因此上电要早于 host 初始化,
+- *       否则卡在上电前已完成(失败的)枚举。引脚号未配置(负值)时本函数不做
+- *       任何操作。
+- *
+- * @note 此处调度器尚未启动, 不能用 rt_thread_mdelay 等阻塞式延时,
+- *       必须用 HAL_Delay 忙等 (与 aic8800d40 的 aic8800_ele 一致)。
+- */
+-static int aicwf_wifi_power_on(void)
+-{
+-    aicwf_platform_pwr_wifi_pin_init();
+-    aicwf_platform_pwr_wifi_pin_disable();
+-    HAL_Delay(AIC_WIFI_PWR_OFF_MS);
+-    aicwf_platform_pwr_wifi_pin_enable();
+-    HAL_Delay(AIC_WIFI_PWR_ON_MS);
+-
+-    return 0;
+-}
+-INIT_BOARD_EXPORT(aicwf_wifi_power_on);
+-
+ /**
+  * @brief 平台初始化函数（extern方式下为空操作）
+  *
+  * 在extern链接方式下，所有平台函数由链接器直接解析绑定，
+  * 无需显式注册，本函数为空实现。
+  *
+- * @note 该函数在WiFi驱动演示测试入口 aic_wifi_demo_test() 中最先被调用。
+- *       芯片上电已在 INIT_BOARD_EXPORT(aicwf_wifi_power_on) 完成, 此处不再
+- *       重复上电, 避免枚举完成后复位掉 SDIO 卡。
++ * @note 该函数在WiFi驱动演示测试入口 aic_wifi_demo_test() 中最先被调用
+  */
+ void aic_platform_init(void)
+ {
+
+########## platform/rtos/rtos_freertos.c
+git : warning: in the working copy of 'D:/SiFli/SDK/SiFli-SDK-WiFi/SiFli-SDK/customer/peripherals/wifi/aic8800_rtos_dri
+ver/platform/rtos/rtos_freertos.c', LF will be replaced by CRLF the next time Git touches it
+所在位置 行:18 字符: 8
++   $d = git diff --no-index --no-color --unified=3 --ignore-cr-at-eol  ...
++        ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+    + CategoryInfo          : NotSpecified: (warning: in the... Git touches it:String) [], RemoteException
+    + FullyQualifiedErrorId : NativeCommandError
+ 
+warning: in the working copy of 'G:/Code/VScode/SF32_Code/SiFli_demos/aic8800_diff_sifli/aic8800_diff_sf32lb52x_sifli_g
+b4036bf_20261013/sdk_patch/platform/aic8800_rtos_driver/platform/rtos/rtos_freertos.c', LF will be replaced by CRLF the
+ next time Git touches it
+diff --git a/D:/SiFli/SDK/SiFli-SDK-WiFi/SiFli-SDK/customer/peripherals/wifi/aic8800_rtos_driver/platform/rtos/rtos_freertos.c b/G:/Code/VScode/SF32_Code/SiFli_demos/aic8800_diff_sifli/aic8800_diff_sf32lb52x_sifli_gb4036bf_20261013/sdk_patch/platform/aic8800_rtos_driver/platform/rtos/rtos_freertos.c
+index 891d2a5d8..92e2c039e 100644
+--- a/D:/SiFli/SDK/SiFli-SDK-WiFi/SiFli-SDK/customer/peripherals/wifi/aic8800_rtos_driver/platform/rtos/rtos_freertos.c
++++ b/G:/Code/VScode/SF32_Code/SiFli_demos/aic8800_diff_sifli/aic8800_diff_sf32lb52x_sifli_gb4036bf_20261013/sdk_patch/platform/aic8800_rtos_driver/platform/rtos/rtos_freertos.c
+@@ -383,7 +383,7 @@ OsResSt *  aicwf_rtos_res_find_res(void *ref,uint16_t type)
+ 
+ }
+ 
+-static OsResSt *  __aicwf_rtos_res_find_res_by_para(uint16_t type,uint32_t para)
++static OsResSt *  __aicwf_rtos_res_find_res_by_para(uint16_t type,uintptr_t para)
+ {
+ 
+ 	uint8_t rtype = type&0xff;
+@@ -715,7 +715,7 @@ void aicwf_rtos_remove_all(void)
+ void aicwf_rtos_mem_free_task(void * taskref)
+ {
+     #ifdef CONFIG_RTOS_RESLIST
+-	uint32_t para = (uint32_t)taskref;
++	uintptr_t para = (uintptr_t)taskref;
+ 	OsResSt* resp = NULL;
+ 
+ 	do
+@@ -849,7 +849,10 @@ uint32_t aicwf_rtos_socket_find(int sock)
+ /**
+  * @brief 获取任务状态
+  * @param ref 任务句柄
+- * @return 任务状态码（eTaskGetState）
++ * @return 本 RTOS 原生任务状态 (FreeRTOS eTaskState: eRunning/eReady/eBlocked/eSuspended/eDeleted)
++ *
++ * 注: 返回原生值, 调用方必须用本 RTOS 的状态常量比较 (与 rtos_rtt.c 直接
++ *     比较 RT_THREAD_* 同构), 不可用 AIC_RTOS_* 抽象常量 (数值不对应)。
+  */
+ uint32_t aicwf_rtos_get_task_status(rtos_task_handle ref)
+ {
+@@ -877,15 +880,17 @@ uint32_t aicwf_rtos_wait_task_suspend(rtos_task_handle ref)
+ 	{
+ 		st = aicwf_rtos_get_task_status(ref);
+         #if !RTOS_DEL_NO_WAIT
+-        //if(((st == TX_READY)||(st == TX_MUTEX_SUSP)))
+-        if((st == TX_MUTEX_SUSP)
++        /* [BUGFIX] (共性: ap stop 卡死, 回流自 amt630 平台) 仅任务可运行时等它
++         * 自己让出 (对应 rtos_rtt.c 的 RT_THREAD_RUNNING/READY 判据) */
++        if((st == eRunning) || (st == eReady))
+             aicwf_rtos_msleep(1);
+         else
+         #endif
+ 			break;
+ 	};
+ 
+-	if((st != AIC_RTOS_COMPLETED) && (st != AIC_RTOS_TERMINATED))
++	/* 已挂起/已删除的无需再挂: eSuspended 上再 vTaskSuspend 会累加嵌套挂起计数 */
++	if((st != eSuspended) && (st != eDeleted))
+ 		vTaskSuspend(ref);
+ 
+ 	return 0;
+@@ -1006,7 +1011,7 @@ int aicwf_rtos_task_create(rtos_task_fct func,
+ 
+     #ifdef CONFIG_RTOS_RESLIST
+ 	aicwf_OsResInit(&st,(char*)name,*task_handle);
+-	st.para0 = (uint32_t)stack_base;
++	st.para0 = (uintptr_t)stack_base;
+ 	st.para1 = stack_depth;
+ 	st.type = RES_TYPE_TASK;
+ 
+
+########## platform/rtos/rtos_rtt.c
+git : warning: in the working copy of 'D:/SiFli/SDK/SiFli-SDK-WiFi/SiFli-SDK/customer/peripherals/wifi/aic8800_rtos_dri
+ver/platform/rtos/rtos_rtt.c', LF will be replaced by CRLF the next time Git touches it
+所在位置 行:18 字符: 8
++   $d = git diff --no-index --no-color --unified=3 --ignore-cr-at-eol  ...
++        ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+    + CategoryInfo          : NotSpecified: (warning: in the... Git touches it:String) [], RemoteException
+    + FullyQualifiedErrorId : NativeCommandError
+ 
+warning: in the working copy of 'G:/Code/VScode/SF32_Code/SiFli_demos/aic8800_diff_sifli/aic8800_diff_sf32lb52x_sifli_g
+b4036bf_20261013/sdk_patch/platform/aic8800_rtos_driver/platform/rtos/rtos_rtt.c', LF will be replaced by CRLF the next
+ time Git touches it
+diff --git a/D:/SiFli/SDK/SiFli-SDK-WiFi/SiFli-SDK/customer/peripherals/wifi/aic8800_rtos_driver/platform/rtos/rtos_rtt.c b/G:/Code/VScode/SF32_Code/SiFli_demos/aic8800_diff_sifli/aic8800_diff_sf32lb52x_sifli_gb4036bf_20261013/sdk_patch/platform/aic8800_rtos_driver/platform/rtos/rtos_rtt.c
+index d8579d1b3..80867789c 100644
+--- a/D:/SiFli/SDK/SiFli-SDK-WiFi/SiFli-SDK/customer/peripherals/wifi/aic8800_rtos_driver/platform/rtos/rtos_rtt.c
++++ b/G:/Code/VScode/SF32_Code/SiFli_demos/aic8800_diff_sifli/aic8800_diff_sf32lb52x_sifli_gb4036bf_20261013/sdk_patch/platform/aic8800_rtos_driver/platform/rtos/rtos_rtt.c
+@@ -388,7 +388,7 @@ OsResSt *  aicwf_rtos_res_find_res(void *ref,uint16_t type)
+ 
+ }
+ 
+-static OsResSt *  __aicwf_rtos_res_find_res_by_para(uint16_t type,uint32_t para)
++static OsResSt *  __aicwf_rtos_res_find_res_by_para(uint16_t type,uintptr_t para)
+ {
+ 
+ 	uint8_t rtype = type&0xff;
+@@ -680,7 +680,7 @@ void aicwf_rtos_remove_all(void)
+ void aicwf_rtos_mem_free_task(void * taskref)
+ {
+     #ifdef CONFIG_RTOS_RESLIST
+-	uint32_t para = (uint32_t)taskref;
++	uintptr_t para = (uintptr_t)taskref;
+ 	OsResSt* resp = NULL;
+ 
+ 	do
+@@ -975,7 +975,7 @@ int aicwf_rtos_task_create(rtos_task_fct func,
+ 
+     #ifdef CONFIG_RTOS_RESLIST
+ 	aicwf_OsResInit(&st,(char*)name,*task_handle);
+-	st.para0 = (uint32_t)stack_base;
++	st.para0 = (uintptr_t)stack_base;
+ 	st.para1 = stack_depth;
+ 	st.type = RES_TYPE_TASK;
+ 
+
+########## platform/wifi/wifi_port.c
+git : warning: in the working copy of 'D:/SiFli/SDK/SiFli-SDK-WiFi/SiFli-SDK/customer/peripherals/wifi/aic8800_rtos_dri
+ver/platform/wifi/wifi_port.c', LF will be replaced by CRLF the next time Git touches it
+所在位置 行:18 字符: 8
++   $d = git diff --no-index --no-color --unified=3 --ignore-cr-at-eol  ...
++        ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+    + CategoryInfo          : NotSpecified: (warning: in the... Git touches it:String) [], RemoteException
+    + FullyQualifiedErrorId : NativeCommandError
+ 
+warning: in the working copy of 'G:/Code/VScode/SF32_Code/SiFli_demos/aic8800_diff_sifli/aic8800_diff_sf32lb52x_sifli_g
+b4036bf_20261013/sdk_patch/platform/aic8800_rtos_driver/platform/wifi/wifi_port.c', LF will be replaced by CRLF the nex
+t time Git touches it
+diff --git a/D:/SiFli/SDK/SiFli-SDK-WiFi/SiFli-SDK/customer/peripherals/wifi/aic8800_rtos_driver/platform/wifi/wifi_port.c b/G:/Code/VScode/SF32_Code/SiFli_demos/aic8800_diff_sifli/aic8800_diff_sf32lb52x_sifli_gb4036bf_20261013/sdk_patch/platform/aic8800_rtos_driver/platform/wifi/wifi_port.c
+index 8c8de1a63..de46207b4 100644
+--- a/D:/SiFli/SDK/SiFli-SDK-WiFi/SiFli-SDK/customer/peripherals/wifi/aic8800_rtos_driver/platform/wifi/wifi_port.c
++++ b/G:/Code/VScode/SF32_Code/SiFli_demos/aic8800_diff_sifli/aic8800_diff_sf32lb52x_sifli_gb4036bf_20261013/sdk_patch/platform/aic8800_rtos_driver/platform/wifi/wifi_port.c
+@@ -8,7 +8,6 @@
+ 
+ #include "wifi_port_priv.h"
+ #include "wifi_api.h"
+-#include "wifi_if.h"      /* [AIC8800-PORT][SiFli] aic_wifi_set_mode 声明 (基线遗漏 include) */
+ #include "cli_api.h"
+ #include "netif_api.h"
+ #include "sdio_api.h"
+@@ -36,6 +35,13 @@ static wifi_event_handle m_join_success_handle = NULL;
+ static wifi_event_handle m_join_fail_handle = NULL;
+ static wifi_event_handle m_leave_handle = NULL;
+ wifi_priv_event_cb priv_aic_wifi_event_cb = NULL;
++
++/* [AIC8800-PORT] 通用事件扩展回调 (供 rt_wlan 桥接层等消费全量事件)。
++ * 与 priv_aic_wifi_event_cb (签名 (MAC_addr,mode), MAC/mode 通知用途) 区分:
++ * 本回调收 (AIC_WIFI_EVENT, aic_wifi_event_data)。原各 m_xxx_handle 为 static
++ * 且无对外注册入口, 恒 NULL; 此钩子为 platform 侧新增, NULL 守卫,
++ * 未注册时零开销, 路线1 (OFF) 无影响。 */
++static aic_wifi_event_cb m_ext_event_cb = NULL;
+ static uint8_t wifi_auto_start = 0;
+ 
+ void aic_wifi_cmd(char *atcmd, unsigned int athandle, unsigned char chan_num);
+@@ -199,16 +205,6 @@ const char * aic_get_wps_ModelName(void)
+ 	const char * cm = "AIC-8800-D80";
+ 	return cm;
+ }
+-#elif defined(CONFIG_AIC8800D80N)
+-/**
+- * @brief 获取WPS型号名称（D80系列）
+- * @return 型号名称（"AIC-8800-D80"）
+- */
+-const char * aic_get_wps_ModelName(void)
+-{
+-	const char * cm = "AIC-8800-D80N";
+-	return cm;
+-}
+ #endif
+ 
+ /**
+@@ -343,7 +339,7 @@ void wifi_set_mode(AIC_WIFI_MODE mode)
+ 
+     /* 同步 platform/driver 两级模式, 供复位路径按目标模式执行 deinit/init */
+     wifidev->wifi_mode = mode;
+-    aic_wifi_set_mode((int)mode);
++    aic_wifi_mode_set((int)mode);
+ }
+ 
+ /**
+@@ -351,7 +347,7 @@ void wifi_set_mode(AIC_WIFI_MODE mode)
+  *
+  * 如果目标模式与当前模式不同，且当前模式不是 WIFI_MODE_UNKNOWN，
+  * 则返回 -1 表示需要先退出当前模式才能切换。
+- * 模式允许时，通过 aic_wifi_set_mode 切换到目标模式。
++ * 模式允许时，通过 aic_wifi_mode_set 切换到目标模式。
+  *
+  * @param mode 目标 WiFi 模式
+  * @return 0=成功, -1=需先退出当前模式
+@@ -364,7 +360,7 @@ int wifi_switch_mode(AIC_WIFI_MODE mode)
+     if (cur == mode || cur == WIFI_MODE_UNKNOWN) {
+         /* Keep platform role in sync — netif TX/RX gates on aicwf_wifi_dev.wifi_mode */
+         wifidev->wifi_mode = mode;
+-        aic_wifi_set_mode((int)mode);
++        aic_wifi_mode_set((int)mode);
+         return 0;
+     }
+ 
+@@ -375,7 +371,7 @@ int wifi_switch_mode(AIC_WIFI_MODE mode)
+          (mode == WIFI_MODE_STA || mode == WIFI_MODE_AP || mode == WIFI_MODE_APSTA))) {
+         DBG_APP_INF("%s: concurrent cur=%d + %d -> APSTA\n", __func__, cur, mode);
+         wifidev->wifi_mode = WIFI_MODE_APSTA;
+-        aic_wifi_set_mode((int)WIFI_MODE_APSTA);
++        aic_wifi_mode_set((int)WIFI_MODE_APSTA);
+         return 0;
+     }
+ 
+@@ -389,7 +385,7 @@ int wifi_switch_mode(AIC_WIFI_MODE mode)
+          (mode == WIFI_MODE_AP || mode == WIFI_MODE_P2P || mode == WIFI_MODE_APP2P))) {
+         DBG_APP_INF("%s: concurrent cur=%d + %d -> APP2P\n", __func__, cur, mode);
+         wifidev->wifi_mode = WIFI_MODE_APP2P;
+-        aic_wifi_set_mode((int)WIFI_MODE_APP2P);
++        aic_wifi_mode_set((int)WIFI_MODE_APP2P);
+         return 0;
+     }
+ #endif
+@@ -416,6 +412,14 @@ void aic_wifi_priv_event_register(wifi_priv_event_cb cb)
+     priv_aic_wifi_event_cb = cb;
+ }
+ 
++/* [AIC8800-PORT] 注册通用事件扩展回调 (见 m_ext_event_cb 说明)。
++ * rt_wlan 桥接层 (aic8800_wlan_dev.c) 在 wlan_init 时注册, 用于
++ * 捕获 SCAN_DONE / LEAVE / STA_DISCONNECT 等异步事件并转成 rt_wlan 事件。 */
++void aic_wifi_ext_event_register(aic_wifi_event_cb cb)
++{
++    m_ext_event_cb = cb;
++}
++
+ /**
+  * @brief WiFi事件回调分发函数
+  *
+@@ -522,6 +526,12 @@ void aic_wifi_event_callback(AIC_WIFI_EVENT enEvent, aic_wifi_event_data *enData
+                 break;
+             }
+     }
++
++    /* [AIC8800-PORT] 分发到扩展事件回调 (rt_wlan 桥接层); NULL 守卫, 未注册时零开销 */
++    if (m_ext_event_cb)
++    {
++        m_ext_event_cb(enEvent, enData);
++    }
+ }
+ 
+ /**
+
+########## platform/wifi/wifi_port_ap.c
+git : warning: in the working copy of 'D:/SiFli/SDK/SiFli-SDK-WiFi/SiFli-SDK/customer/peripherals/wifi/aic8800_rtos_dri
+ver/platform/wifi/wifi_port_ap.c', LF will be replaced by CRLF the next time Git touches it
+所在位置 行:18 字符: 8
++   $d = git diff --no-index --no-color --unified=3 --ignore-cr-at-eol  ...
++        ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+    + CategoryInfo          : NotSpecified: (warning: in the... Git touches it:String) [], RemoteException
+    + FullyQualifiedErrorId : NativeCommandError
+ 
+warning: in the working copy of 'G:/Code/VScode/SF32_Code/SiFli_demos/aic8800_diff_sifli/aic8800_diff_sf32lb52x_sifli_g
+b4036bf_20261013/sdk_patch/platform/aic8800_rtos_driver/platform/wifi/wifi_port_ap.c', LF will be replaced by CRLF the 
+next time Git touches it
+diff --git a/D:/SiFli/SDK/SiFli-SDK-WiFi/SiFli-SDK/customer/peripherals/wifi/aic8800_rtos_driver/platform/wifi/wifi_port_ap.c b/G:/Code/VScode/SF32_Code/SiFli_demos/aic8800_diff_sifli/aic8800_diff_sf32lb52x_sifli_gb4036bf_20261013/sdk_patch/platform/aic8800_rtos_driver/platform/wifi/wifi_port_ap.c
+index ff1dbd3a4..5deda00e4 100644
+--- a/D:/SiFli/SDK/SiFli-SDK-WiFi/SiFli-SDK/customer/peripherals/wifi/aic8800_rtos_driver/platform/wifi/wifi_port_ap.c
++++ b/G:/Code/VScode/SF32_Code/SiFli_demos/aic8800_diff_sifli/aic8800_diff_sf32lb52x_sifli_gb4036bf_20261013/sdk_patch/platform/aic8800_rtos_driver/platform/wifi/wifi_port_ap.c
+@@ -8,7 +8,6 @@
+ 
+ #include "wifi_port_priv.h"
+ #include "wifi_api.h"
+-#include "wifi_if.h"      /* [AIC8800-PORT][SiFli] aic_wifi_set_mode 声明 (基线遗漏 include) */
+ #include "netif_api.h"
+ #include "fmac_port.h"
+ #include "aic_log.h"
+@@ -88,7 +87,7 @@ struct aic_ap_cfg *user_ap_cfg = NULL;
+ static void aicwf_app_wlan_mac_filter(uap_config_param *uap_cfg)
+ {
+ 	unsigned char i;
+-	/* [AIC8800-PORT][BUGFIX] 并发 APSTA 时 SoftAP 在 vif2 (非 0), 用实际 AP vif idx,
++	/* [BUGFIX] (共性: 并发 APSTA) SoftAP 在 vif2 (非 0), 用实际 AP vif idx,
+ 	 * 否则 DENY_ACL/ACCEPT_ACL 命令发到 STA 的 wpa_s (ap_iface=NULL) 会 Data Abort */
+ 	int ap_vif = aic_wifi_get_ap_vif_idx();
+ 	if (ap_vif < 0)
+@@ -196,7 +195,7 @@ t_s32 app_wlan_bss_config(t_u32 start_stop)
+                     wifidev->wifi_mode = WIFI_MODE_P2P;
+                 else
+                     wifidev->wifi_mode = WIFI_MODE_UNKNOWN;
+-                aic_wifi_set_mode((int)wifidev->wifi_mode);
++                aic_wifi_mode_set((int)wifidev->wifi_mode);
+             }
+         }
+         else
+@@ -216,7 +215,7 @@ t_s32 app_wlan_bss_config(t_u32 start_stop)
+                         wifidev->wifi_mode = WIFI_MODE_P2P;
+                     else
+                         wifidev->wifi_mode = WIFI_MODE_UNKNOWN;
+-                    aic_wifi_set_mode((int)wifidev->wifi_mode);
++                    aic_wifi_mode_set((int)wifidev->wifi_mode);
+                 } else {
+                     DBG_APP_ERR("%s: stop ap fail %d\n", __func__, ret);
+                 }
+@@ -293,7 +292,7 @@ t_s32 app_wlan_bss_config(t_u32 start_stop)
+                     wifidev->wifi_mode = WIFI_MODE_P2P;
+                 else
+                     wifidev->wifi_mode = WIFI_MODE_UNKNOWN;
+-                aic_wifi_set_mode((int)wifidev->wifi_mode);
++                aic_wifi_mode_set((int)wifidev->wifi_mode);
+             }
+         }
+         else
+@@ -313,7 +312,7 @@ t_s32 app_wlan_bss_config(t_u32 start_stop)
+                         wifidev->wifi_mode = WIFI_MODE_P2P;
+                     else
+                         wifidev->wifi_mode = WIFI_MODE_UNKNOWN;
+-                    aic_wifi_set_mode((int)wifidev->wifi_mode);
++                    aic_wifi_mode_set((int)wifidev->wifi_mode);
+                 } else {
+                     DBG_APP_ERR("%s: stop ap fail %d\n", __func__, ret);
+                 }
+@@ -583,7 +582,7 @@ int app_wlan_params_set_filter_only(void *filter, uap_config_param *uap_cfg)
+ {
+ 	unsigned char i;
+ 	uap_mac_filter *uap_filter = (uap_mac_filter *)filter;
+-	/* [AIC8800-PORT][BUGFIX] 并发 APSTA 时 SoftAP 在 vif2 (非 0), 用实际 AP vif idx */
++	/* [BUGFIX] (共性: 并发 APSTA) SoftAP 在 vif2 (非 0), 用实际 AP vif idx */
+ 	int ap_vif = aic_wifi_get_ap_vif_idx();
+ 	if (ap_vif < 0)
+ 		ap_vif = 0;
+
+########## platform/wifi/wifi_port_p2p.c
+git : warning: in the working copy of 'D:/SiFli/SDK/SiFli-SDK-WiFi/SiFli-SDK/customer/peripherals/wifi/aic8800_rtos_dri
+ver/platform/wifi/wifi_port_p2p.c', LF will be replaced by CRLF the next time Git touches it
+所在位置 行:18 字符: 8
++   $d = git diff --no-index --no-color --unified=3 --ignore-cr-at-eol  ...
++        ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+    + CategoryInfo          : NotSpecified: (warning: in the... Git touches it:String) [], RemoteException
+    + FullyQualifiedErrorId : NativeCommandError
+ 
+warning: in the working copy of 'G:/Code/VScode/SF32_Code/SiFli_demos/aic8800_diff_sifli/aic8800_diff_sf32lb52x_sifli_g
+b4036bf_20261013/sdk_patch/platform/aic8800_rtos_driver/platform/wifi/wifi_port_p2p.c', LF will be replaced by CRLF the
+ next time Git touches it
+diff --git a/D:/SiFli/SDK/SiFli-SDK-WiFi/SiFli-SDK/customer/peripherals/wifi/aic8800_rtos_driver/platform/wifi/wifi_port_p2p.c b/G:/Code/VScode/SF32_Code/SiFli_demos/aic8800_diff_sifli/aic8800_diff_sf32lb52x_sifli_gb4036bf_20261013/sdk_patch/platform/aic8800_rtos_driver/platform/wifi/wifi_port_p2p.c
+index e13a6482c..541fe1d02 100644
+--- a/D:/SiFli/SDK/SiFli-SDK-WiFi/SiFli-SDK/customer/peripherals/wifi/aic8800_rtos_driver/platform/wifi/wifi_port_p2p.c
++++ b/G:/Code/VScode/SF32_Code/SiFli_demos/aic8800_diff_sifli/aic8800_diff_sf32lb52x_sifli_gb4036bf_20261013/sdk_patch/platform/aic8800_rtos_driver/platform/wifi/wifi_port_p2p.c
+@@ -10,7 +10,6 @@
+ 
+ #include "wifi_port_priv.h"
+ #include "wifi_api.h"
+-#include "wifi_if.h"      /* [AIC8800-PORT][SiFli] aic_wifi_set_mode 声明 (基线遗漏 include, 同 wifi_port.c) */
+ #include "aic_log.h"
+ #include <string.h>
+ 
+@@ -85,7 +84,7 @@ int app_wlan_p2p_start(const char *dev_name, const char *ssid, const char *passw
+ 			aicwf_wifi_dev.wifi_mode = WIFI_MODE_AP;
+ 		else
+ 			aicwf_wifi_dev.wifi_mode = WIFI_MODE_UNKNOWN;
+-		aic_wifi_set_mode((int)aicwf_wifi_dev.wifi_mode);
++		aic_wifi_mode_set((int)aicwf_wifi_dev.wifi_mode);
+ 	}
+ 
+ 	return ret;
+@@ -112,7 +111,7 @@ int app_wlan_p2p_stop(void)
+ 			aicwf_wifi_dev.wifi_mode = WIFI_MODE_AP;
+ 		else
+ 			aicwf_wifi_dev.wifi_mode = WIFI_MODE_UNKNOWN;
+-		aic_wifi_set_mode((int)aicwf_wifi_dev.wifi_mode);
++		aic_wifi_mode_set((int)aicwf_wifi_dev.wifi_mode);
+ 	}
+ 
+ 	return ret;
+
+########## platform/wifi/wifi_port_plt.c
+git : warning: in the working copy of 'D:/SiFli/SDK/SiFli-SDK-WiFi/SiFli-SDK/customer/peripherals/wifi/aic8800_rtos_dri
+ver/platform/wifi/wifi_port_plt.c', LF will be replaced by CRLF the next time Git touches it
+所在位置 行:18 字符: 8
++   $d = git diff --no-index --no-color --unified=3 --ignore-cr-at-eol  ...
++        ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+    + CategoryInfo          : NotSpecified: (warning: in the... Git touches it:String) [], RemoteException
+    + FullyQualifiedErrorId : NativeCommandError
+ 
+warning: in the working copy of 'G:/Code/VScode/SF32_Code/SiFli_demos/aic8800_diff_sifli/aic8800_diff_sf32lb52x_sifli_g
+b4036bf_20261013/sdk_patch/platform/aic8800_rtos_driver/platform/wifi/wifi_port_plt.c', LF will be replaced by CRLF the
+ next time Git touches it
+diff --git a/D:/SiFli/SDK/SiFli-SDK-WiFi/SiFli-SDK/customer/peripherals/wifi/aic8800_rtos_driver/platform/wifi/wifi_port_plt.c b/G:/Code/VScode/SF32_Code/SiFli_demos/aic8800_diff_sifli/aic8800_diff_sf32lb52x_sifli_gb4036bf_20261013/sdk_patch/platform/aic8800_rtos_driver/platform/wifi/wifi_port_plt.c
+index 0c238dfd1..d3f7b1a64 100644
+--- a/D:/SiFli/SDK/SiFli-SDK-WiFi/SiFli-SDK/customer/peripherals/wifi/aic8800_rtos_driver/platform/wifi/wifi_port_plt.c
++++ b/G:/Code/VScode/SF32_Code/SiFli_demos/aic8800_diff_sifli/aic8800_diff_sf32lb52x_sifli_gb4036bf_20261013/sdk_patch/platform/aic8800_rtos_driver/platform/wifi/wifi_port_plt.c
+@@ -15,14 +15,11 @@
+ #include "aic_assert.h"
+ #include "aic_log.h"
+ #include "plat_port.h"
++#include "aic_chip_desc.h"
+ #include <rtthread.h>          /* [AIC8800-PORT][SiFli] 原 FreeRTOS.h; RT_WAITING_FOREVER */
+ #ifdef CONFIG_SDIO_SUPPORT
+-#include <drivers/mmcsd_core.h> /* [AIC8800-PORT][SiFli] 原 "mmcsd_core.h": MMC core 类型/接口 */
++#include <drivers/mmcsd_core.h> /* [AIC8800-PORT][SiFli] 原 "mmcsd_core.h"; mmcsd_wait_cd_changed/MMCSD_HOST_PLUGED */
+ #include "sdio_port.h"          /* aicwf_sdio_drv_register 声明 */
+-
+-/* [AIC8800-PORT][SiFli] mmcsd_get_stat 未在 mmcsd_core.h 中声明 (定义在 mmcsd_core.c:632),
+- * 参照 swt6621s/wifi_device.c:72 同样方式局部声明。 */
+-extern uint8_t mmcsd_get_stat(void);
+ #endif
+ 
+ 
+@@ -39,31 +36,22 @@ extern void aic_wifi_cmd(char *atcmd, unsigned int athandle, unsigned char chan_
+  * @brief 等待总线设备就绪
+  *
+  * 根据编译期总线选择 (AIC_BUS_TYPE) 调用对应总线的就绪等待与驱动注册。
+- * - SDIO: 轮询等待 SDIO 设备探测完成并注册 SDIO 驱动
++ * - SDIO: 阻塞等待 SDIO 设备插入并注册 SDIO 驱动
+  * - USB:  调用 USB 驱动注册 (stub 阶段直接返回)
+  */
+ static void aicwf_aic_wifi_bus_waitready(void)
+ {
+ #ifdef CONFIG_SDIO_SUPPORT
+-	/* [AIC8800-PORT][SiFli] 不能用 mmcsd_wait_cd_changed() 阻塞等 MMCSD_HOST_PLUGED:
+-	 * mmcsd_core.c 只在 SD 卡/eMMC 探测成功和拔卡分支向 mmcsd_hotpluge_mb 投递消息,
+-	 * SDIO 探测分支不投递, 纯 SDIO 场景下该等待永不返回, 主流程会卡死。
+-	 * 改为轮询 mmcsd_get_stat() (探测流程已执行完), 与 swt6621s/wifi_device.c 的
+-	 * rt_check_sdio_ready() 做法一致。 */
+-	int timeout = 50;   /* 最多等 5s */
++	unsigned int status;
+ 
+-	while (timeout-- > 0) {
+-		if (mmcsd_get_stat())
++	for (;;) {
++		status = mmcsd_wait_cd_changed(RT_WAITING_FOREVER);   /* [AIC8800-PORT][SiFli] 基线 TI mmcsd_wait_sdio_ready(portMAX_DELAY) 的 RT-Thread 等价: 阻塞等卡检测变化, 返回 MMCSD_HOST_PLUGED/UNPLUGED/-RT_ETIMEOUT。TODO[HW]: RT-Thread 下 probe 由 MMC 核心在卡 attach 时回调; 若上电卡已就绪而无新热插拔事件此等待或不唤醒, 硬件联调时按需改为先注册 sdio_driver 再等/轮询 host->card */
++		if (status == MMCSD_HOST_PLUGED) {
++			DBG_SDIO_INF("detect sdio device\r\n");
+ 			break;
+-		aicwf_rtos_msleep(100);
++		}
+ 	}
+-
+-	if (mmcsd_get_stat())
+-		DBG_SDIO_INF("detect sdio device\r\n");
+-	else
+-		DBG_SDIO_ERR("sdio detect timeout\r\n");
+-
+-	aicwf_sdio_drv_register();
++    aicwf_sdio_drv_register();
+ #elif defined(CONFIG_USB_SUPPORT)
+ 	DBG_USB_INF("usb bus waitready (stub)\r\n");
+ 	aicwf_usb_drv_register();
+@@ -117,12 +105,16 @@ void aic_wifi_demo_test(void)
+     wifi_driver_init();
+     aicwf_aic_wifi_wait_driver_init();
+ 	aic_wifi_init_mac();
+-	// aicwf_net_if_plat_init();
++	aicwf_net_if_plat_init();
+ 
+ 	/* [DEMO] FW 日志级别配置 — 时序: 必须在驱动初始化完成后 (aic_wifi_init_mac
+ 	 * 之后) 调用, 依赖 g_rwnx_hw 与消息通道就绪。一站式打开: ① 0x13 回传通道
+-	 * 总开关 ② lp_level 总闸门 ③ 模块过滤 ④ 级别阈值。此处配置全模块 + >=INF。 */
+-	aic_wifi_fw_log_enable(AIC_FW_MOD_DEFAULT, AIC_FW_SEV_INF);
++	 * 总开关 ② lp_level 总闸门 ③ 模块过滤 ④ 级别阈值。此处配置全模块 + >=INF。
++	 * DC/DW family 不支持 FW 日志回传 (CFG_PRINT 0x13 通道), 跳过。 */
++	if (aic_chip_desc_chipid_get() != AIC_CHIP_ID_8800DC &&
++	    aic_chip_desc_chipid_get() != AIC_CHIP_ID_8800DW) {
++		aic_wifi_fw_log_enable(AIC_FW_MOD_DEFAULT, AIC_FW_SEV_INF);
++	}
+ #if defined(AIC_FEATURE_BT) && defined(AIC_FEATURE_NIMBLE)
+ 	/* BT patch 已由驱动初始化加载 (host 无条件 aicbt_init);
+ 	 * 此处拉起 NimBLE 协议栈任务 (STACK/nimble 提供)。需 AIC_FEATURE_NIMBLE
+
+########## platform/wifi/wifi_port_sta.c
+git : warning: in the working copy of 'D:/SiFli/SDK/SiFli-SDK-WiFi/SiFli-SDK/customer/peripherals/wifi/aic8800_rtos_dri
+ver/platform/wifi/wifi_port_sta.c', LF will be replaced by CRLF the next time Git touches it
+所在位置 行:18 字符: 8
++   $d = git diff --no-index --no-color --unified=3 --ignore-cr-at-eol  ...
++        ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+    + CategoryInfo          : NotSpecified: (warning: in the... Git touches it:String) [], RemoteException
+    + FullyQualifiedErrorId : NativeCommandError
+ 
+warning: in the working copy of 'G:/Code/VScode/SF32_Code/SiFli_demos/aic8800_diff_sifli/aic8800_diff_sf32lb52x_sifli_g
+b4036bf_20261013/sdk_patch/platform/aic8800_rtos_driver/platform/wifi/wifi_port_sta.c', LF will be replaced by CRLF the
+ next time Git touches it
+diff --git a/D:/SiFli/SDK/SiFli-SDK-WiFi/SiFli-SDK/customer/peripherals/wifi/aic8800_rtos_driver/platform/wifi/wifi_port_sta.c b/G:/Code/VScode/SF32_Code/SiFli_demos/aic8800_diff_sifli/aic8800_diff_sf32lb52x_sifli_gb4036bf_20261013/sdk_patch/platform/aic8800_rtos_driver/platform/wifi/wifi_port_sta.c
+index bc0be09d2..b78824d53 100644
+--- a/D:/SiFli/SDK/SiFli-SDK-WiFi/SiFli-SDK/customer/peripherals/wifi/aic8800_rtos_driver/platform/wifi/wifi_port_sta.c
++++ b/G:/Code/VScode/SF32_Code/SiFli_demos/aic8800_diff_sifli/aic8800_diff_sf32lb52x_sifli_gb4036bf_20261013/sdk_patch/platform/aic8800_rtos_driver/platform/wifi/wifi_port_sta.c
+@@ -8,7 +8,6 @@
+ 
+ #include "wifi_port_priv.h"
+ #include "wifi_api.h"
+-#include "wifi_if.h"      /* [AIC8800-PORT][SiFli] aic_wifi_set_mode 声明 (基线遗漏 include) */
+ #include "netif_api.h"
+ #include "aic_log.h"
+ #include <string.h>
+@@ -30,6 +29,22 @@ uint32_t app_wlan_sta_get_ip(void)
+ 	return ip;
+ }
+ 
++/**
++ * @brief 认证方式枚举 → AT 输出字符串
++ */
++static const char *app_wlan_auth_mode_str(aic_wifi_auth_mode_e mode)
++{
++	switch (mode) {
++	case AIC_WIFI_AUTH_NONE:      return "NONE";
++	case AIC_WIFI_AUTH_WEP:       return "WEP";
++	case AIC_WIFI_AUTH_WPA_PSK:   return "WPA-PSK";
++	case AIC_WIFI_AUTH_WPA2_PSK:  return "WPA2-PSK";
++	case AIC_WIFI_AUTH_WPA3_SAE:  return "WPA3-SAE";
++	case AIC_WIFI_AUTH_WPA2_WPA3: return "WPA2/WPA3";
++	default:                      return "OTHER";
++	}
++}
++
+ /**
+  * @brief 显示WiFi扫描结果
+  *
+@@ -42,7 +57,7 @@ uint8_t app_wlan_sta_show_scan_res(void)
+ 	wifi_ap_list_t aplist;
+ 	uint16_t apcnt;
+ 	char rsp[128]= {0};
+-	uint8_t index[32];
++	uint8_t index[MAX_AP_COUNT];
+ 	int i,j;
+ 	uint8_t rs1, rs2,tmp;
+ 
+@@ -78,11 +93,15 @@ uint8_t app_wlan_sta_show_scan_res(void)
+ 	for (apcnt = 0;apcnt < aplist.ap_count;apcnt++)
+ 	{
+ 		memset(rsp,0,128);
+-		sprintf(rsp,"[%d]:rssi=%3d dBm CH=%3d BSSID=%02x:%02x:%02x:%02x:%02x:%02x SSID=%s",
++		/* SSID 放最后: SSID 可含空格, LEN/AUTH 置于其前不破坏解析;
++		 * SSID_LEN=0 表示隐藏 AP (SSID 字段为占位符) */
++		sprintf(rsp,"[%d]:rssi=%3d dBm CH=%3d BSSID=%02x:%02x:%02x:%02x:%02x:%02x AUTH=%s SSID_LEN=%d SSID=%s",
+ 				apcnt+1, (int8_t)(aplist.ap_info[index[apcnt]].rssi), aic_wifi_phy_channel_to_freq(0,aplist.ap_info[index[apcnt]].channel),
+ 				aplist.ap_info[index[apcnt]].bssid[0], aplist.ap_info[index[apcnt]].bssid[1],
+ 				aplist.ap_info[index[apcnt]].bssid[2], aplist.ap_info[index[apcnt]].bssid[3],
+ 				aplist.ap_info[index[apcnt]].bssid[4], aplist.ap_info[index[apcnt]].bssid[5],
++				app_wlan_auth_mode_str((aic_wifi_auth_mode_e)aplist.ap_info[index[apcnt]].auth_mode),
++				aplist.ap_info[index[apcnt]].ssid_len,
+ 				(char *)aplist.ap_info[index[apcnt]].ssid);
+ 		aicwf_ATRESP( g_athandle,1,0,rsp);
+ 	}
+@@ -116,7 +135,7 @@ static void aicwf_app_wlan_sta_status_cb(aic_wifi_mac_status_e st)
+             DBG_APP_INF("AIC-STA: disconn, mode sync %d -> %d\n",
+                         *mode, new_mode);
+             *mode = new_mode;
+-            aic_wifi_set_mode((int)new_mode);
++            aic_wifi_mode_set((int)new_mode);
+         } else {
+             DBG_APP_INF("AIC-STA: disconn\n");
+         }
+@@ -169,10 +188,6 @@ int app_wlan_sta_start(uint8_t * ssid, uint8_t * pw, int timeout_ms)
+             {
+                 ret = 0;
+                 app_wlan_sta_get_ip();
+-                /* [AIC8800-PORT][SiFli] DHCP 已拿到地址: 把 netif 的地址/链路标志
+-                 * 回灌 RT-Thread netdev, 否则 ifconfig 恒显示 0.0.0.0, 且 netdev
+-                 * 版 ping 会以 "status error" 拒绝发包 (幂等, 详见 aicwf_net_if_netdev_sync) */
+-                aicwf_net_if_netdev_sync(NULL);
+                 break;
+             }
+             aicwf_rtos_msleep(STA_DHCP_POLL_INTERVAL_MS);
+@@ -201,7 +216,7 @@ int app_wlan_sta_start(uint8_t * ssid, uint8_t * pw, int timeout_ms)
+ 			aicwf_wifi_dev.wifi_mode = WIFI_MODE_AP;
+ 		else
+ 			aicwf_wifi_dev.wifi_mode = WIFI_MODE_UNKNOWN;
+-		aic_wifi_set_mode((int)aicwf_wifi_dev.wifi_mode);
++		aic_wifi_mode_set((int)aicwf_wifi_dev.wifi_mode);
+ 	}
+ 
+     return ret;
+@@ -228,7 +243,7 @@ int app_wlan_sta_stop(void)
+             aicwf_wifi_dev.wifi_mode = WIFI_MODE_AP;
+         else
+             aicwf_wifi_dev.wifi_mode = WIFI_MODE_UNKNOWN;
+-        aic_wifi_set_mode((int)aicwf_wifi_dev.wifi_mode);
++        aic_wifi_mode_set((int)aicwf_wifi_dev.wifi_mode);
+     } else {
+         DBG_APP_ERR("%s: fail, %d\n", __func__, ret);
+     }
+
+########## platform/wifi/wifi_port_wps.c
+git : warning: in the working copy of 'D:/SiFli/SDK/SiFli-SDK-WiFi/SiFli-SDK/customer/peripherals/wifi/aic8800_rtos_dri
+ver/platform/wifi/wifi_port_wps.c', LF will be replaced by CRLF the next time Git touches it
+所在位置 行:18 字符: 8
++   $d = git diff --no-index --no-color --unified=3 --ignore-cr-at-eol  ...
++        ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+    + CategoryInfo          : NotSpecified: (warning: in the... Git touches it:String) [], RemoteException
+    + FullyQualifiedErrorId : NativeCommandError
+ 
+warning: in the working copy of 'G:/Code/VScode/SF32_Code/SiFli_demos/aic8800_diff_sifli/aic8800_diff_sf32lb52x_sifli_g
+b4036bf_20261013/sdk_patch/platform/aic8800_rtos_driver/platform/wifi/wifi_port_wps.c', LF will be replaced by CRLF the
+ next time Git touches it
+diff --git a/D:/SiFli/SDK/SiFli-SDK-WiFi/SiFli-SDK/customer/peripherals/wifi/aic8800_rtos_driver/platform/wifi/wifi_port_wps.c b/G:/Code/VScode/SF32_Code/SiFli_demos/aic8800_diff_sifli/aic8800_diff_sf32lb52x_sifli_gb4036bf_20261013/sdk_patch/platform/aic8800_rtos_driver/platform/wifi/wifi_port_wps.c
+index dbaca841f..0597a6b28 100644
+--- a/D:/SiFli/SDK/SiFli-SDK-WiFi/SiFli-SDK/customer/peripherals/wifi/aic8800_rtos_driver/platform/wifi/wifi_port_wps.c
++++ b/G:/Code/VScode/SF32_Code/SiFli_demos/aic8800_diff_sifli/aic8800_diff_sf32lb52x_sifli_gb4036bf_20261013/sdk_patch/platform/aic8800_rtos_driver/platform/wifi/wifi_port_wps.c
+@@ -137,7 +137,7 @@ static void aicwf_app_wlan_wps_status_callback(int event)
+ void app_wlan_wps_use_pbc(void)
+ {
+     struct plat_wps_dev *wpsdev = &wps_dev;
+-	/* [AIC8800-PORT][BUGFIX] 并发 APSTA 时 SoftAP 在 vif2 (非 0), 用实际 AP vif idx */
++	/* [BUGFIX] (共性: 并发 APSTA) SoftAP 在 vif2 (非 0), 用实际 AP vif idx */
+ 	int ap_vif = aic_wifi_get_ap_vif_idx();
+ 	if (ap_vif < 0)
+ 		ap_vif = 0;
+@@ -180,7 +180,7 @@ void app_wlan_wps_disable(void)
+ {
+ 	int ret = -1;
+     struct plat_wps_dev *wpsdev = &wps_dev;
+-	/* [AIC8800-PORT][BUGFIX] 并发 APSTA 时 SoftAP 在 vif2 (非 0), 用实际 AP vif idx */
++	/* [BUGFIX] (共性: 并发 APSTA) SoftAP 在 vif2 (非 0), 用实际 AP vif idx */
+ 	int ap_vif = aic_wifi_get_ap_vif_idx();
+ 	if (ap_vif < 0)
+ 		ap_vif = 0;
+@@ -232,7 +232,7 @@ void app_wlan_wps_use_cancel(void)
+ {
+ 	int ret = -1;
+     struct plat_wps_dev *wpsdev = &wps_dev;
+-	/* [AIC8800-PORT][BUGFIX] 并发 APSTA 时 SoftAP 在 vif2 (非 0), 用实际 AP vif idx */
++	/* [BUGFIX] (共性: 并发 APSTA) SoftAP 在 vif2 (非 0), 用实际 AP vif idx */
+ 	int ap_vif = aic_wifi_get_ap_vif_idx();
+ 	if (ap_vif < 0)
+ 		ap_vif = 0;
+@@ -263,7 +263,7 @@ void app_wlan_wps_use_pin(char *pin)
+ {
+ 	int ret = -1;
+     struct plat_wps_dev *wpsdev = &wps_dev;
+-	/* [AIC8800-PORT][BUGFIX] 并发 APSTA 时 SoftAP 在 vif2 (非 0), 用实际 AP vif idx */
++	/* [BUGFIX] (共性: 并发 APSTA) SoftAP 在 vif2 (非 0), 用实际 AP vif idx */
+ 	int ap_vif = aic_wifi_get_ap_vif_idx();
+ 	if (ap_vif < 0)
+ 		ap_vif = 0;
+
+########## port/inc/aic_chip_desc.h
+git : warning: in the working copy of 'D:/SiFli/SDK/SiFli-SDK-WiFi/SiFli-SDK/customer/peripherals/wifi/aic8800_rtos_dri
+ver/port/inc/aic_chip_desc.h', LF will be replaced by CRLF the next time Git touches it
+所在位置 行:18 字符: 8
++   $d = git diff --no-index --no-color --unified=3 --ignore-cr-at-eol  ...
++        ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+    + CategoryInfo          : NotSpecified: (warning: in the... Git touches it:String) [], RemoteException
+    + FullyQualifiedErrorId : NativeCommandError
+ 
+warning: in the working copy of 'G:/Code/VScode/SF32_Code/SiFli_demos/aic8800_diff_sifli/aic8800_diff_sf32lb52x_sifli_g
+b4036bf_20261013/sdk_patch/platform/aic8800_rtos_driver/port/inc/aic_chip_desc.h', LF will be replaced by CRLF the next
+ time Git touches it
+diff --git a/D:/SiFli/SDK/SiFli-SDK-WiFi/SiFli-SDK/customer/peripherals/wifi/aic8800_rtos_driver/port/inc/aic_chip_desc.h b/G:/Code/VScode/SF32_Code/SiFli_demos/aic8800_diff_sifli/aic8800_diff_sf32lb52x_sifli_gb4036bf_20261013/sdk_patch/platform/aic8800_rtos_driver/port/inc/aic_chip_desc.h
+index c629f471c..6741a13ce 100644
+--- a/D:/SiFli/SDK/SiFli-SDK-WiFi/SiFli-SDK/customer/peripherals/wifi/aic8800_rtos_driver/port/inc/aic_chip_desc.h
++++ b/G:/Code/VScode/SF32_Code/SiFli_demos/aic8800_diff_sifli/aic8800_diff_sf32lb52x_sifli_gb4036bf_20261013/sdk_patch/platform/aic8800_rtos_driver/port/inc/aic_chip_desc.h
+@@ -69,6 +69,16 @@ struct aic_chip_desc {
+     /* msg TX cfm 轮询路径 (原 CONFIG_AIC8801 send_pkt 分支) */
+     uint8_t msgcfm_poll_path;
+ 
++    /* ---- msg 通道流控 ---- */
++
++    /* msg (hal msg) 发送免流控 (不查询 func1 flow_ctrl_reg credit)。
++     * D80N FW 不维护 msg fc (该寄存器恒 0), 必须置 1 直接发送,
++     * 对齐 Linux aicsdio.c aicwf_sdio_tx_msg 的型号特判。
++     * 缺省 0 = 流控 (原行为): 平台树 desc 表未同步本字段时行为不变,
++     * 无静默回归。DC/DW 流控由 func2 释放 (func_flag_tx) 动态决定,
++     * 与本字段无关 (见 sdio_co.c sdio_msg_fc_enabled())。 */
++    uint8_t msg_fc_bypass;
++
+     /* ---- FW 协议行为 ---- */
+ 
+     /* mm_get_sta_info_req 变长打包时附加 more_info 字节
+
+########## port/inc/aic_log.h
+git : warning: in the working copy of 'D:/SiFli/SDK/SiFli-SDK-WiFi/SiFli-SDK/customer/peripherals/wifi/aic8800_rtos_dri
+ver/port/inc/aic_log.h', LF will be replaced by CRLF the next time Git touches it
+所在位置 行:18 字符: 8
++   $d = git diff --no-index --no-color --unified=3 --ignore-cr-at-eol  ...
++        ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+    + CategoryInfo          : NotSpecified: (warning: in the... Git touches it:String) [], RemoteException
+    + FullyQualifiedErrorId : NativeCommandError
+ 
+warning: in the working copy of 'G:/Code/VScode/SF32_Code/SiFli_demos/aic8800_diff_sifli/aic8800_diff_sf32lb52x_sifli_g
+b4036bf_20261013/sdk_patch/platform/aic8800_rtos_driver/port/inc/aic_log.h', LF will be replaced by CRLF the next time 
+Git touches it
+diff --git a/D:/SiFli/SDK/SiFli-SDK-WiFi/SiFli-SDK/customer/peripherals/wifi/aic8800_rtos_driver/port/inc/aic_log.h b/G:/Code/VScode/SF32_Code/SiFli_demos/aic8800_diff_sifli/aic8800_diff_sf32lb52x_sifli_gb4036bf_20261013/sdk_patch/platform/aic8800_rtos_driver/port/inc/aic_log.h
+index 3da97c5f5..fc186f376 100644
+--- a/D:/SiFli/SDK/SiFli-SDK-WiFi/SiFli-SDK/customer/peripherals/wifi/aic8800_rtos_driver/port/inc/aic_log.h
++++ b/G:/Code/VScode/SF32_Code/SiFli_demos/aic8800_diff_sifli/aic8800_diff_sf32lb52x_sifli_gb4036bf_20261013/sdk_patch/platform/aic8800_rtos_driver/port/inc/aic_log.h
+@@ -53,6 +53,7 @@ extern "C" {
+ #define AIC_MOD_APP     (1 << 11)
+ #define AIC_MOD_WPA     (1 << 12)
+ #define AIC_MOD_NIM     (1 << 13)
++#define AIC_MOD_BT      (1 << 14)
+ 
+ #ifndef CONFIG_LOG_MODULES
+ #define CONFIG_LOG_MODULES  0xFFFFFFFF
+@@ -76,6 +77,7 @@ enum dbg_mod_tag {
+     DBG_MOD_IDX_APP,
+     DBG_MOD_IDX_WPA,
+     DBG_MOD_IDX_NIM,
++    DBG_MOD_IDX_BT,
+     DBG_MOD_IDX_MAX,
+ };
+ 
+@@ -578,6 +580,37 @@ do {                                                                        \
+ #define DBG_NIM_VRB(fmt, ...)
+ #endif
+ 
++/* ---- BT (BT 驱动 / HCI 传输: host/driver/drv_bt, platform/bt) ---- */
++#if (CONFIG_LOG_LEVEL >= AIC_SEV_CRT) && (CONFIG_LOG_MODULES & AIC_MOD_BT)
++#define DBG_BT_CRT(fmt, ...)     __DBG_MOD_SEV_TEMPLATE(BT, CRT, fmt, ## __VA_ARGS__)
++#else
++#define DBG_BT_CRT(fmt, ...)
++#endif
++
++#if (CONFIG_LOG_LEVEL >= AIC_SEV_ERR) && (CONFIG_LOG_MODULES & AIC_MOD_BT)
++#define DBG_BT_ERR(fmt, ...)     __DBG_MOD_SEV_TEMPLATE(BT, ERR, fmt, ## __VA_ARGS__)
++#else
++#define DBG_BT_ERR(fmt, ...)
++#endif
++
++#if (CONFIG_LOG_LEVEL >= AIC_SEV_WRN) && (CONFIG_LOG_MODULES & AIC_MOD_BT)
++#define DBG_BT_WRN(fmt, ...)     __DBG_MOD_SEV_TEMPLATE(BT, WRN, fmt, ## __VA_ARGS__)
++#else
++#define DBG_BT_WRN(fmt, ...)
++#endif
++
++#if (CONFIG_LOG_LEVEL >= AIC_SEV_INF) && (CONFIG_LOG_MODULES & AIC_MOD_BT)
++#define DBG_BT_INF(fmt, ...)     __DBG_MOD_SEV_TEMPLATE(BT, INF, fmt, ## __VA_ARGS__)
++#else
++#define DBG_BT_INF(fmt, ...)
++#endif
++
++#if (CONFIG_LOG_LEVEL >= AIC_SEV_VRB) && (CONFIG_LOG_MODULES & AIC_MOD_BT)
++#define DBG_BT_VRB(fmt, ...)     __DBG_MOD_SEV_TEMPLATE(BT, VRB, fmt, ## __VA_ARGS__)
++#else
++#define DBG_BT_VRB(fmt, ...)
++#endif
++
+ /* ================================================================
+  * Assertion macro
+  * ================================================================ */
+
+########## port/inc/aic_netbuf.h
+git : warning: in the working copy of 'D:/SiFli/SDK/SiFli-SDK-WiFi/SiFli-SDK/customer/peripherals/wifi/aic8800_rtos_dri
+ver/port/inc/aic_netbuf.h', LF will be replaced by CRLF the next time Git touches it
+所在位置 行:18 字符: 8
++   $d = git diff --no-index --no-color --unified=3 --ignore-cr-at-eol  ...
++        ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+    + CategoryInfo          : NotSpecified: (warning: in the... Git touches it:String) [], RemoteException
+    + FullyQualifiedErrorId : NativeCommandError
+ 
+warning: in the working copy of 'G:/Code/VScode/SF32_Code/SiFli_demos/aic8800_diff_sifli/aic8800_diff_sf32lb52x_sifli_g
+b4036bf_20261013/sdk_patch/platform/aic8800_rtos_driver/port/inc/aic_netbuf.h', LF will be replaced by CRLF the next ti
+me Git touches it
+diff --git a/D:/SiFli/SDK/SiFli-SDK-WiFi/SiFli-SDK/customer/peripherals/wifi/aic8800_rtos_driver/port/inc/aic_netbuf.h b/G:/Code/VScode/SF32_Code/SiFli_demos/aic8800_diff_sifli/aic8800_diff_sf32lb52x_sifli_gb4036bf_20261013/sdk_patch/platform/aic8800_rtos_driver/port/inc/aic_netbuf.h
+index ba3ca9ed8..4f04258a6 100644
+--- a/D:/SiFli/SDK/SiFli-SDK-WiFi/SiFli-SDK/customer/peripherals/wifi/aic8800_rtos_driver/port/inc/aic_netbuf.h
++++ b/G:/Code/VScode/SF32_Code/SiFli_demos/aic8800_diff_sifli/aic8800_diff_sf32lb52x_sifli_gb4036bf_20261013/sdk_patch/platform/aic8800_rtos_driver/port/inc/aic_netbuf.h
+@@ -32,6 +32,14 @@ typedef struct net_buf_tx {
+     uint32_t net_id;
+     void    *frag_next;  /* [PLATFORM] nocopy TX (NET_IF_UAP_NCPYBUF=1): pbuf 链指针，
+                             透传到 SDIO 聚合 scatter copy；copy 模式恒为 NULL */
++#ifdef CONFIG_SDIO_ADMA
++    /* ADMA 模式下 TX 缓冲由平台"整块分配 + 对齐"提供: data_ptr 指向对齐后的
++     * payload, 整块起始地址(释放用)记在这里, 平台 netif_port.c 的
++     * aicwf_net_buf_tx_free() 用它 aicwf_rtos_free()。
++     * 与 host drv_api/inc/netif_def.h 的 TCPIP_PACKET_INFO_T.data_oprt 同语义;
++     * 缺此字段时 platform/netif/netif_port.c 的 ADMA 分支编不过 (#136 no field)。 */
++    uint8_t *data_oprt;
++#endif
+ } net_buf_tx_t;
+ 
+ #endif /* _AIC_NETBUF_H_ */
+
+########## port/inc/aic_sdio_types.h
+git : warning: in the working copy of 'D:/SiFli/SDK/SiFli-SDK-WiFi/SiFli-SDK/customer/peripherals/wifi/aic8800_rtos_dri
+ver/port/inc/aic_sdio_types.h', LF will be replaced by CRLF the next time Git touches it
+所在位置 行:18 字符: 8
++   $d = git diff --no-index --no-color --unified=3 --ignore-cr-at-eol  ...
++        ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+    + CategoryInfo          : NotSpecified: (warning: in the... Git touches it:String) [], RemoteException
+    + FullyQualifiedErrorId : NativeCommandError
+ 
+warning: in the working copy of 'G:/Code/VScode/SF32_Code/SiFli_demos/aic8800_diff_sifli/aic8800_diff_sf32lb52x_sifli_g
+b4036bf_20261013/sdk_patch/platform/aic8800_rtos_driver/port/inc/aic_sdio_types.h', LF will be replaced by CRLF the nex
+t time Git touches it
+diff --git a/D:/SiFli/SDK/SiFli-SDK-WiFi/SiFli-SDK/customer/peripherals/wifi/aic8800_rtos_driver/port/inc/aic_sdio_types.h b/G:/Code/VScode/SF32_Code/SiFli_demos/aic8800_diff_sifli/aic8800_diff_sf32lb52x_sifli_gb4036bf_20261013/sdk_patch/platform/aic8800_rtos_driver/port/inc/aic_sdio_types.h
+index ada94a518..b5f783d43 100644
+--- a/D:/SiFli/SDK/SiFli-SDK-WiFi/SiFli-SDK/customer/peripherals/wifi/aic8800_rtos_driver/port/inc/aic_sdio_types.h
++++ b/G:/Code/VScode/SF32_Code/SiFli_demos/aic8800_diff_sifli/aic8800_diff_sf32lb52x_sifli_gb4036bf_20261013/sdk_patch/platform/aic8800_rtos_driver/port/inc/aic_sdio_types.h
+@@ -21,12 +21,27 @@
+ /* TX slist max entries */
+ #define SDIO_TX_SLIST_MAX   136
+ 
+-/* SDIO scatter-gather list (ADMA mode) */
++/* SDIO scatter-gather list (ADMA mode)
++ *
++ * 字段名必须与 host 侧用法一致: layer_common/src/sdio_co.c 组帧时写的是
++ *   sdiodev->sg_list[i].buf / .len
++ * (旧版此处为 addr → 开 CONFIG_SDIO_ADMA 时 host 编不过)。
++ * 同时 host 的 drv_api/inc/netif_def.h 里也是按 `buf` 语义落数据段。
++ *
++ * 平台若已有自己的 sg 类型 (HAL 提供同名同布局类型), 可在平台 port 头定义
++ * AICWF_SDIO_SG_LIST_EXTERNAL 并先 include 平台 HAL 头, 从而跳过本定义,
++ * 避免重复声明 (#256 invalid redeclaration)。示例 (ASR/064 平台):
++ *   #define AICWF_SDIO_SG_LIST_EXTERNAL
++ *   #include "sdio.h"   // typedef struct { unsigned char *buf; unsigned int len; } sdio_sg_list;
++ * 约束: 平台类型必须与 host 语义一致 —— 首成员为段起始地址, 次成员为段长。
++ */
+ #ifdef CONFIG_SDIO_ADMA
++#ifndef AICWF_SDIO_SG_LIST_EXTERNAL
+ typedef struct {
+-    void     *addr;
+-    uint32_t  len;
++    void     *buf;   /* 段起始地址 (host: sdiodev->sg_list[i].buf) */
++    uint32_t  len;   /* 段长 (字节) */
+ } sdio_sg_list;
+-#endif
++#endif /* AICWF_SDIO_SG_LIST_EXTERNAL */
++#endif /* CONFIG_SDIO_ADMA */
+ 
+ #endif /* _AIC_SDIO_TYPES_H_ */
+
+########## port/inc/netif_port.h
+git : warning: in the working copy of 'D:/SiFli/SDK/SiFli-SDK-WiFi/SiFli-SDK/customer/peripherals/wifi/aic8800_rtos_dri
+ver/port/inc/netif_port.h', LF will be replaced by CRLF the next time Git touches it
+所在位置 行:18 字符: 8
++   $d = git diff --no-index --no-color --unified=3 --ignore-cr-at-eol  ...
++        ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+    + CategoryInfo          : NotSpecified: (warning: in the... Git touches it:String) [], RemoteException
+    + FullyQualifiedErrorId : NativeCommandError
+ 
+warning: in the working copy of 'G:/Code/VScode/SF32_Code/SiFli_demos/aic8800_diff_sifli/aic8800_diff_sf32lb52x_sifli_g
+b4036bf_20261013/sdk_patch/platform/aic8800_rtos_driver/port/inc/netif_port.h', LF will be replaced by CRLF the next ti
+me Git touches it
+diff --git a/D:/SiFli/SDK/SiFli-SDK-WiFi/SiFli-SDK/customer/peripherals/wifi/aic8800_rtos_driver/port/inc/netif_port.h b/G:/Code/VScode/SF32_Code/SiFli_demos/aic8800_diff_sifli/aic8800_diff_sf32lb52x_sifli_gb4036bf_20261013/sdk_patch/platform/aic8800_rtos_driver/port/inc/netif_port.h
+index 43b894ec7..3d47abceb 100644
+--- a/D:/SiFli/SDK/SiFli-SDK-WiFi/SiFli-SDK/customer/peripherals/wifi/aic8800_rtos_driver/port/inc/netif_port.h
++++ b/G:/Code/VScode/SF32_Code/SiFli_demos/aic8800_diff_sifli/aic8800_diff_sf32lb52x_sifli_gb4036bf_20261013/sdk_patch/platform/aic8800_rtos_driver/port/inc/netif_port.h
+@@ -72,11 +72,6 @@ uint8_t aicwf_net_if_dhcp_done(uint8_t act);
+ void  aicwf_net_if_plat_init(void);
+ net_if_t aicwf_net_if_get(uint8_t index);
+ 
+-/* [AIC8800-PORT][SiFli] 把 lwIP netif 的链路标志/地址镜像到 RT-Thread netdev。
+- * 路线1 的 netdev 是补注册的, 两侧状态需显式同步 (原因见 netif_port.c 实现处)。
+- * net_if=NULL 表示默认 STA 接口; 幂等, 可重复调用; RT_USING_NETDEV=n 时为空实现。 */
+-void  aicwf_net_if_netdev_sync(net_if_t net_if);
+-
+ /* Buffer management */
+ net_buf_tx_t *aicwf_net_buf_tx_alloc(const uint8_t *payload, uint32_t length);
+ void  aicwf_net_buf_tx_free(net_buf_tx_t *buf);
+
+########## port/inc/plat_port.h
+git : warning: in the working copy of 'D:/SiFli/SDK/SiFli-SDK-WiFi/SiFli-SDK/customer/peripherals/wifi/aic8800_rtos_dri
+ver/port/inc/plat_port.h', LF will be replaced by CRLF the next time Git touches it
+所在位置 行:18 字符: 8
++   $d = git diff --no-index --no-color --unified=3 --ignore-cr-at-eol  ...
++        ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+    + CategoryInfo          : NotSpecified: (warning: in the... Git touches it:String) [], RemoteException
+    + FullyQualifiedErrorId : NativeCommandError
+ 
+warning: in the working copy of 'G:/Code/VScode/SF32_Code/SiFli_demos/aic8800_diff_sifli/aic8800_diff_sf32lb52x_sifli_g
+b4036bf_20261013/sdk_patch/platform/aic8800_rtos_driver/port/inc/plat_port.h', LF will be replaced by CRLF the next tim
+e Git touches it
+diff --git a/D:/SiFli/SDK/SiFli-SDK-WiFi/SiFli-SDK/customer/peripherals/wifi/aic8800_rtos_driver/port/inc/plat_port.h b/G:/Code/VScode/SF32_Code/SiFli_demos/aic8800_diff_sifli/aic8800_diff_sf32lb52x_sifli_gb4036bf_20261013/sdk_patch/platform/aic8800_rtos_driver/port/inc/plat_port.h
+index be392c451..66d2a4137 100644
+--- a/D:/SiFli/SDK/SiFli-SDK-WiFi/SiFli-SDK/customer/peripherals/wifi/aic8800_rtos_driver/port/inc/plat_port.h
++++ b/G:/Code/VScode/SF32_Code/SiFli_demos/aic8800_diff_sifli/aic8800_diff_sf32lb52x_sifli_gb4036bf_20261013/sdk_patch/platform/aic8800_rtos_driver/port/inc/plat_port.h
+@@ -95,17 +95,13 @@ extern uint32_t task_end_prio;
+ #define SDIO_OOOBIRQ_STACK_SIZE     (2048)
+ #define SDIO_PWRCTL_STACK_SIZE      (1024)
+ #define FHOST_CNTRL_STACK_SIZE      (2048)
+-/* wpa_supplicant 任务栈: 原 3072 太小 —— 实测 sta conn 时 fhost_wpa_task
+- * max used 95% 并触发 usage fault STKOF(SCB_CFSR_UFSR:0x10), 于
+- * fhost_wpa_create_network/fhost_wpa_start 内部崩溃。wpa 的 WPS/EAPOL/TLS
+- * 调用链局部变量很大, 给 8KB。 */
+-#define FHOST_WPA_STACK_SIZE        (8192)
++#define FHOST_WPA_STACK_SIZE        (3072)
+ #define FHOST_TX_STACK_SIZE         (2048)
+ #define FHOST_RX_STACK_SIZE         (2048)
+ #define FHOST_TCPACK_STACK_SIZE     (2048)
+ #define CLI_CMD_STACK_SIZE          (1024)
+ #define RWNX_TIMER_STACK_SIZE       (1024)
+-#define RWNX_WIFI_STACK_SIZE        (4096)
++#define RWNX_WIFI_STACK_SIZE        (1024)
+ #define RWNX_APM_STACK_SIZE         (1024)
+ 
+ /* Exported stack size variables — defined in plat_port.c */
+
+########## port/inc/rtos_port.h
+git : warning: in the working copy of 'D:/SiFli/SDK/SiFli-SDK-WiFi/SiFli-SDK/customer/peripherals/wifi/aic8800_rtos_dri
+ver/port/inc/rtos_port.h', LF will be replaced by CRLF the next time Git touches it
+所在位置 行:18 字符: 8
++   $d = git diff --no-index --no-color --unified=3 --ignore-cr-at-eol  ...
++        ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+    + CategoryInfo          : NotSpecified: (warning: in the... Git touches it:String) [], RemoteException
+    + FullyQualifiedErrorId : NativeCommandError
+ 
+warning: in the working copy of 'G:/Code/VScode/SF32_Code/SiFli_demos/aic8800_diff_sifli/aic8800_diff_sf32lb52x_sifli_g
+b4036bf_20261013/sdk_patch/platform/aic8800_rtos_driver/port/inc/rtos_port.h', LF will be replaced by CRLF the next tim
+e Git touches it
+diff --git a/D:/SiFli/SDK/SiFli-SDK-WiFi/SiFli-SDK/customer/peripherals/wifi/aic8800_rtos_driver/port/inc/rtos_port.h b/G:/Code/VScode/SF32_Code/SiFli_demos/aic8800_diff_sifli/aic8800_diff_sf32lb52x_sifli_gb4036bf_20261013/sdk_patch/platform/aic8800_rtos_driver/port/inc/rtos_port.h
+index cb057e9b9..033263a11 100644
+--- a/D:/SiFli/SDK/SiFli-SDK-WiFi/SiFli-SDK/customer/peripherals/wifi/aic8800_rtos_driver/port/inc/rtos_port.h
++++ b/G:/Code/VScode/SF32_Code/SiFli_demos/aic8800_diff_sifli/aic8800_diff_sf32lb52x_sifli_gb4036bf_20261013/sdk_patch/platform/aic8800_rtos_driver/port/inc/rtos_port.h
+@@ -87,8 +87,8 @@ typedef enum {
+ 
+ typedef struct {
+     void *ref;
+-    uint32_t para0;
+-    uint32_t para1;
++    uintptr_t para0;
++    uintptr_t para1;
+     uint32_t type;
+     char name[OS_RES_NAME_MAX+1];
+ } OsResSt;
+@@ -119,6 +119,9 @@ typedef struct {
+ #define AIC_RTOS_MUTEX_SUSP         2
+ #define AIC_RTOS_QUEUE_EMPTY        1
+ #define AIC_RTOS_QUEUE_ERROR        1
++/* 注: AIC_RTOS_COMPLETED / AIC_RTOS_TERMINATED 为早期抽象状态常量, 各 RTOS 端口
++ * 实现已改为直接比较本 RTOS 原生状态 (FreeRTOS eTaskState / RT-Thread RT_THREAD_*),
++ * 基准内已无引用; 保留仅为兼容在用的平台实现, 新代码勿用。 */
+ #define AIC_RTOS_COMPLETED          3
+ #define AIC_RTOS_TERMINATED         4
+ 
+@@ -234,6 +237,15 @@ uint32_t aicwf_rtos_event_group_set_bits(rtos_event_group event_group, uint32_t
+ 
+ /* ---- Resource tracking (optional, platform may provide empty stubs) ---- */
+ void aicwf_rtos_mem_cur_cnt(uint32_t *mtot, uint32_t *ftot, uint32_t *rtot);
++/**
++ * @brief 获取任务状态
++ *
++ * **返回值语义: 必须是本 RTOS 的原生状态值**, 调用方 (aicwf_rtos_wait_task_suspend*
++ * 等) 用本 RTOS 的状态常量比较 —— FreeRTOS: eRunning/eReady/eBlocked/eSuspended/
++ * eDeleted (task.h); RT-Thread: RT_THREAD_* (见 rtos_rtt.c)。
++ * 禁止映射为 AIC_RTOS_* 抽象常量: 二者数值不对应, 会误判 (FreeRTOS 上 eBlocked=2
++ * 曾被当作"可运行"导致 ap stop 卡死, 见 fd13c86)。
++ */
+ uint32_t aicwf_rtos_get_task_status(rtos_task_handle ref);
+ uint32_t aicwf_rtos_wait_task_suspend(rtos_task_handle ref);
+ uint32_t aicwf_rtos_wait_task_suspend_only(rtos_task_handle ref);
+
+########## port/inc/sdio_port.h
+git : warning: in the working copy of 'D:/SiFli/SDK/SiFli-SDK-WiFi/SiFli-SDK/customer/peripherals/wifi/aic8800_rtos_dri
+ver/port/inc/sdio_port.h', LF will be replaced by CRLF the next time Git touches it
+所在位置 行:18 字符: 8
++   $d = git diff --no-index --no-color --unified=3 --ignore-cr-at-eol  ...
++        ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+    + CategoryInfo          : NotSpecified: (warning: in the... Git touches it:String) [], RemoteException
+    + FullyQualifiedErrorId : NativeCommandError
+ 
+warning: in the working copy of 'G:/Code/VScode/SF32_Code/SiFli_demos/aic8800_diff_sifli/aic8800_diff_sf32lb52x_sifli_g
+b4036bf_20261013/sdk_patch/platform/aic8800_rtos_driver/port/inc/sdio_port.h', LF will be replaced by CRLF the next tim
+e Git touches it
+diff --git a/D:/SiFli/SDK/SiFli-SDK-WiFi/SiFli-SDK/customer/peripherals/wifi/aic8800_rtos_driver/port/inc/sdio_port.h b/G:/Code/VScode/SF32_Code/SiFli_demos/aic8800_diff_sifli/aic8800_diff_sf32lb52x_sifli_gb4036bf_20261013/sdk_patch/platform/aic8800_rtos_driver/port/inc/sdio_port.h
+index bf8b5fd3f..5e4f0e426 100644
+--- a/D:/SiFli/SDK/SiFli-SDK-WiFi/SiFli-SDK/customer/peripherals/wifi/aic8800_rtos_driver/port/inc/sdio_port.h
++++ b/G:/Code/VScode/SF32_Code/SiFli_demos/aic8800_diff_sifli/aic8800_diff_sf32lb52x_sifli_gb4036bf_20261013/sdk_patch/platform/aic8800_rtos_driver/port/inc/sdio_port.h
+@@ -28,14 +28,23 @@
+  * Default values are provided as _DEFAULT macros for platform convenience.
+  */
+ /*
+- * 默认值策略: RX 在 SDIO 中断上下文内直接处理 (=1, 参考实现, 实时性最好)。
+- * 仅当平台 SDIO 驱动移植时已将 RX 处理改到外部独立 task 执行
+- * (sdio_port.c 中对 aic_sdio_rx_task 的调用路径已移出 ISR) 时才改为 0。
++ * 默认值策略: RX 默认在【独立 task + 信号量】中处理 (=0, 参考实现, 见 2a5bf32
++ * "SDIO RX 默认独立任务模式"); 仅当平台 SDIO 驱动在 ISR 内直接处理 RX 时才改为 1。
++ * 运行期取值由下方 config_* 变量决定, 这里的编译期默认值只供平台初始化参考。
+  * 详见 docs/aic8800-porting、aic8800-release-adaptation、aic8800-sync SKILL.md。
+  */
++/* 三个默认值均以 #ifndef 包裹: 平台可用 -DCONFIG_*_DEFAULT=<v> 编译期覆盖
++ * (此前为裸 #define, 与 -D 冲突导致覆盖失效 —— 回流自 goke 平台存疑上报);
++ * 运行期覆盖走下方 config_rxtask_insdio / config_irq_sus / aicwifi_sdio_rxdata_mode。 */
++#ifndef CONFIG_RXTASK_INSDIO_DEFAULT
+ #define CONFIG_RXTASK_INSDIO_DEFAULT    0   /**< RX in SDIO ISR context (1=in-ISR, 0=separate task, see strategy above) */
++#endif
++#ifndef CONFIG_RX_POLLING_DEFAULT
+ #define CONFIG_RX_POLLING_DEFAULT       0   /**< RX data mode (0=interrupt-driven, 1=polling) */
++#endif
++#ifndef CONFIG_IRQ_SUS_DEFAULT
+ #define CONFIG_IRQ_SUS_DEFAULT          0   /**< Re-enable SDIO IRQ after RX (0=no, 1=yes) */
++#endif
+ 
+ extern uint8_t config_rxtask_insdio;    /**< runtime flag: CONFIG_RXTASK_INSDIO_DEFAULT */
+ extern uint8_t config_irq_sus;          /**< runtime flag: CONFIG_IRQ_SUS_DEFAULT */
+@@ -57,7 +66,30 @@ extern unsigned char sdio_tx_buf_dummy[SDIO_TX_SLIST_MAX][8];
+ void aicwf_sdio_claim_host(uint32_t func_num);
+ void aicwf_sdio_release_host(uint32_t func_num);
+ 
+-/* Bulk data transfer */
++/* ------------------------------------------------------------------
++ * Bulk data transfer (CMD53) —— host <-> platform 的 ADMA 套接契约
++ *
++ * 非 ADMA (CONFIG_SDIO_ADMA 未定义):
++ *   src/dst = 连续缓冲, count = 字节数; 平台需在写前 CacheClean、读后 CacheInvalidate
++ *   (或由平台 HAL 内部完成)。
++ *
++ * ADMA (CONFIG_SDIO_ADMA 定义):
++ *   aicwf_sdio_writesb(func, addr, sg_list, segcnt):
++ *     src   = const sdio_sg_list *  (host 已填好每段的 buf/len, 含 8B SDIO 头段与 tail fill 段)
++ *     count = 段数 (不是字节数!)
++ *     平台职责: 把 sg 交给平台 DMA/描述符机制, 并对每段做 CacheClean + 同步屏障;
++ *   aicwf_sdio_readsb(func, addr, dst, count):
++ *     ADMA 下为单缓冲读 (平台可实现为 sg 长度 1), 平台需 CacheInvalidate;
++ *   aicwf_sdio_writesb_msg(): 控制帧, 始终连续缓冲 + CacheClean (不走 ADMA 聚合)。
++ *
++ * 平台还需提供 (CONFIG_SDIO_ADMA 下, 声明见下):
++ *   sdio_tx_buf_fill[512] / sdio_tx_buf_dummy[SDIO_TX_SLIST_MAX][8] —— cache 对齐, host 只填内容;
++ *   PROTECT_TX_ADMA —— 保证发送完成前缓冲不被回收/改写
++ *   (参考实现: 发送后轮询 DMA 完成标志再返回; 无保护时 host 复用聚合缓冲会踩到在飞数据)。
++ *
++ * sdio_sg_list 类型来源: port/inc/aic_sdio_types.h (平台可用 AICWF_SDIO_SG_LIST_EXTERNAL
++ * 复用平台 HAL 类型)。平台侧 ADMA 接入清单与参考实现见 aidoc/adma平台移植参考.md。
++ * ------------------------------------------------------------------ */
+ int  aicwf_sdio_readsb(uint32_t func_num, void *dst, unsigned int addr, int count);
+ int  aicwf_sdio_writesb(uint32_t func_num, unsigned int addr, void *src, int count);
+ int  aicwf_sdio_writesb_msg(uint32_t func_num, unsigned int addr, void *src, int count);
+

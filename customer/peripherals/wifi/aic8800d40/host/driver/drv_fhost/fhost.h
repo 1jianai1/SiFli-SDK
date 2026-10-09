@@ -1,5 +1,5 @@
 /*
- * SPDX-FileCopyrightText: 2019-2026 SiFli Technologies(Nanjing) Co., Ltd
+ * SPDX-FileCopyrightText: 2026 AICSemi Ltd
  *
  * SPDX-License-Identifier: Apache-2.0
  */
@@ -59,7 +59,8 @@
 typedef struct netif            net_if_t;
 
 /// Type of messages sent using @ref fhost_msg structure
-enum fhost_msg_type {
+enum fhost_msg_type
+{
     /**
      * Message received from IPC layer (for test/development only)
      */
@@ -126,15 +127,15 @@ struct vif_info_tag
     /// EDCA parameters of the different TX queues for this VIF
     uint32_t txq_params[AC_MAX];
 
-    #if (NX_MULTI_ROLE || NX_CHNL_CTXT || (NX_P2P_GO && NX_POWERSAVE))
+#if (NX_MULTI_ROLE || NX_CHNL_CTXT || (NX_P2P_GO && NX_POWERSAVE))
     /// TBTT timer structure
     struct mm_timer_tag tbtt_timer;
-    #endif //(NX_MULTI_ROLE || NX_CHNL_CTXT || (NX_P2P_GO && NX_POWERSAVE))
+#endif //(NX_MULTI_ROLE || NX_CHNL_CTXT || (NX_P2P_GO && NX_POWERSAVE))
 
-    #if (NX_MULTI_ROLE || NX_TDLS)
+#if (NX_MULTI_ROLE || NX_TDLS)
     /// BSSID this VIF belongs to
     struct mac_addr bssid;
-    #endif //(NX_MULTI_ROLE)
+#endif //(NX_MULTI_ROLE)
 
     struct mac_chan_op chan;
 
@@ -160,46 +161,46 @@ struct vif_info_tag
         /// STA specific parameter structure
         struct
         {
-            #if NX_POWERSAVE
+#if NX_POWERSAVE
             /// Listen interval
             uint16_t listen_interval;
             /// Flag indicating if we are expecting BC/MC traffic or not
             bool dont_wait_bcmc;
             /// Number of error seen during transmission of last NULL frame indicating PS change
             uint8_t ps_retry;
-            #endif
+#endif
             /// Index of the station being the peer AP
             uint8_t ap_id;
-            #if NX_UAPSD
+#if NX_UAPSD
             /// Time of last UAPSD transmitted/received frame
             uint32_t uapsd_last_rxtx;
             /// Bitfield indicating which queues are U-APSD enabled
             uint8_t uapsd_queues;
             /// UAPSD highest TID, used in the QoS-NULL trigger frames
             uint8_t uapsd_tid;
-            #endif
-            #if NX_CONNECTION_MONITOR
+#endif
+#if NX_CONNECTION_MONITOR
             /// Time of last keep-alive frame sent to AP
             uint32_t mon_last_tx;
             /// CRC of last received beacon
             uint32_t mon_last_crc;
             /// Number of beacon losses since last beacon reception
             uint8_t beacon_loss_cnt;
-            #endif
+#endif
 
-            #if (NX_P2P)
+#if (NX_P2P)
             /// Last computed TSF Offset
             int32_t last_tsf_offset;
             /// Addition duration to be added to the CTWindow, due to the TBTT_DELAY + drift value computed in mm_tbtt_compute
             uint32_t ctw_add_dur;
             /// Status indicated if Service Period has been paused due to GO absence
             bool sp_paused;
-            #endif //(NX_P2P)
+#endif //(NX_P2P)
 
-            #if (NX_P2P_GO)
+#if (NX_P2P_GO)
             // Indicate if AP Beacon has been received at least one time
             bool bcn_rcved;
-            #endif //(NX_P2P_GO)
+#endif //(NX_P2P_GO)
 
             // Current RSSI
             int8_t rssi;
@@ -215,10 +216,10 @@ struct vif_info_tag
             /// Indicate if channel switch (due to CSA) just happened
             bool csa_occured;
 
-            #if (NX_TDLS)
+#if (NX_TDLS)
             /// TDLS station index which requested the channel switch
             uint8_t tdls_chsw_sta_idx;
-            #endif
+#endif
             uint8_t vif_name[33];
         } sta;
         /// AP specific parameter structure
@@ -242,23 +243,23 @@ struct vif_info_tag
     /// Information about the BSS linked to this VIF
     struct me_bss_info bss_info;
 
-    #if NX_MAC_HE
+#if NX_MAC_HE
     /// TXOP RTS threshold
     uint16_t txop_dur_rts_thres;
-    #endif
-    #if (NX_P2P)
+#endif
+#if (NX_P2P)
     /// Indicate if this interface is configured for P2P operations
     bool p2p;
     /// Index of the linked P2P Information structure
     uint8_t p2p_index;
     /// Contain current number of registered P2P links for the VIF
     uint8_t p2p_link_nb;
-    #endif //(NX_P2P)
+#endif //(NX_P2P)
 
-    #if (RW_UMESH_EN)
+#if (RW_UMESH_EN)
     /// Mesh ID - Index of the used mesh_vif_info_tag structure when type is VIF_MESH_POINT
     uint8_t mvif_idx;
-    #endif //(RW_UMESH_EN)
+#endif //(RW_UMESH_EN)
 };
 
 /// Structure containing the information about the virtual interfaces
@@ -306,7 +307,8 @@ struct fhost_env_tag
 #define FHOST_MSG_INDEX(id) (id & 0xfff)
 
 /// Generic Message format
-struct fhost_msg {
+struct fhost_msg
+{
     /// ID of the message. Id is a combination of a type and an index.
     /// To be set using @ref FHOST_MSG_ID macro
     uint16_t id;
@@ -397,7 +399,7 @@ net_if_t *fhost_to_net_if(uint8_t fhost_vif_idx);
  */
 int fhost_vif_name(int fhost_vif_idx, char *name, int len);
 
-struct fhost_vif_tag * fhost_vif_get_first_free_itf(void);
+struct fhost_vif_tag *fhost_vif_get_first_free_itf(void);
 
 /**
  ****************************************************************************************
@@ -539,8 +541,8 @@ extern void fhost_data_restore(void);
 extern void fhost_sta_recover_connection(void);
 extern void fhost_sta_ipc_rxbuf_recover(void);
 extern uint8_t vif_mgmt_get_staid(const struct vif_info_tag *vif, const struct mac_addr *sta_addr);
-struct sta_info_tag * vif_mgmt_get_sta_by_addr(const struct mac_addr *sta_addr);
-struct sta_info_tag * vif_mgmt_get_sta_by_staid(uint8_t sta_id);
+struct sta_info_tag *vif_mgmt_get_sta_by_addr(const struct mac_addr *sta_addr);
+struct sta_info_tag *vif_mgmt_get_sta_by_staid(uint8_t sta_id);
 extern int fhost_ipc_cntrl_init(uint32_t ipc_irq_prio);
 extern int ipc_host_cntrl_start(void);
 extern void *get_vif_mgmt_sta_list(void);
@@ -550,10 +552,11 @@ extern int ipc_host_fw_init(void);
 
 extern struct co_list free_sta_list;
 
-typedef enum wifi_mac_status    {
+typedef enum wifi_mac_status
+{
     WIFI_MAC_STATUS_DISCONNECTED,
     WIFI_MAC_STATUS_CONNECTED,
-}wifi_mac_status_e;
+} wifi_mac_status_e;
 typedef void (*fhost_mac_status_get_func_t)(wifi_mac_status_e st);
 void fhost_get_mac_status_register(fhost_mac_status_get_func_t func);
 

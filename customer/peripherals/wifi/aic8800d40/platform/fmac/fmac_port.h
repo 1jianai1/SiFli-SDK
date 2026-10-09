@@ -1,14 +1,9 @@
 /*
- * SPDX-FileCopyrightText: 2019-2026 SiFli Technologies(Nanjing) Co., Ltd
+ * SPDX-FileCopyrightText: 2026 AICSemi Ltd
  *
  * SPDX-License-Identifier: Apache-2.0
  */
 
-/*
- * Copyright (C) 2018-2024 AICSemi Ltd.
- *
- * All Rights Reserved
- */
 
 #ifndef _AIC_LOADFW_H_
 #define _AIC_LOADFW_H_
@@ -18,7 +13,7 @@
 #ifdef CONFIG_LOAD_FW_FROM_FILESYSTEM
 
 #elif defined(CONFIG_LOAD_FW_FROM_FLASH)
-uint8_t get_wifi_fw_type(void);
+    uint8_t get_wifi_fw_type(void);
 #else
 
 #endif

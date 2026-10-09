@@ -1,5 +1,5 @@
 /*
- * SPDX-FileCopyrightText: 2019-2026 SiFli Technologies(Nanjing) Co., Ltd
+ * SPDX-FileCopyrightText: 2026 AICSemi Ltd
  *
  * SPDX-License-Identifier: Apache-2.0
  */
@@ -56,10 +56,10 @@
 #define TXQLEN                              (2048*4)
 
 #define TXPKT_BLOCKSIZE                     512
-#ifndef	CONFIG_SDIO_ADMA
-#define MAX_AGGR_TXPKT_CNT                  28
+#ifndef CONFIG_SDIO_ADMA
+    #define MAX_AGGR_TXPKT_CNT                  28
 #else
-#define MAX_AGGR_TXPKT_CNT                  64
+    #define MAX_AGGR_TXPKT_CNT                  64
 #endif /* CONFIG_SDIO_ADMA */
 #define TX_ALIGNMENT                        4
 #define RX_ALIGNMENT                        4
@@ -91,7 +91,8 @@ typedef void (*sdio_adma_free)(void *pbuf);
 //-------------------------------------------------------------------
 // Driver Struct Define
 //-------------------------------------------------------------------
-struct aic_sdio_reg {
+struct aic_sdio_reg
+{
     u8 bytemode_len_reg;
     u8 intr_config_reg;
     u8 sleep_reg;
@@ -106,7 +107,8 @@ struct aic_sdio_reg {
     u8 wr_fifo_addr;
 };
 
-struct sdio_pwrctl_s {
+struct sdio_pwrctl_s
+{
     uint32_t bus_status;
     uint32_t init_status;
     uint32_t active_duration;
@@ -118,7 +120,8 @@ struct sdio_pwrctl_s {
     rtos_task_handle pwrctl_task_hdl;
 };
 
-struct aic_sdio_dev {
+struct aic_sdio_dev
+{
     /* sdio base */
     u16 chipid;
     struct aic_sdio_reg sdio_reg;
@@ -142,14 +145,14 @@ struct aic_sdio_dev {
     u32 stamp;
     int tx_aggr_counter;
 
-    #ifdef CONFIG_OOB
+#ifdef CONFIG_OOB
     u32 oob_enable;
     u32 sdio_gpio_num;
     rtos_semaphore sdio_oobirq_sema;
     rtos_task_handle sdio_oobirq_hdl;
-    #endif
+#endif
 
-    #ifdef CONFIG_SDIO_BUS_PWRCTRL
+#ifdef CONFIG_SDIO_BUS_PWRCTRL
     u32 rx_cnt;
     u32 tx_pktcnt;
     u32 cmd_txstate;
@@ -157,22 +160,23 @@ struct aic_sdio_dev {
     rtos_mutex rx_sema;
     rtos_mutex cmdtx_sema;
     struct sdio_pwrctl_s pwrctl;
-    #endif
+#endif
 
-    #ifdef CONFIG_SDIO_ADMA
+#ifdef CONFIG_SDIO_ADMA
     sdio_sg_list sg_list[SDIO_TX_SLIST_MAX];
     void *desc_buf[SDIO_TX_SLIST_MAX];
     u8 desc_free[SDIO_TX_SLIST_MAX];
     sdio_adma_free sfree;
     u32 aggr_segcnt;
     u8 fill;
-    #endif
+#endif
 
     u32 wr_fail;
     u8 cur_funnum;
 };
 
-struct sdio_buf_node_s {
+struct sdio_buf_node_s
+{
     struct co_list_hdr hdr;
     uint8_t *buf_raw;  // static alloced
     uint8_t *buf;      // 64B aligned, rx in-use
@@ -180,7 +184,8 @@ struct sdio_buf_node_s {
     uint16_t pad_len;
 };
 
-struct sdio_buf_list_s {
+struct sdio_buf_list_s
+{
     struct co_list list;
     rtos_mutex mutex;
     rtos_semaphore sdio_rx_node_sema;

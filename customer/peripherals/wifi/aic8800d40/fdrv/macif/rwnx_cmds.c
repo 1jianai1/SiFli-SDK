@@ -1,5 +1,5 @@
 /*
- * SPDX-FileCopyrightText: 2019-2026 SiFli Technologies(Nanjing) Co., Ltd
+ * SPDX-FileCopyrightText: 2026 AICSemi Ltd
  *
  * SPDX-License-Identifier: Apache-2.0
  */
@@ -30,10 +30,14 @@ static void cmd_complete(struct rwnx_cmd_mgr *cmd_mgr, struct rwnx_cmd *cmd)
     cmd_mgr->queue_sz--;
 
     cmd->flags |= RWNX_CMD_FLAG_DONE;
-    if (cmd->flags & RWNX_CMD_FLAG_NONBLOCK) {
+    if (cmd->flags & RWNX_CMD_FLAG_NONBLOCK)
+    {
         rtos_free(cmd);
-    } else {
-        if (RWNX_CMD_WAIT_COMPLETE(cmd->flags)) {
+    }
+    else
+    {
+        if (RWNX_CMD_WAIT_COMPLETE(cmd->flags))
+        {
             cmd->result = 0;
             rtos_semaphore_signal(cmd->sema, 0);
         }
@@ -45,16 +49,19 @@ static int cmd_mgr_queue(struct rwnx_cmd_mgr *cmd_mgr, struct rwnx_cmd *cmd)
     bool defer_push = false;
 
     rtos_mutex_lock(cmd_mgr->mutex, -1);
-    if (!list_empty(&cmd_mgr->cmds)) {
+    if (!list_empty(&cmd_mgr->cmds))
+    {
         struct rwnx_cmd *last;
-        if (cmd_mgr->queue_sz == cmd_mgr->max_queue_sz) {
+        if (cmd_mgr->queue_sz == cmd_mgr->max_queue_sz)
+        {
             aic_dbg("Too many cmds (%d) already queued\n", cmd_mgr->max_queue_sz);
             cmd->result = -2;
             rtos_mutex_unlock(cmd_mgr->mutex);
             return -2;
         }
         last = list_entry(cmd_mgr->cmds.prev, struct rwnx_cmd, list);
-        if (last->flags & (RWNX_CMD_FLAG_WAIT_ACK | RWNX_CMD_FLAG_WAIT_PUSH)) {
+        if (last->flags & (RWNX_CMD_FLAG_WAIT_ACK | RWNX_CMD_FLAG_WAIT_PUSH))
+        {
             cmd->flags |= RWNX_CMD_FLAG_WAIT_PUSH;
             defer_push = true;
         }
@@ -71,27 +78,34 @@ static int cmd_mgr_queue(struct rwnx_cmd_mgr *cmd_mgr, struct rwnx_cmd *cmd)
 
     //aic_dbg("%s %d defer_push %d\r\n", __func__, __LINE__, defer_push);
 
-    if (!defer_push) {
+    if (!defer_push)
+    {
         rwnx_msg_push(cmd->a2e_msg, sizeof(struct lmac_msg) + cmd->a2e_msg->param_len);
         rtos_free(cmd->a2e_msg);
         cmd->a2e_msg = NULL;
     }
 
-    if (!(cmd->flags & RWNX_CMD_FLAG_NONBLOCK)) {
+    if (!(cmd->flags & RWNX_CMD_FLAG_NONBLOCK))
+    {
         int ret;
         rtos_mutex_unlock(cmd_mgr->mutex);
         ret = rtos_semaphore_wait(cmd->sema, 5000);
-        if (ret < 0) {
+        if (ret < 0)
+        {
             aic_dbg("cmd_mgr sema wait err\n");
             list_del(&cmd->list);
             cmd_mgr->queue_sz--;
-        } else if (ret == 1) {
+        }
+        else if (ret == 1)
+        {
             aic_dbg("cmd_mgr sema wait timeout\n");
             list_del(&cmd->list);
             cmd_mgr->queue_sz--;
         }
         rtos_semaphore_delete(cmd->sema);
-    } else {
+    }
+    else
+    {
         cmd->result = 0;
         rtos_mutex_unlock(cmd_mgr->mutex);
     }
@@ -104,9 +118,12 @@ static int cmd_mgr_llind(struct rwnx_cmd_mgr *cmd_mgr, struct rwnx_cmd *cmd)
     struct rwnx_cmd *cur, *acked = NULL, *next = NULL;
 
     rtos_mutex_lock(cmd_mgr->mutex, -1);
-    list_for_each_entry(cur, &cmd_mgr->cmds, list) {
-        if (!acked) {
-            if (cur->tkn == cmd->tkn) {
+    list_for_each_entry(cur, &cmd_mgr->cmds, list)
+    {
+        if (!acked)
+        {
+            if (cur->tkn == cmd->tkn)
+            {
                 //if (WARN_ON_ONCE(cur != cmd)) {
                 //if (cur != cmd) {
                 //   cmd_dump(cmd);
@@ -115,19 +132,24 @@ static int cmd_mgr_llind(struct rwnx_cmd_mgr *cmd_mgr, struct rwnx_cmd *cmd)
                 continue;
             }
         }
-        if (cur->flags & RWNX_CMD_FLAG_WAIT_PUSH) {
-                next = cur;
-                break;
+        if (cur->flags & RWNX_CMD_FLAG_WAIT_PUSH)
+        {
+            next = cur;
+            break;
         }
     }
-    if (!acked) {
+    if (!acked)
+    {
         aic_dbg("Error: acked cmd not found\n");
-    } else {
+    }
+    else
+    {
         cmd->flags &= ~RWNX_CMD_FLAG_WAIT_ACK;
         if (RWNX_CMD_WAIT_COMPLETE(cmd->flags))
             cmd_complete(cmd_mgr, cmd);
     }
-    if (next) {
+    if (next)
+    {
         //struct rwnx_hw *rwnx_hw = container_of(cmd_mgr, struct rwnx_hw, cmd_mgr);
         next->flags &= ~RWNX_CMD_FLAG_WAIT_PUSH;
         rwnx_msg_push(cmd->a2e_msg, sizeof(struct lmac_msg) + cmd->a2e_msg->param_len);
@@ -159,16 +181,20 @@ static int cmd_mgr_msgind(struct rwnx_cmd_mgr *cmd_mgr, struct rwnx_cmd_e2amsg *
     //aic_dbg("msg->id=%x\n",msg->id);
     //aic_dbg("is_empty:%d, queue_sz=%d\n", list_empty(&cmd_mgr->cmds), cmd_mgr->queue_sz);
     rtos_mutex_lock(cmd_mgr->mutex, -1);
-    list_for_each_entry(cmd, &cmd_mgr->cmds, list) {
+    list_for_each_entry(cmd, &cmd_mgr->cmds, list)
+    {
         //aic_dbg("cmd->reqid=%x\n",cmd->reqid);
         if (cmd->reqid == msg->id &&
-            (cmd->flags & RWNX_CMD_FLAG_WAIT_CFM)) {
+                (cmd->flags & RWNX_CMD_FLAG_WAIT_CFM))
+        {
 
-            if (!cmd_mgr_run_callback(rwnx_hw, cmd, msg, cb)) {
+            if (!cmd_mgr_run_callback(rwnx_hw, cmd, msg, cb))
+            {
                 found = true;
                 cmd->flags &= ~RWNX_CMD_FLAG_WAIT_CFM;
 
-                if (msg->param_len > RWNX_CMD_E2AMSG_LEN_MAX) {
+                if (msg->param_len > RWNX_CMD_E2AMSG_LEN_MAX)
+                {
                     aic_dbg("Unexpect E2A msg len %d > %d\n", msg->param_len, RWNX_CMD_E2AMSG_LEN_MAX);
                     msg->param_len = RWNX_CMD_E2AMSG_LEN_MAX;
                 }
@@ -176,7 +202,8 @@ static int cmd_mgr_msgind(struct rwnx_cmd_mgr *cmd_mgr, struct rwnx_cmd_e2amsg *
                 if (cmd->e2a_msg && msg->param_len)
                     memcpy(cmd->e2a_msg, &msg->param, msg->param_len);
 
-                if (RWNX_CMD_WAIT_COMPLETE(cmd->flags)) {
+                if (RWNX_CMD_WAIT_COMPLETE(cmd->flags))
+                {
                     cmd_complete(cmd_mgr, cmd);
                 }
 
@@ -197,7 +224,8 @@ void rwnx_cmd_mgr_init(struct rwnx_cmd_mgr *cmd_mgr)
     int ret;
     INIT_LIST_HEAD(&cmd_mgr->cmds);
     ret = rtos_mutex_create(&cmd_mgr->mutex, "cmd_mgr->mutex");
-    if (ret) {
+    if (ret)
+    {
         aic_dbg("cmd mgr mutex create fail, ret=%d\n", ret);
         return;
     }
@@ -213,7 +241,7 @@ void rwnx_cmd_mgr_init(struct rwnx_cmd_mgr *cmd_mgr)
 void rwnx_cmd_mgr_deinit(struct rwnx_cmd_mgr *cmd_mgr)
 {
 // if config onekey remove,ignore it
-#ifndef	CONFIG_DRIVER_ORM
+#ifndef CONFIG_DRIVER_ORM
     //cmd_mgr->print(cmd_mgr);
     //cmd_mgr->drain(cmd_mgr);
     //cmd_mgr->print(cmd_mgr);
@@ -232,18 +260,25 @@ int rwnx_msg_push(struct lmac_msg *msg, uint16_t len)
     //AIC_LOG_PRINTF("%s, enter\n", __func__);
     DBG_MACIF_VRB("TxM,%x\n", msg->id);
 
-    if (buffer_unaligned == NULL) {
+    if (buffer_unaligned == NULL)
+    {
         aic_dbg("Error: cmd buf malloc fail\n");
         return -1;
     }
 
-    if (CMD_BUF_ALIGN_SIZE > 0) {
-        if ((size_t)buffer_unaligned & (CMD_BUF_ALIGN_SIZE - 1)) {
+    if (CMD_BUF_ALIGN_SIZE > 0)
+    {
+        if ((size_t)buffer_unaligned & (CMD_BUF_ALIGN_SIZE - 1))
+        {
             buffer = buffer_unaligned + CMD_BUF_ALIGN_SIZE - ((size_t)buffer_unaligned & (CMD_BUF_ALIGN_SIZE - 1));
-        } else {
+        }
+        else
+        {
             buffer = buffer_unaligned;
         }
-    } else {
+    }
+    else
+    {
         buffer = buffer_unaligned;
     }
 
